@@ -1,0 +1,196 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      Role     @default(TENANT)
+  tenantId  String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([tenantId])
+}
+
+enum Role {
+  MASTER
+  TENANT
+}
+
+model Tenant {
+  id           String       @id @default(cuid())
+  name         String
+  slug         String       @unique
+  phone        String?
+  email        String?
+  address      Json?
+  logo         String?
+  colorPrimary String       @default("#18181B")
+  colorAccent  String       @default("#D4A853")
+  openingHours Json?
+  status       TenantStatus @default(ACTIVE)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  users     User[]
+  services  Service[]
+  barbers   Barber[]
+  bookings  Booking[]
+  clients   Client[]
+  units     Unit[]
+}
+
+enum TenantStatus {
+  ONBOARDING
+  ACTIVE
+  PAUSED
+  CANCELLED
+}
+
+model Unit {
+  id        String  @id @default(cuid())
+  tenantId  String
+  tenant    Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name      String
+  slug      String
+  address   Json?
+  phone     String?
+  active    Boolean @default(true)
+
+  barberUnits BarberUnit[]
+  bookings    Booking[]
+
+  @@unique([tenantId, slug])
+}
+
+model Service {
+  id          String          @id @default(cuid())
+  tenantId    String
+  tenant      Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name        String
+  category    ServiceCategory
+  description String?
+  price       Float
+  durationMin Int
+  active      Boolean         @default(true)
+  sortOrder   Int             @default(0)
+
+  bookings Booking[]
+
+  @@index([tenantId])
+}
+
+enum ServiceCategory {
+  HAIR
+  BEARD
+  CHEMISTRY
+  AESTHETICS
+  COMBO
+  TREATMENT
+}
+
+model Barber {
+  id           String  @id @default(cuid())
+  tenantId     String
+  tenant       Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name         String
+  nickname     String?
+  photoUrl     String?
+  commissionPct Float  @default(50)
+  active       Boolean @default(true)
+
+  units    BarberUnit[]
+  bookings Booking[]
+  blocks   BarberBlock[]
+
+  @@index([tenantId])
+}
+
+model BarberUnit {
+  id        String @id @default(cuid())
+  barberId  String
+  barber    Barber @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  unitId    String
+  unit      Unit   @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  schedule  Json
+
+  @@unique([barberId, unitId])
+}
+
+model BarberBlock {
+  id        String   @id @default(cuid())
+  barberId  String
+  barber    Barber   @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  startTime DateTime
+  endTime   DateTime
+  reason    String?
+}
+
+model Client {
+  id          String    @id @default(cuid())
+  tenantId    String
+  tenant      Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name        String
+  phone       String
+  email       String?
+  totalVisits Int       @default(0)
+  lastVisit   DateTime?
+  createdAt   DateTime  @default(now())
+
+  bookings Booking[]
+
+  @@unique([tenantId, phone])
+}
+
+model Booking {
+  id          String        @id @default(cuid())
+  tenantId    String
+  tenant      Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  unitId      String?
+  unit        Unit?         @relation(fields: [unitId], references: [id])
+  barberId    String
+  barber      Barber        @relation(fields: [barberId], references: [id])
+  clientId    String
+  client      Client        @relation(fields: [clientId], references: [id])
+  serviceId   String
+  service     Service       @relation(fields: [serviceId], references: [id])
+  dateTime    DateTime
+  durationMin Int
+  price       Float
+  status      BookingStatus @default(CONFIRMED)
+  origin      BookingOrigin @default(APP)
+  campaignRef String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([tenantId, dateTime])
+  @@index([barberId, dateTime])
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED_CLIENT
+  CANCELLED_BARBER
+  NO_SHOW
+}
+
+enum BookingOrigin {
+  APP
+  WHATSAPP
+  WALK_IN
+  PHONE
+  INSTAGRAM
+}

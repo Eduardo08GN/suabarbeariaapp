@@ -1,0 +1,30 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/db'
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await params
+
+  const tenant = await prisma.tenant.findUnique({
+    where: { slug },
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      logo: true,
+      colorPrimary: true,
+      colorAccent: true,
+      phone: true,
+      address: true,
+      openingHours: true,
+    },
+  })
+
+  if (!tenant) {
+    return NextResponse.json({ error: 'Barbearia nao encontrada.' }, { status: 404 })
+  }
+
+  return NextResponse.json(tenant)
+}

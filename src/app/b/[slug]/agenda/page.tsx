@@ -1,0 +1,156 @@
+'use client'
+
+import { useState, useEffect, useCallback } from 'react'
+import { useRouter, useSearchParams, useParams } from 'next/navigation'
+import { motion } from 'framer-motion'
+import { format, addDays } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
+import { TimeSlotPicker } from '@/components/booking/TimeSlotPicker'
+import { cn } from '@/lib/utils'
+import { CalendarDays, Loader2 } from 'lucide-react'
+
+interface TimeSlot {
+  time: string
+  available: boolean
+}
+
+export default function AgendaPage() {
+  const router = useRouter()
+  const params = useParams()
+  const searchParams = useSearchParams()
+  const slug = params.slug as string
+  const serviceId = searchParams.get('serviceId')
+  const barberId = searchParams.get('barberId')
+
+  const [selectedDate, setSelectedDate] = useState<string>('')
+  const [selectedTime, setSelectedTime] = useState<string | null>(null)
+  const [slots, setSlots] = useState<TimeSlot[]>([])
+  const [loading, setLoading] = useState(false)
+
+  // Generate next 14 days
+  const dates = Array.from({ length: 14 }, (_, i) => {
+    const date = addDays(new Date(), i)
+    return {
+      value: format(date, 'yyyy-MM-dd'),
+      dayName: format(date, 'EEE', { locale: ptBR }),
+      dayNumber: format(date, 'dd'),
+      monthName: format(date, 'MMM', { locale: ptBR }),
+      isToday: i === 0,
+    }
+  })
+
+  const fetchSlots = useCallback(async (date: string) => {
+    if (!barberId || !serviceId) return
+    setLoading(true)
+    setSelectedTime(null)
+    try {
+      const res = await fetch(
+        `/api/barber/slots?barberId=${barberId}&serviceId=${serviceId}&date=${date}&tenantSlug=${slug}`
+      )
+      const data = await res.json()
+      setSlots(data.slots || [])
+    } catch {
+      setSlots([])
+    } finally {
+      setLoading(false)
+    }
+  }, [barberId, serviceId, slug])
+
+  useEffect(() => {
+    if (dates.length > 0 && !selectedDate) {
+      const firstDate = dates[0].value
+      setSelectedDate(firstDate)
+      fetchSlots(firstDate)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleDateSelect = (date: string) => {
+    setSelectedDate(date)
+    fetchSlots(date)
+  }
+
+  const handleContinue = () => {
+    if (!selectedTime || !selectedDate) return
+    router.push(
+      `/b/${slug}/confirmar?serviceId=${serviceId}&barberId=${barberId}&date=${selectedDate}&time=${selectedTime}`
+    )
+  }
+
+  return (
+    <motion.div
+      className="flex flex-col min-h-dvh"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+    >
+      <div className="px-4 py-6 space-y-6 flex-1 pb-24">
+        <div>
+          <h2 className="text-xl font-bold text-[--text]">
+            Escolha o horario
+          </h2>
+          <p className="text-sm text-[--text-secondary] mt-1">
+            Selecione a data e o horario desejado
+          </p>
+        </div>
+
+        {/* Date Picker - Horizontal Scroll with snap */}
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <CalendarDays className="w-4 h-4 text-[--text-secondary]" />
+            <h3 className="text-sm font-semibold text-[--text]">Data</h3>
+          </div>
+          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 snap-x snap-mandatory">
+            {dates.map((date) => (
+              <button
+                key={date.value}
+                onClick={() => handleDateSelect(date.value)}
+                className={cn(
+                  'flex flex-col items-center gap-0.5 min-w-[56px] min-h-[72px] py-2.5 px-2 rounded-xl border text-center transition-all shrink-0 snap-start',
+                  date.value === selectedDate
+                    ? 'bg-[--tenant-primary] text-white border-[--tenant-primary] shadow-sm'
+                    : 'bg-[--bg-card] border-[--border] text-[--text] active:bg-[--bg-subtle]'
+                )}
+              >
+                <span className="text-[10px] font-medium uppercase">
+                  {date.dayName}
+                </span>
+                <span className="text-lg font-bold leading-none">
+                  {date.dayNumber}
+                </span>
+                <span className="text-[10px] uppercase">{date.monthName}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Time Slots */}
+        <div>
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-6 h-6 animate-spin text-[--tenant-primary]" />
+            </div>
+          ) : (
+            <TimeSlotPicker
+              slots={slots}
+              selectedTime={selectedTime}
+              onSelect={setSelectedTime}
+            />
+          )}
+        </div>
+      </div>
+
+      {/* Fixed Bottom Bar */}
+      <div className="fixed inset-x-0 bottom-0 p-4 bg-white/95 backdrop-blur-sm border-t border-[--border] pb-[max(1rem,env(safe-area-inset-bottom))]">
+        <div className="max-w-lg mx-auto">
+          <button
+            onClick={handleContinue}
+            disabled={!selectedTime}
+            className="btn-primary w-full min-h-[48px]"
+          >
+            Continuar
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
