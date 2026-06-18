@@ -2,10 +2,8 @@ import { prisma } from '@/lib/db'
 import {
   parse,
   isBefore,
-  isEqual,
   startOfDay,
   endOfDay,
-  getDay,
 } from 'date-fns'
 
 export interface SlotInput {
@@ -36,62 +34,56 @@ function minutesToTime(mins: number): string {
 export async function getAvailableSlots(input: SlotInput): Promise<TimeSlot[]> {
   const { barberId, serviceId, date, tenantId } = input
   const dateObj = parse(date, 'yyyy-MM-dd', new Date())
-  const dayOfWeek = getDay(dateObj)
 
   // 1. Get service duration
   const service = await prisma.service.findUnique({
     where: { id: serviceId },
-    select: { durationMinutes: true },
+    select: { durationMin: true },
   })
   if (!service) return []
 
-  const serviceDuration = service.durationMinutes
+  const serviceDuration = service.durationMin
 
-  // 2. Get tenant opening hours for this day of week
-  const openingHours = await prisma.openingHours.findFirst({
-    where: { tenantId, dayOfWeek, isOpen: true },
-  })
-  if (!openingHours) return []
-
-  const openTime = timeToMinutes(openingHours.openTime)
-  const closeTime = timeToMinutes(openingHours.closeTime)
-
-  // 3. Get barber schedule override for this day (if any)
-  const barberSchedule = await prisma.barberSchedule.findFirst({
-    where: { barberId, dayOfWeek },
+  // 2. Use tenant openingHours JSON field (or default 09-20)
+  const tenant = await prisma.tenant.findUnique({
+    where: { id: tenantId },
+    select: { openingHours: true },
   })
 
-  const effectiveOpen = barberSchedule
-    ? timeToMinutes(barberSchedule.startTime)
-    : openTime
-  const effectiveClose = barberSchedule
-    ? timeToMinutes(barberSchedule.endTime)
-    : closeTime
+  const defaultOpen = 9 * 60  // 09:00
+  const defaultClose = 20 * 60 // 20:00
+  let openTime = defaultOpen
+  let closeTime = defaultClose
 
-  // 4. Generate all possible slots
+  if (tenant?.openingHours && typeof tenant.openingHours === 'object') {
+    const hours = tenant.openingHours as Record<string, { open: string; close: string }>
+    const dayKey = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][dateObj.getDay()]
+    if (hours[dayKey]) {
+      openTime = timeToMinutes(hours[dayKey].open)
+      closeTime = timeToMinutes(hours[dayKey].close)
+    }
+  }
+
+  // 3. Generate all possible slots
   const allSlots: string[] = []
-  for (
-    let t = effectiveOpen;
-    t + serviceDuration <= effectiveClose;
-    t += SLOT_INTERVAL
-  ) {
+  for (let t = openTime; t + serviceDuration <= closeTime; t += SLOT_INTERVAL) {
     allSlots.push(minutesToTime(t))
   }
 
-  // 5. Fetch existing bookings for this barber on this date
+  // 4. Fetch existing bookings for this barber on this date
   const dayStart = startOfDay(dateObj)
   const dayEnd = endOfDay(dateObj)
 
   const bookings = await prisma.booking.findMany({
     where: {
       barberId,
-      date: { gte: dayStart, lte: dayEnd },
+      dateTime: { gte: dayStart, lte: dayEnd },
       status: { in: ['CONFIRMED', 'PENDING'] },
     },
-    select: { time: true, durationMinutes: true },
+    select: { dateTime: true, durationMin: true },
   })
 
-  // 6. Fetch barber blocks for this date
+  // 5. Fetch barber blocks for this date
   const blocks = await prisma.barberBlock.findMany({
     where: {
       barberId,
@@ -101,31 +93,25 @@ export async function getAvailableSlots(input: SlotInput): Promise<TimeSlot[]> {
     select: { startTime: true, endTime: true },
   })
 
-  // 7. Determine slot availability
+  // 6. Determine slot availability
   const slots: TimeSlot[] = allSlots.map((time) => {
     const slotStart = timeToMinutes(time)
     const slotEnd = slotStart + serviceDuration
 
     const hasBookingConflict = bookings.some((booking) => {
-      const bookingStart = timeToMinutes(booking.time)
-      const bookingEnd = bookingStart + booking.durationMinutes
+      const bookingStart = booking.dateTime.getHours() * 60 + booking.dateTime.getMinutes()
+      const bookingEnd = bookingStart + booking.durationMin
       return slotStart < bookingEnd && slotEnd > bookingStart
     })
 
     const hasBlockConflict = blocks.some((block) => {
-      const blockStartMins =
-        block.startTime.getHours() * 60 + block.startTime.getMinutes()
-      const blockEndMins =
-        block.endTime.getHours() * 60 + block.endTime.getMinutes()
+      const blockStartMins = block.startTime.getHours() * 60 + block.startTime.getMinutes()
+      const blockEndMins = block.endTime.getHours() * 60 + block.endTime.getMinutes()
       return slotStart < blockEndMins && slotEnd > blockStartMins
     })
 
-    const slotDateTime = parse(
-      `${date} ${time}`,
-      'yyyy-MM-dd HH:mm',
-      new Date()
-    )
-    const isPast = isBefore(slotDateTime, new Date()) || isEqual(slotDateTime, new Date())
+    const slotDateTime = parse(`${date} ${time}`, 'yyyy-MM-dd HH:mm', new Date())
+    const isPast = isBefore(slotDateTime, new Date())
 
     return {
       time,

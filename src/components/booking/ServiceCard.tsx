@@ -18,7 +18,7 @@ interface ServiceCardProps {
   name: string
   description?: string | null
   price: number
-  durationMinutes: number
+  durationMin: number
   category?: string
   onClick?: () => void
 }
@@ -27,7 +27,7 @@ export function ServiceCard({
   name,
   description,
   price,
-  durationMinutes,
+  durationMin,
   category,
   onClick,
 }: ServiceCardProps) {
@@ -61,7 +61,7 @@ export function ServiceCard({
           </span>
           <span className="flex items-center gap-1 text-xs text-[--text-secondary]">
             <Clock className="w-3 h-3" />
-            {formatDuration(durationMinutes)}
+            {formatDuration(durationMin)}
           </span>
         </div>
       </div>

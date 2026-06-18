@@ -37,7 +37,7 @@ export default async function ServicosPage({ params }: PageProps) {
       name: true,
       description: true,
       price: true,
-      durationMinutes: true,
+      durationMin: true,
       category: true,
     },
   })

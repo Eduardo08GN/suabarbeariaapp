@@ -9,7 +9,7 @@ interface ServiceItem {
   name: string
   description: string | null
   price: number
-  durationMinutes: number
+  durationMin: number
   category: string | null
 }
 
