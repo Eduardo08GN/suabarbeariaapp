@@ -20,7 +20,7 @@ export default async function TenantLayout({
       id: true,
       name: true,
       slug: true,
-      logoUrl: true,
+      logo: true,
       colorPrimary: true,
       colorAccent: true,
     },
@@ -42,9 +42,9 @@ export default async function TenantLayout({
       {/* Top Bar */}
       <header className="sticky top-0 z-50 bg-[--bg-card] border-b border-[--border] backdrop-blur-sm">
         <div className="flex items-center gap-3 px-4 py-3 max-w-lg mx-auto w-full">
-          {tenant.logoUrl ? (
+          {tenant.logo ? (
             <img
-              src={tenant.logoUrl}
+              src={tenant.logo}
               alt={tenant.name}
               className="w-8 h-8 rounded-lg object-cover"
             />

@@ -9,7 +9,7 @@ interface WelcomeScreenProps {
   slug: string
   name: string
   description: string | null
-  logoUrl: string | null
+  logo: string | null
   colorPrimary: string
 }
 
@@ -17,7 +17,7 @@ export function WelcomeScreen({
   slug,
   name,
   description,
-  logoUrl,
+  logo,
   colorPrimary,
 }: WelcomeScreenProps) {
   const router = useRouter()
@@ -50,9 +50,9 @@ export function WelcomeScreen({
           }}
           className="mb-8"
         >
-          {logoUrl ? (
+          {logo ? (
             <img
-              src={logoUrl}
+              src={logo}
               alt={name}
               className="w-32 h-32 rounded-3xl object-cover shadow-lg"
             />

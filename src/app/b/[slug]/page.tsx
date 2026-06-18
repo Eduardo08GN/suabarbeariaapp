@@ -16,8 +16,7 @@ export default async function BookingHome({ params }: PageProps) {
     select: {
       id: true,
       name: true,
-      description: true,
-      logoUrl: true,
+      logo: true,
       colorPrimary: true,
       colorAccent: true,
     },
@@ -29,8 +28,8 @@ export default async function BookingHome({ params }: PageProps) {
     <WelcomeScreen
       slug={slug}
       name={tenant.name}
-      description={tenant.description}
-      logoUrl={tenant.logoUrl}
+      description={null}
+      logo={tenant.logo}
       colorPrimary={tenant.colorPrimary || '#18181B'}
     />
   )

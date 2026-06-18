@@ -293,7 +293,7 @@ async function main() {
     console.log('Tenant 2: Barbearia Elite (SP) criada');
 
     return { masterUser, tenants: [torres, elite], servicesCount: services.length + eliteServicesData.length, barbersCount: barbers.length + eliteBarbersData.length, clientsCount: clients.length, bookingsCount: bookingsData.length };
-  });
+  }, { timeout: 120000 });
 
   console.log('\nSeed completo!\n');
   console.log('Resumo:');
