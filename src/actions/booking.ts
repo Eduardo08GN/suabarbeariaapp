@@ -18,6 +18,7 @@ export async function getBookingsForDate(tenantId: string, date: Date) {
       service: { select: { name: true, category: true } },
       barber: { select: { name: true, nickname: true } },
       client: { select: { name: true, phone: true } },
+      items: { where: { kind: 'PRODUCT' }, select: { name: true } },
     },
     orderBy: { dateTime: 'asc' },
   })

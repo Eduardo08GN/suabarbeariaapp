@@ -17,6 +17,7 @@ type BookingItem = {
   paymentMode: string | null
   paidAmount: number | null
   price: number
+  products: string[]
 }
 
 const brl = (n: number) =>
@@ -150,6 +151,11 @@ export function AgendaClient({
                   <p className="text-xs text-[#71717A] truncate">
                     {booking.serviceName} &middot; {booking.barberName} &middot; {booking.durationMin}min
                   </p>
+                  {booking.products.length > 0 && (
+                    <p className="mt-0.5 truncate text-[11px] text-[#A1A1AA]">
+                      Produtos: {booking.products.join(', ')}
+                    </p>
+                  )}
                   {(() => {
                     const chip = paymentChip(booking)
                     return chip ? (

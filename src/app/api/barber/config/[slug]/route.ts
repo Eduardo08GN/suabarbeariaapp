@@ -25,6 +25,11 @@ export async function GET(
       incentivoAtivo: true,
       descontoSinalPct: true,
       descontoTotalPct: true,
+      products: {
+        where: { active: true, isOrderBump: true },
+        orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
+        select: { id: true, name: true, description: true, price: true },
+      },
     },
   })
 
@@ -33,12 +38,13 @@ export async function GET(
   }
 
   // a chave nunca vaza pro cliente: expoe so o booleano de pagamento ativo.
-  // sem Asaas, a politica efetiva e sempre "so agendar".
-  const { asaasApiKey, bookingMode, ...rest } = tenant
+  // sem Asaas, a politica efetiva e sempre "so agendar" e nao ha order bump.
+  const { asaasApiKey, bookingMode, products, ...rest } = tenant
   const paymentEnabled = !!asaasApiKey
   return NextResponse.json({
     ...rest,
     paymentEnabled,
     bookingMode: paymentEnabled ? bookingMode : 'BOOK_ONLY',
+    products: paymentEnabled ? products : [],
   })
 }

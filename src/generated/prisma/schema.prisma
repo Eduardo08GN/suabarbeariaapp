@@ -64,6 +64,26 @@ model Tenant {
   bookings Booking[]
   clients  Client[]
   units    Unit[]
+  products Product[]
+}
+
+// Produto de balcao vendido como order bump no checkout ("Aproveite tambem").
+model Product {
+  id          String   @id @default(cuid())
+  tenantId    String
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  price       Float
+  imageUrl    String? // opcional; transcodar p/ WebP (diretriz de assets leves)
+  active      Boolean  @default(true)
+  isOrderBump Boolean  @default(true) // aparece no bloco "Aproveite tambem"
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  bookingItems BookingItem[]
+
+  @@index([tenantId])
 }
 
 enum TenantStatus {
@@ -235,11 +255,40 @@ model Booking {
   chargeAmount   Float? // valor do PIX (ja com desconto); fonte da verdade p/ paidAmount
   paidAmount     Float?
   pixExpiresAt   DateTime?
+  // pedido: servico + produtos (order bumps). itensTotal = soma dos produtos;
+  // orderTotal = total do pedido (servico + produtos), o "hall do que foi adquirido".
+  itemsTotal     Float         @default(0)
+  orderTotal     Float?
+  items          BookingItem[]
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
 
   @@index([tenantId, dateTime])
   @@index([barberId, dateTime])
+}
+
+// Linha do pedido: o que foi adquirido no agendamento (servico + produtos).
+// name/unitPrice sao SNAPSHOT do momento da compra (preco do catalogo pode mudar).
+model BookingItem {
+  id        String          @id @default(cuid())
+  bookingId String
+  booking   Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  kind      BookingItemKind
+  refId     String // serviceId ou productId de origem
+  name      String
+  unitPrice Float
+  quantity  Int             @default(1)
+  productId String?
+  product   Product?        @relation(fields: [productId], references: [id])
+  createdAt DateTime        @default(now())
+
+  @@index([bookingId])
+}
+
+enum BookingItemKind {
+  SERVICE
+  PRODUCT
+  UPSELL_SERVICE
 }
 
 enum BookingStatus {

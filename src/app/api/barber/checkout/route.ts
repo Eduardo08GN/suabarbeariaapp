@@ -9,7 +9,8 @@ import {
   cancelPayment,
   type AsaasCtx,
 } from '@/lib/asaas'
-import { computeCharge, expireBooking } from '@/lib/payments'
+import { expireBooking } from '@/lib/payments'
+import { computeOrder } from '@/lib/pricing'
 import { getAvailableSlots, instantFromLocal } from '@/lib/slots'
 import { rateLimit, clientIp } from '@/lib/rate-limit'
 import { ASAAS_PIX_MIN } from '@/lib/payment-constants'
@@ -80,16 +81,36 @@ export async function POST(request: NextRequest) {
     } else if (!hasAsaas || policy === 'BOOK_ONLY') {
       return NextResponse.json({ error: 'Pagamento indisponivel para esta barbearia.' }, { status: 400 })
     }
-    const willCharge = reqMode !== 'NONE'
 
-    // valor do PIX (com incentivo/desconto) + validacoes ANTES de reservar
-    let value = 0
-    if (willCharge) {
-      value = computeCharge(service.price, reqMode, {
+    // produtos (order bump). So existem quando ha Asaas pra cobrar; valida cada
+    // um (ativo, do tenant) — nunca confiar no preco que veio do front.
+    const rawProductIds: string[] = Array.isArray(body.productIds)
+      ? body.productIds.filter((x: unknown) => typeof x === 'string').slice(0, 20)
+      : []
+    let products: { id: string; name: string; price: number }[] = []
+    if (hasAsaas && rawProductIds.length) {
+      products = await prisma.product.findMany({
+        where: { id: { in: rawProductIds }, tenantId: tenant.id, active: true, isOrderBump: true },
+        select: { id: true, name: true, price: true },
+      })
+    }
+    const productsTotal = products.reduce((sum, p) => sum + p.price, 0)
+
+    // pedido completo (servico + produtos). value = o que vai pro PIX.
+    const order = computeOrder({
+      servicePrice: service.price,
+      mode: reqMode,
+      incentivo: {
         incentivoAtivo: tenant.incentivoAtivo,
         descontoSinalPct: tenant.descontoSinalPct,
         descontoTotalPct: tenant.descontoTotalPct,
-      }).value
+      },
+      productsTotal,
+    })
+    const value = order.pixValue
+    const willCharge = value > 0 // paga via PIX (servico e/ou produtos)
+
+    if (willCharge) {
       if (cpfDigits.length !== 11) {
         return NextResponse.json({ error: 'Informe um CPF valido para o pagamento.' }, { status: 400 })
       }
@@ -170,7 +191,7 @@ export async function POST(request: NextRequest) {
         })
         if (overlap) throw new Error('SLOT_TAKEN')
 
-        return tx.booking.create({
+        const created = await tx.booking.create({
           data: {
             tenantId: tenant.id,
             barberId: barber.id,
@@ -181,14 +202,39 @@ export async function POST(request: NextRequest) {
             price: service.price,
             status: willCharge ? 'PENDING' : 'CONFIRMED',
             paymentStatus: willCharge ? 'PENDING' : 'NONE',
-            paymentMode: willCharge ? reqMode : null,
+            // paymentMode descreve o pagamento do SERVICO (sinal/total); produto
+            // sozinho na rota gratis fica com mode null.
+            paymentMode: reqMode === 'NONE' ? null : reqMode,
             chargeAmount: willCharge ? value : null,
+            itemsTotal: order.productsTotal,
+            orderTotal: order.orderTotal,
             // prazo ja na criacao: se a Asaas (fora da txn) nunca completar, o
             // cron ainda expira a reserva (sem isso vira ghost permanente)
             pixExpiresAt: willCharge ? addMinutes(new Date(), PIX_WINDOW_MIN) : null,
           },
           select: { id: true },
         })
+        // itens do pedido (snapshot): o servico + cada produto adquirido
+        await tx.bookingItem.createMany({
+          data: [
+            {
+              bookingId: created.id,
+              kind: 'SERVICE',
+              refId: service.id,
+              name: service.name,
+              unitPrice: service.price,
+            },
+            ...products.map((p) => ({
+              bookingId: created.id,
+              kind: 'PRODUCT' as const,
+              refId: p.id,
+              productId: p.id,
+              name: p.name,
+              unitPrice: p.price,
+            })),
+          ],
+        })
+        return created
       }, { timeout: 12_000, maxWait: 6_000 })
     } catch (e) {
       if (e instanceof Error && e.message === 'SLOT_TAKEN') {
@@ -234,7 +280,7 @@ export async function POST(request: NextRequest) {
           bookingId: booking.id,
           paymentId: payment.id,
           value,
-          mode: reqMode,
+          mode: reqMode === 'SINAL' ? 'SINAL' : 'TOTAL',
           qrCodeUrl: qr.qrCodeUrl,
           copiaECola: qr.copiaECola,
           expiresAt: addMinutes(new Date(), PIX_WINDOW_MIN).toISOString(),

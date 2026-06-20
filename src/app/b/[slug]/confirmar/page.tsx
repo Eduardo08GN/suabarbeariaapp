@@ -14,16 +14,17 @@ import {
   AlertCircle,
   Wallet,
   CalendarCheck,
+  Plus,
+  Check,
 } from 'lucide-react'
 import { PaymentModal, type CheckoutData } from '@/components/booking/PaymentModal'
-import { ASAAS_PIX_MIN } from '@/lib/payment-constants'
+import { computeOrder } from '@/lib/pricing'
 
 const brl = (n: number) =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n)
-const round2 = (n: number) => Math.round(n * 100) / 100
-const clampPct = (p: number) => Math.max(0, Math.min(90, Math.floor(p || 0)))
 
 type BookingMode = 'PAYMENT_REQUIRED' | 'PAYMENT_OPTIONAL' | 'BOOK_ONLY'
+interface ProductDTO { id: string; name: string; description: string | null; price: number }
 
 interface Config {
   paymentEnabled: boolean
@@ -31,6 +32,7 @@ interface Config {
   incentivoAtivo: boolean
   descontoSinalPct: number
   descontoTotalPct: number
+  products: ProductDTO[]
 }
 
 export default function ConfirmarPage() {
@@ -56,7 +58,9 @@ export default function ConfirmarPage() {
     incentivoAtivo: false,
     descontoSinalPct: 0,
     descontoTotalPct: 0,
+    products: [],
   })
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [serviceInfo, setServiceInfo] = useState<{ name: string; price: number } | null>(null)
   const [barberInfo, setBarberInfo] = useState<{ name: string } | null>(null)
   const [checkout, setCheckout] = useState<CheckoutData | null>(null)
@@ -85,6 +89,7 @@ export default function ConfirmarPage() {
           incentivoAtivo: !!c?.incentivoAtivo,
           descontoSinalPct: Number(c?.descontoSinalPct) || 0,
           descontoTotalPct: Number(c?.descontoTotalPct) || 0,
+          products: Array.isArray(c?.products) ? c.products : [],
         })
       } catch {
         // Silent fail
@@ -114,29 +119,34 @@ export default function ConfirmarPage() {
 
   const price = serviceInfo?.price ?? 0
 
-  // valor exibido por modo, espelhando o computeCharge do servidor. belowMin
-  // marca o que cairia abaixo do piso de PIX (o servidor recusaria) — nao
-  // oferecemos modo impagavel pra nao virar beco sem saida.
-  const display = (mode: 'SINAL' | 'TOTAL') => {
-    const full = round2(mode === 'SINAL' ? price / 2 : price)
-    const pct = config.incentivoAtivo
-      ? clampPct(mode === 'SINAL' ? config.descontoSinalPct : config.descontoTotalPct)
-      : 0
-    const discounted = price * (1 - pct / 100)
-    const value = round2(mode === 'SINAL' ? discounted / 2 : discounted)
-    return { full, value, pct, belowMin: value < ASAAS_PIX_MIN }
-  }
-
   const canPay = config.paymentEnabled && config.bookingMode !== 'BOOK_ONLY'
-  const showFree = config.bookingMode === 'BOOK_ONLY' || config.bookingMode === 'PAYMENT_OPTIONAL'
 
-  const t = display('TOTAL')
-  const s = display('SINAL')
+  // produtos (order bump): so dao pra adicionar quando ha como cobrar (canPay)
+  const selectedProducts = config.products.filter((p) => selectedIds.includes(p.id))
+  const productsTotal = selectedProducts.reduce((sum, p) => sum + p.price, 0)
+  const toggleProduct = (id: string) =>
+    setSelectedIds((ids) => (ids.includes(id) ? ids.filter((x) => x !== id) : [...ids, id]))
+
+  // pedido por modo (servico com desconto + produtos cheios). Fonte unica:
+  // computeOrder, o MESMO usado no servidor — front e back nunca divergem.
+  const incentivo = {
+    incentivoAtivo: config.incentivoAtivo,
+    descontoSinalPct: config.descontoSinalPct,
+    descontoTotalPct: config.descontoTotalPct,
+  }
+  const order = (mode: 'SINAL' | 'TOTAL') =>
+    computeOrder({ servicePrice: price, mode, incentivo, productsTotal })
+
+  const t = order('TOTAL')
+  const s = order('SINAL')
   const loaded = !!serviceInfo
   const totalViable = canPay && loaded && !t.belowMin
   const sinalViable = canPay && loaded && !s.belowMin
-  // travado: exige pagar mas nenhum modo alcanca o minimo do PIX (so com preco
-  // muito baixo + desconto agressivo; o painel ja avisa o dono nesse caso)
+  // "agendar sem pagar" so quando nao ha produto no carrinho (produto exige PIX)
+  const showFree =
+    (config.bookingMode === 'BOOK_ONLY' || config.bookingMode === 'PAYMENT_OPTIONAL') &&
+    selectedProducts.length === 0
+  // travado: exige pagar mas nenhum modo alcanca o minimo do PIX
   const lockedOut = canPay && loaded && !totalViable && !sinalViable && !showFree
 
   const baseValid = clientName.trim().length > 0 && clientPhone.replace(/\D/g, '').length >= 10
@@ -170,6 +180,7 @@ export default function ConfirmarPage() {
           clientEmail: clientEmail.trim() || undefined,
           clientCpf: clientCpf.replace(/\D/g, ''),
           paymentMode: mode === 'NONE' ? undefined : mode,
+          productIds: selectedIds,
         }),
       })
       const data = await res.json()
@@ -266,6 +277,44 @@ export default function ConfirmarPage() {
           </div>
         </div>
 
+        {/* Aproveite tambem (order bump) */}
+        {canPay && config.products.length > 0 && (
+          <div>
+            <h3 className="text-sm font-semibold text-(--text) mb-3">Aproveite tambem</h3>
+            <div className="space-y-2">
+              {config.products.map((p) => {
+                const on = selectedIds.includes(p.id)
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => toggleProduct(p.id)}
+                    className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition-colors ${
+                      on
+                        ? 'border-(--tenant-primary) bg-(--tenant-primary)/5'
+                        : 'border-(--border) bg-(--bg-card) active:bg-(--bg-subtle)'
+                    }`}
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-(--text) truncate">{p.name}</p>
+                      {p.description && (
+                        <p className="text-xs text-(--text-secondary) truncate">{p.description}</p>
+                      )}
+                    </div>
+                    <span className="text-sm font-semibold text-(--text) shrink-0">{brl(p.price)}</span>
+                    <span
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-colors ${
+                        on ? 'bg-(--tenant-primary) text-white' : 'bg-(--bg-subtle) text-(--text-secondary)'
+                      }`}
+                    >
+                      {on ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Formulario */}
         <div className="space-y-4">
           <div>
@@ -351,12 +400,14 @@ export default function ConfirmarPage() {
               ) : (
                 <Wallet className="w-4 h-4" />
               )}
-              <span>Pagar total {brl(t.value)}</span>
-              {t.pct > 0 && (
+              <span>Pagar total {brl(t.pixValue)}</span>
+              {t.serviceDiscountPct > 0 && (
                 <>
-                  <span className="text-xs line-through text-white/55">{brl(t.full)}</span>
+                  {selectedProducts.length === 0 && (
+                    <span className="text-xs line-through text-white/55">{brl(t.serviceFull)}</span>
+                  )}
                   <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-bold">
-                    {t.pct}% OFF
+                    {t.serviceDiscountPct}% OFF
                   </span>
                 </>
               )}
@@ -370,10 +421,10 @@ export default function ConfirmarPage() {
               className="btn-outline w-full flex items-center justify-center gap-2 min-h-[48px]"
             >
               {loadingMode === 'SINAL' ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-              <span>Pagar sinal de 50% {brl(s.value)}</span>
-              {s.pct > 0 && (
+              <span>Pagar sinal de 50% {brl(s.pixValue)}</span>
+              {s.serviceDiscountPct > 0 && (
                 <span className="rounded-full bg-(--tenant-primary)/10 px-2 py-0.5 text-[11px] font-bold text-(--tenant-primary)">
-                  {s.pct}% OFF
+                  {s.serviceDiscountPct}% OFF
                 </span>
               )}
             </button>

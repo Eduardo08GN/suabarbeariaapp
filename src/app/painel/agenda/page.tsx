@@ -46,6 +46,7 @@ export default async function AgendaPage({
     paymentMode: b.paymentMode,
     paidAmount: b.paidAmount,
     price: b.price,
+    products: b.items.map((i) => i.name),
   }))
 
   const dateStr = format(selectedDate, "EEEE, dd 'de' MMMM", { locale: ptBR })

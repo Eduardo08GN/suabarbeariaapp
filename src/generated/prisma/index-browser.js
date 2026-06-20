@@ -158,6 +158,19 @@ exports.Prisma.TenantScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  description: 'description',
+  price: 'price',
+  imageUrl: 'imageUrl',
+  active: 'active',
+  isOrderBump: 'isOrderBump',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.UnitScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -258,8 +271,22 @@ exports.Prisma.BookingScalarFieldEnum = {
   chargeAmount: 'chargeAmount',
   paidAmount: 'paidAmount',
   pixExpiresAt: 'pixExpiresAt',
+  itemsTotal: 'itemsTotal',
+  orderTotal: 'orderTotal',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BookingItemScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  kind: 'kind',
+  refId: 'refId',
+  name: 'name',
+  unitPrice: 'unitPrice',
+  quantity: 'quantity',
+  productId: 'productId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -348,9 +375,16 @@ exports.PaymentMode = exports.$Enums.PaymentMode = {
   TOTAL: 'TOTAL'
 };
 
+exports.BookingItemKind = exports.$Enums.BookingItemKind = {
+  SERVICE: 'SERVICE',
+  PRODUCT: 'PRODUCT',
+  UPSELL_SERVICE: 'UPSELL_SERVICE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Tenant: 'Tenant',
+  Product: 'Product',
   Unit: 'Unit',
   Service: 'Service',
   Barber: 'Barber',
@@ -359,7 +393,8 @@ exports.Prisma.ModelName = {
   WorkShift: 'WorkShift',
   Unavailability: 'Unavailability',
   Client: 'Client',
-  Booking: 'Booking'
+  Booking: 'Booking',
+  BookingItem: 'BookingItem'
 };
 
 /**
