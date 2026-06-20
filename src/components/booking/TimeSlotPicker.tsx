@@ -71,8 +71,8 @@ export function TimeSlotPicker({
           period.slots.length > 0 && (
             <div key={period.label}>
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-[--text-secondary]">{period.icon}</span>
-                <h3 className="text-sm font-semibold text-[--text]">
+                <span className="text-(--text-secondary)">{period.icon}</span>
+                <h3 className="text-sm font-semibold text-(--text)">
                   {period.label}
                 </h3>
               </div>
@@ -91,11 +91,11 @@ export function TimeSlotPicker({
                     className={cn(
                       'py-3 rounded-lg text-sm font-medium transition-all min-h-[44px]',
                       slot.available && slot.time !== selectedTime &&
-                        'bg-[--bg-card] border border-[--border] text-[--text] active:bg-[--bg-subtle]',
+                        'bg-(--bg-card) border border-(--border) text-(--text) active:bg-(--bg-subtle)',
                       slot.time === selectedTime &&
-                        'bg-[--tenant-primary] text-white border border-[--tenant-primary] shadow-sm',
+                        'bg-(--tenant-primary) text-white border border-(--tenant-primary) shadow-sm',
                       !slot.available &&
-                        'bg-[--bg-subtle] text-[--text-secondary]/40 cursor-not-allowed line-through'
+                        'bg-(--bg-subtle) text-(--text-secondary)/40 cursor-not-allowed line-through'
                     )}
                   >
                     {slot.time}
@@ -106,7 +106,7 @@ export function TimeSlotPicker({
           )
       )}
       {slots.length === 0 && (
-        <div className="text-center py-8 text-[--text-secondary] text-sm">
+        <div className="text-center py-8 text-(--text-secondary) text-sm">
           Nenhum horario disponivel neste dia.
         </div>
       )}

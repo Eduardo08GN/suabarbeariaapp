@@ -68,7 +68,7 @@ export function WelcomeScreen({
 
         {/* Name */}
         <motion.h1
-          className="text-3xl font-bold text-[--text] mb-2"
+          className="text-3xl font-bold text-(--text) mb-2"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, type: 'spring', stiffness: 300, damping: 24 }}
@@ -78,7 +78,7 @@ export function WelcomeScreen({
 
         {/* Tagline */}
         <motion.p
-          className="text-base text-[--text-secondary] mb-12"
+          className="text-base text-(--text-secondary) mb-12"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, type: 'spring', stiffness: 300, damping: 24 }}

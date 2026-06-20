@@ -33,7 +33,7 @@ export function BarberCard({
       onClick={onClick}
       className={cn(
         'card p-4 w-full flex items-center gap-4 group transition-colors',
-        selected && 'ring-2 ring-[--tenant-primary] border-[--tenant-primary]'
+        selected && 'ring-2 ring-(--tenant-primary) border-(--tenant-primary)'
       )}
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.98 }}
@@ -46,16 +46,16 @@ export function BarberCard({
           className="w-12 h-12 rounded-full object-cover"
         />
       ) : (
-        <div className="w-12 h-12 rounded-full bg-[--bg-subtle] flex items-center justify-center text-sm font-bold text-[--text-secondary]">
+        <div className="w-12 h-12 rounded-full bg-(--bg-subtle) flex items-center justify-center text-sm font-bold text-(--text-secondary)">
           {getInitials(name)}
         </div>
       )}
       <div className="text-left flex-1 min-w-0">
-        <h3 className="font-semibold text-[--text] text-sm truncate">
+        <h3 className="font-semibold text-(--text) text-sm truncate">
           {name}
         </h3>
         {nickname && (
-          <p className="text-xs text-[--text-secondary] truncate">
+          <p className="text-xs text-(--text-secondary) truncate">
             {nickname}
           </p>
         )}

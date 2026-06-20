@@ -132,10 +132,10 @@ export default function ConfirmarPage() {
     >
       <div className="px-4 py-6 space-y-6 flex-1 pb-28">
         <div>
-          <h2 className="text-xl font-bold text-[--text]">
+          <h2 className="text-xl font-bold text-(--text)">
             Confirme seu agendamento
           </h2>
-          <p className="text-sm text-[--text-secondary] mt-1">
+          <p className="text-sm text-(--text-secondary) mt-1">
             Revise os detalhes e informe seus dados
           </p>
         </div>
@@ -143,51 +143,51 @@ export default function ConfirmarPage() {
         {/* Booking Summary */}
         <div className="card p-4 space-y-3">
           <div className="flex items-center gap-3">
-            <Scissors className="w-4 h-4 text-[--tenant-primary] shrink-0" />
+            <Scissors className="w-4 h-4 text-(--tenant-primary) shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-[--text-secondary]">Servico</p>
-              <p className="text-sm font-semibold text-[--text] truncate">
+              <p className="text-xs text-(--text-secondary)">Servico</p>
+              <p className="text-sm font-semibold text-(--text) truncate">
                 {serviceInfo?.name || 'Carregando...'}
               </p>
             </div>
             {serviceInfo?.price && (
-              <span className="text-sm font-bold text-[--tenant-primary]">
+              <span className="text-sm font-bold text-(--tenant-primary)">
                 {serviceInfo.price}
               </span>
             )}
           </div>
 
-          <div className="h-px bg-[--border]" />
+          <div className="h-px bg-(--border)" />
 
           <div className="flex items-center gap-3">
-            <User className="w-4 h-4 text-[--tenant-primary] shrink-0" />
+            <User className="w-4 h-4 text-(--tenant-primary) shrink-0" />
             <div>
-              <p className="text-xs text-[--text-secondary]">Profissional</p>
-              <p className="text-sm font-semibold text-[--text]">
+              <p className="text-xs text-(--text-secondary)">Profissional</p>
+              <p className="text-sm font-semibold text-(--text)">
                 {barberInfo?.name || 'Carregando...'}
               </p>
             </div>
           </div>
 
-          <div className="h-px bg-[--border]" />
+          <div className="h-px bg-(--border)" />
 
           <div className="flex items-center gap-3">
-            <Calendar className="w-4 h-4 text-[--tenant-primary] shrink-0" />
+            <Calendar className="w-4 h-4 text-(--tenant-primary) shrink-0" />
             <div>
-              <p className="text-xs text-[--text-secondary]">Data</p>
-              <p className="text-sm font-semibold text-[--text] capitalize">
+              <p className="text-xs text-(--text-secondary)">Data</p>
+              <p className="text-sm font-semibold text-(--text) capitalize">
                 {formattedDate}
               </p>
             </div>
           </div>
 
-          <div className="h-px bg-[--border]" />
+          <div className="h-px bg-(--border)" />
 
           <div className="flex items-center gap-3">
-            <Clock className="w-4 h-4 text-[--tenant-primary] shrink-0" />
+            <Clock className="w-4 h-4 text-(--tenant-primary) shrink-0" />
             <div>
-              <p className="text-xs text-[--text-secondary]">Horario</p>
-              <p className="text-sm font-semibold text-[--text]">{time}</p>
+              <p className="text-xs text-(--text-secondary)">Horario</p>
+              <p className="text-sm font-semibold text-(--text)">{time}</p>
             </div>
           </div>
         </div>
@@ -195,7 +195,7 @@ export default function ConfirmarPage() {
         {/* Client Form */}
         <div className="space-y-4">
           <div>
-            <label className="text-sm font-medium text-[--text] mb-1.5 block">
+            <label className="text-sm font-medium text-(--text) mb-1.5 block">
               Seu nome
             </label>
             <input
@@ -203,13 +203,13 @@ export default function ConfirmarPage() {
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
               placeholder="Como podemos te chamar?"
-              className="w-full px-4 py-3 rounded-xl border border-[--border] bg-[--bg-card] text-[--text] text-sm placeholder:text-[--text-secondary]/50 focus:outline-none focus:ring-2 focus:ring-[--tenant-primary]/20 focus:border-[--tenant-primary] transition-all min-h-[48px]"
+              className="w-full px-4 py-3 rounded-xl border border-(--border) bg-(--bg-card) text-(--text) text-sm placeholder:text-(--text-secondary)/50 focus:outline-none focus:ring-2 focus:ring-(--tenant-primary)/20 focus:border-(--tenant-primary) transition-all min-h-[48px]"
               required
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-[--text] mb-1.5 block">
+            <label className="text-sm font-medium text-(--text) mb-1.5 block">
               Seu telefone
             </label>
             <input
@@ -217,14 +217,14 @@ export default function ConfirmarPage() {
               value={clientPhone}
               onChange={handlePhoneChange}
               placeholder="(00) 00000-0000"
-              className="w-full px-4 py-3 rounded-xl border border-[--border] bg-[--bg-card] text-[--text] text-sm placeholder:text-[--text-secondary]/50 focus:outline-none focus:ring-2 focus:ring-[--tenant-primary]/20 focus:border-[--tenant-primary] transition-all min-h-[48px]"
+              className="w-full px-4 py-3 rounded-xl border border-(--border) bg-(--bg-card) text-(--text) text-sm placeholder:text-(--text-secondary)/50 focus:outline-none focus:ring-2 focus:ring-(--tenant-primary)/20 focus:border-(--tenant-primary) transition-all min-h-[48px]"
               required
             />
           </div>
 
           {error && (
             <motion.div
-              className="flex items-center gap-2 text-sm text-[--danger] bg-red-50 p-3 rounded-lg"
+              className="flex items-center gap-2 text-sm text-(--danger) bg-red-50 p-3 rounded-lg"
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -236,7 +236,7 @@ export default function ConfirmarPage() {
       </div>
 
       {/* Fixed Bottom Bar */}
-      <div className="fixed inset-x-0 bottom-0 p-4 bg-white/95 backdrop-blur-sm border-t border-[--border] pb-[max(1rem,env(safe-area-inset-bottom))]">
+      <div className="fixed inset-x-0 bottom-0 p-4 bg-white/95 backdrop-blur-sm border-t border-(--border) pb-[max(1rem,env(safe-area-inset-bottom))]">
         <div className="max-w-lg mx-auto">
           <button
             onClick={handleSubmit}

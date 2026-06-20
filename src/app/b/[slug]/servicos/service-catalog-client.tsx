@@ -54,15 +54,15 @@ export function ServiceCatalogClient({
   return (
     <div className="px-4 py-6 space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-[--text]">Escolha o servico</h2>
-        <p className="text-sm text-[--text-secondary] mt-1">
+        <h2 className="text-xl font-bold text-(--text)">Escolha o servico</h2>
+        <p className="text-sm text-(--text-secondary) mt-1">
           Selecione o servico desejado para continuar
         </p>
       </div>
 
       {sections.map((section) => (
         <div key={section.category}>
-          <h3 className="text-sm font-semibold text-[--text-secondary] uppercase tracking-wider mb-3">
+          <h3 className="text-sm font-semibold text-(--text-secondary) uppercase tracking-wider mb-3">
             {section.label}
           </h3>
           <motion.div

@@ -59,10 +59,10 @@ export function BarberSelectionClient({
   return (
     <div className="px-4 py-6 space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-[--text]">
+        <h2 className="text-xl font-bold text-(--text)">
           Escolha o profissional
         </h2>
-        <p className="text-sm text-[--text-secondary] mt-1">
+        <p className="text-sm text-(--text-secondary) mt-1">
           Selecione quem vai te atender
         </p>
       </div>
@@ -82,14 +82,14 @@ export function BarberSelectionClient({
             whileTap={{ scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           >
-            <div className="w-12 h-12 rounded-full bg-[--tenant-primary]/10 flex items-center justify-center">
-              <Shuffle className="w-5 h-5 text-[--tenant-primary]" />
+            <div className="w-12 h-12 rounded-full bg-(--tenant-primary)/10 flex items-center justify-center">
+              <Shuffle className="w-5 h-5 text-(--tenant-primary)" />
             </div>
             <div className="text-left">
-              <h3 className="font-semibold text-[--text] text-sm">
+              <h3 className="font-semibold text-(--text) text-sm">
                 Qualquer Profissional
               </h3>
-              <p className="text-xs text-[--text-secondary]">
+              <p className="text-xs text-(--text-secondary)">
                 Sem preferencia
               </p>
             </div>

@@ -40,7 +40,7 @@ export default async function TenantLayout({
       } as React.CSSProperties}
     >
       {/* Top Bar */}
-      <header className="sticky top-0 z-50 bg-[--bg-card] border-b border-[--border] backdrop-blur-sm">
+      <header className="sticky top-0 z-50 bg-(--bg-card) border-b border-(--border) backdrop-blur-sm">
         <div className="flex items-center gap-3 px-4 py-3 max-w-lg mx-auto w-full">
           {tenant.logo ? (
             <img
@@ -49,11 +49,11 @@ export default async function TenantLayout({
               className="w-8 h-8 rounded-lg object-cover"
             />
           ) : (
-            <div className="w-8 h-8 rounded-lg bg-[--tenant-primary] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-(--tenant-primary) flex items-center justify-center">
               <Scissors className="w-4 h-4 text-white" />
             </div>
           )}
-          <h1 className="font-bold text-[--text] text-base truncate">
+          <h1 className="font-bold text-(--text) text-base truncate">
             {tenant.name}
           </h1>
         </div>

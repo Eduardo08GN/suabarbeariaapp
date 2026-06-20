@@ -85,10 +85,10 @@ export default function AgendaPage() {
     >
       <div className="px-4 py-6 space-y-6 flex-1 pb-24">
         <div>
-          <h2 className="text-xl font-bold text-[--text]">
+          <h2 className="text-xl font-bold text-(--text)">
             Escolha o horario
           </h2>
-          <p className="text-sm text-[--text-secondary] mt-1">
+          <p className="text-sm text-(--text-secondary) mt-1">
             Selecione a data e o horario desejado
           </p>
         </div>
@@ -96,8 +96,8 @@ export default function AgendaPage() {
         {/* Date Picker - Horizontal Scroll with snap */}
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <CalendarDays className="w-4 h-4 text-[--text-secondary]" />
-            <h3 className="text-sm font-semibold text-[--text]">Data</h3>
+            <CalendarDays className="w-4 h-4 text-(--text-secondary)" />
+            <h3 className="text-sm font-semibold text-(--text)">Data</h3>
           </div>
           <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 snap-x snap-mandatory">
             {dates.map((date) => (
@@ -107,8 +107,8 @@ export default function AgendaPage() {
                 className={cn(
                   'flex flex-col items-center gap-0.5 min-w-[56px] min-h-[72px] py-2.5 px-2 rounded-xl border text-center transition-all shrink-0 snap-start',
                   date.value === selectedDate
-                    ? 'bg-[--tenant-primary] text-white border-[--tenant-primary] shadow-sm'
-                    : 'bg-[--bg-card] border-[--border] text-[--text] active:bg-[--bg-subtle]'
+                    ? 'bg-(--tenant-primary) text-white border-(--tenant-primary) shadow-sm'
+                    : 'bg-(--bg-card) border-(--border) text-(--text) active:bg-(--bg-subtle)'
                 )}
               >
                 <span className="text-[10px] font-medium uppercase">
@@ -127,7 +127,7 @@ export default function AgendaPage() {
         <div>
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <Loader2 className="w-6 h-6 animate-spin text-[--tenant-primary]" />
+              <Loader2 className="w-6 h-6 animate-spin text-(--tenant-primary)" />
             </div>
           ) : (
             <TimeSlotPicker
@@ -140,7 +140,7 @@ export default function AgendaPage() {
       </div>
 
       {/* Fixed Bottom Bar */}
-      <div className="fixed inset-x-0 bottom-0 p-4 bg-white/95 backdrop-blur-sm border-t border-[--border] pb-[max(1rem,env(safe-area-inset-bottom))]">
+      <div className="fixed inset-x-0 bottom-0 p-4 bg-white/95 backdrop-blur-sm border-t border-(--border) pb-[max(1rem,env(safe-area-inset-bottom))]">
         <div className="max-w-lg mx-auto">
           <button
             onClick={handleContinue}

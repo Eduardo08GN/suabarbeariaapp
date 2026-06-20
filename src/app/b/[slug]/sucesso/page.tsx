@@ -41,7 +41,7 @@ export default function SucessoPage() {
       >
         {/* Outer ring */}
         <motion.div
-          className="w-24 h-24 rounded-full border-4 border-[--success] flex items-center justify-center"
+          className="w-24 h-24 rounded-full border-4 border-(--success) flex items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
@@ -56,7 +56,7 @@ export default function SucessoPage() {
               delay: 0.4,
             }}
           >
-            <Check className="w-10 h-10 text-[--success]" strokeWidth={3} />
+            <Check className="w-10 h-10 text-(--success)" strokeWidth={3} />
           </motion.div>
         </motion.div>
 
@@ -64,7 +64,7 @@ export default function SucessoPage() {
         {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 rounded-full bg-[--success]"
+            className="absolute w-2 h-2 rounded-full bg-(--success)"
             style={{
               top: '50%',
               left: '50%',
@@ -87,7 +87,7 @@ export default function SucessoPage() {
 
       {/* Text */}
       <motion.h2
-        className="text-2xl font-bold text-[--text] mb-2"
+        className="text-2xl font-bold text-(--text) mb-2"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, type: 'spring', stiffness: 300, damping: 24 }}
@@ -96,7 +96,7 @@ export default function SucessoPage() {
       </motion.h2>
 
       <motion.p
-        className="text-sm text-[--text-secondary] mb-8 max-w-xs"
+        className="text-sm text-(--text-secondary) mb-8 max-w-xs"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, type: 'spring', stiffness: 300, damping: 24 }}
