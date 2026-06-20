@@ -101,10 +101,10 @@ export function NotificationToggle() {
             <Share className="h-4 w-4" />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium text-[#09090B]">Notificacoes de agendamento</p>
+            <p className="text-sm font-medium text-[#09090B]">Notificações de agendamento</p>
             <p className="text-xs text-[#71717A]">
-              No iPhone, toque em Compartilhar e &quot;Adicionar a Tela de Inicio&quot;. Depois abra
-              pelo icone e ative as notificacoes por aqui.
+              No iPhone, toque em Compartilhar e &quot;Adicionar à Tela de Início&quot;. Depois abra
+              pelo ícone e ative as notificações por aqui.
             </p>
           </div>
         </div>
@@ -119,12 +119,12 @@ export function NotificationToggle() {
           {state === 'on' ? <Bell className="h-4 w-4" /> : <BellOff className="h-4 w-4" />}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-medium text-[#09090B]">Notificacoes de agendamento</p>
+          <p className="text-sm font-medium text-[#09090B]">Notificações de agendamento</p>
           <p className="text-xs text-[#71717A]">
             {state === 'on'
-              ? 'Voce recebe um aviso a cada novo agendamento neste aparelho.'
+              ? 'Você recebe um aviso a cada novo agendamento neste aparelho.'
               : state === 'denied'
-                ? 'Permissao bloqueada. Libere notificacoes para este site nas configuracoes do navegador.'
+                ? 'Permissão bloqueada. Libere notificações para este site nas configurações do navegador.'
                 : 'Receba um aviso na hora que cair um agendamento.'}
           </p>
         </div>

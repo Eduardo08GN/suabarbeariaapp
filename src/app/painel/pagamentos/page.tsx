@@ -40,7 +40,7 @@ export default async function PagamentosPage() {
           <div className="text-right">
             <p className="text-base font-bold text-[#09090B]">{brl(recebimentos.totalMonth)}</p>
             <p className="text-[11px] text-[#A1A1AA]">
-              {recebimentos.countMonth} no mes
+              {recebimentos.countMonth} no mês
             </p>
           </div>
         </div>

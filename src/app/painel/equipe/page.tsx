@@ -2,8 +2,26 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Plus, Pencil, ToggleLeft, ToggleRight, X, Loader2, User } from 'lucide-react'
-import { getBarbers, createBarber, updateBarber, toggleBarberActive } from '@/actions/staff'
+import {
+  Plus,
+  Pencil,
+  ToggleLeft,
+  ToggleRight,
+  X,
+  Loader2,
+  User,
+  KeyRound,
+  Check,
+  Trash2,
+} from 'lucide-react'
+import {
+  getBarbers,
+  createBarber,
+  updateBarber,
+  toggleBarberActive,
+  criarAcessoBarbeiro,
+  removerAcessoBarbeiro,
+} from '@/actions/staff'
 
 type Barber = {
   id: string
@@ -12,6 +30,7 @@ type Barber = {
   photoUrl: string | null
   commissionPct: number
   active: boolean
+  user: { id: string; email: string } | null
 }
 
 const container = {
@@ -27,18 +46,26 @@ const item = {
 export default function EquipePage() {
   const [barbers, setBarbers] = useState<Barber[]>([])
   const [loading, setLoading] = useState(true)
+
+  // modal de cadastro/edicao
   const [showModal, setShowModal] = useState(false)
   const [editing, setEditing] = useState<Barber | null>(null)
-  const [tenantId, setTenantId] = useState('')
-
   const [formName, setFormName] = useState('')
   const [formNickname, setFormNickname] = useState('')
   const [formCommission, setFormCommission] = useState('50')
   const [saving, setSaving] = useState(false)
 
-  const loadBarbers = useCallback(async (tid: string) => {
+  // modal de acesso (login do profissional)
+  const [accessBarber, setAccessBarber] = useState<Barber | null>(null)
+  const [accessEmail, setAccessEmail] = useState('')
+  const [accessPassword, setAccessPassword] = useState('')
+  const [accessSaving, setAccessSaving] = useState(false)
+  const [accessRemoving, setAccessRemoving] = useState(false)
+  const [accessError, setAccessError] = useState('')
+
+  const loadBarbers = useCallback(async () => {
     try {
-      const data = await getBarbers(tid)
+      const data = await getBarbers()
       setBarbers(data as Barber[])
     } catch {
       // silently fail for MVP
@@ -48,11 +75,7 @@ export default function EquipePage() {
   }, [])
 
   useEffect(() => {
-    const meta = document.querySelector('meta[name="x-tenant-id"]')
-    const tid = meta?.getAttribute('content') || ''
-    setTenantId(tid)
-    if (tid) loadBarbers(tid)
-    else setLoading(false)
+    loadBarbers()
   }, [loadBarbers])
 
   const openCreate = () => {
@@ -82,10 +105,10 @@ export default function EquipePage() {
       if (editing) {
         await updateBarber(editing.id, data)
       } else {
-        await createBarber(tenantId, data)
+        await createBarber(data)
       }
       setShowModal(false)
-      await loadBarbers(tenantId)
+      await loadBarbers()
     } catch {
       // handle error
     } finally {
@@ -96,9 +119,49 @@ export default function EquipePage() {
   const handleToggle = async (barberId: string) => {
     try {
       await toggleBarberActive(barberId)
-      await loadBarbers(tenantId)
+      await loadBarbers()
     } catch {
       // handle error
+    }
+  }
+
+  const openAccess = (barber: Barber) => {
+    setAccessBarber(barber)
+    setAccessEmail(barber.user?.email || '')
+    setAccessPassword('')
+    setAccessError('')
+  }
+
+  const handleSaveAccess = async () => {
+    if (!accessBarber) return
+    setAccessError('')
+    setAccessSaving(true)
+    try {
+      await criarAcessoBarbeiro(accessBarber.id, {
+        email: accessEmail,
+        password: accessPassword,
+      })
+      setAccessBarber(null)
+      await loadBarbers()
+    } catch (e) {
+      setAccessError(e instanceof Error ? e.message : 'Não foi possível salvar o acesso.')
+    } finally {
+      setAccessSaving(false)
+    }
+  }
+
+  const handleRemoveAccess = async () => {
+    if (!accessBarber) return
+    setAccessError('')
+    setAccessRemoving(true)
+    try {
+      await removerAcessoBarbeiro(accessBarber.id)
+      setAccessBarber(null)
+      await loadBarbers()
+    } catch (e) {
+      setAccessError(e instanceof Error ? e.message : 'Não foi possível remover o acesso.')
+    } finally {
+      setAccessRemoving(false)
     }
   }
 
@@ -167,7 +230,7 @@ export default function EquipePage() {
                   {barber.nickname && (
                     <p className="text-xs text-[#71717A] truncate">{barber.nickname}</p>
                   )}
-                  <p className="text-xs text-[#A1A1AA] mt-1">Comissao: {barber.commissionPct}%</p>
+                  <p className="text-xs text-[#A1A1AA] mt-1">Comissão: {barber.commissionPct}%</p>
                 </div>
 
                 <span
@@ -179,17 +242,36 @@ export default function EquipePage() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-1 mt-4 pt-3 border-t border-[#E4E4E7]">
+              {/* Acesso ao app do profissional */}
+              <div className="mt-3 flex items-center gap-2 text-xs">
+                {barber.user ? (
+                  <span className="inline-flex items-center gap-1.5 text-emerald-700">
+                    <Check className="w-3.5 h-3.5" />
+                    <span className="truncate">Acesso ativo &middot; {barber.user.email}</span>
+                  </span>
+                ) : (
+                  <span className="text-[#A1A1AA]">Sem acesso ao app</span>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-1 mt-4 pt-3 border-t border-[#E4E4E7]">
                 <button
                   onClick={() => openEdit(barber)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors"
                 >
                   <Pencil className="w-3.5 h-3.5" />
                   Editar
                 </button>
                 <button
+                  onClick={() => openAccess(barber)}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors"
+                >
+                  <KeyRound className="w-3.5 h-3.5" />
+                  Acesso
+                </button>
+                <button
                   onClick={() => handleToggle(barber.id)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors"
                 >
                   {barber.active ? (
                     <><ToggleRight className="w-3.5 h-3.5" /> Desativar</>
@@ -203,10 +285,11 @@ export default function EquipePage() {
         </motion.div>
       )}
 
-      {/* Modal */}
+      {/* Modal de cadastro/edicao */}
       <AnimatePresence>
         {showModal && (
           <motion.div
+            key="form-modal"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -246,11 +329,11 @@ export default function EquipePage() {
                     value={formNickname}
                     onChange={(e) => setFormNickname(e.target.value)}
                     className="w-full bg-white border border-[#E4E4E7] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B]"
-                    placeholder="Como e conhecido"
+                    placeholder="Como é conhecido"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#09090B] mb-1.5">Comissao (%)</label>
+                  <label className="block text-sm font-medium text-[#09090B] mb-1.5">Comissão (%)</label>
                   <input
                     type="number"
                     min="0"
@@ -275,6 +358,108 @@ export default function EquipePage() {
                   className="flex-1 bg-[#18181B] text-[#FAFAFA] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#27272A] transition-colors disabled:opacity-50"
                 >
                   {saving ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : 'Salvar'}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Modal de acesso (login do profissional) */}
+      <AnimatePresence>
+        {accessBarber && (
+          <motion.div
+            key="access-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4"
+            onClick={() => setAccessBarber(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white rounded-xl border border-[#E4E4E7] shadow-lg w-full max-w-md p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="text-base font-semibold text-[#09090B]">Acesso de {accessBarber.name}</h3>
+                <button onClick={() => setAccessBarber(null)} className="p-1 text-[#71717A] hover:text-[#09090B]">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <p className="text-xs text-[#71717A] mb-5">
+                Crie o login que o profissional usa pra ver a própria agenda no celular e receber
+                aviso de cada novo agendamento.
+              </p>
+
+              {accessError && (
+                <div className="mb-4 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-xs text-red-700">
+                  {accessError}
+                </div>
+              )}
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-[#09090B] mb-1.5">E-mail</label>
+                  <input
+                    type="email"
+                    value={accessEmail}
+                    onChange={(e) => setAccessEmail(e.target.value)}
+                    className="w-full bg-white border border-[#E4E4E7] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B]"
+                    placeholder="email@exemplo.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#09090B] mb-1.5">
+                    {accessBarber.user ? 'Nova senha' : 'Senha'}
+                  </label>
+                  <input
+                    type="password"
+                    value={accessPassword}
+                    onChange={(e) => setAccessPassword(e.target.value)}
+                    className="w-full bg-white border border-[#E4E4E7] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B]"
+                    placeholder="Mínimo de 6 caracteres"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3 mt-6">
+                {accessBarber.user ? (
+                  <button
+                    onClick={handleRemoveAccess}
+                    disabled={accessRemoving || accessSaving}
+                    className="flex items-center justify-center gap-1.5 bg-white border border-[#E4E4E7] text-red-600 rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-red-50 transition-colors disabled:opacity-50"
+                  >
+                    {accessRemoving ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="w-4 h-4" />
+                    )}
+                    Remover
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setAccessBarber(null)}
+                    className="flex-1 bg-[#F4F4F5] text-[#18181B] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#E4E4E7] transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                )}
+                <button
+                  onClick={handleSaveAccess}
+                  disabled={accessSaving || accessRemoving || !accessEmail || !accessPassword}
+                  className="flex-1 bg-[#18181B] text-[#FAFAFA] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#27272A] transition-colors disabled:opacity-50"
+                >
+                  {accessSaving ? (
+                    <Loader2 className="w-4 h-4 animate-spin mx-auto" />
+                  ) : accessBarber.user ? (
+                    'Atualizar'
+                  ) : (
+                    'Criar acesso'
+                  )}
                 </button>
               </div>
             </motion.div>

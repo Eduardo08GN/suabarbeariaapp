@@ -14,7 +14,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: 'SuaBarbeariaApp',
-  description: 'Agende seu horario na barbearia',
+  description: 'Agende seu horário na barbearia',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

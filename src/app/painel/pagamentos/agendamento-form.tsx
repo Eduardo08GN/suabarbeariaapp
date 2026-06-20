@@ -15,9 +15,9 @@ interface Initial {
 }
 
 const MODES: { value: BookingMode; label: string; desc: string; needsKey: boolean }[] = [
-  { value: 'PAYMENT_REQUIRED', label: 'Pagamento obrigatorio', desc: 'Cliente paga sinal ou total para marcar.', needsKey: true },
-  { value: 'PAYMENT_OPTIONAL', label: 'Pagamento opcional', desc: 'Cliente escolhe pagar adiantado ou so agendar.', needsKey: true },
-  { value: 'BOOK_ONLY', label: 'So agendar', desc: 'Sem cobranca. O cliente apenas marca o horario.', needsKey: false },
+  { value: 'PAYMENT_REQUIRED', label: 'Pagamento obrigatório', desc: 'Cliente paga sinal ou total para marcar.', needsKey: true },
+  { value: 'PAYMENT_OPTIONAL', label: 'Pagamento opcional', desc: 'Cliente escolhe pagar adiantado ou só agendar.', needsKey: true },
+  { value: 'BOOK_ONLY', label: 'Só agendar', desc: 'Sem cobrança. O cliente apenas marca o horário.', needsKey: false },
 ]
 
 const clamp = (n: number) => Math.max(0, Math.min(90, Math.floor(n || 0)))
@@ -45,7 +45,7 @@ export function AgendamentoForm({ initial }: { initial: Initial }) {
       })
       if ('error' in r) setStatus({ ok: false, msg: r.error })
       else {
-        setStatus({ ok: true, msg: 'Configuracao salva.' })
+        setStatus({ ok: true, msg: 'Configuração salva.' })
         setWarnings(r.warnings)
       }
     })
@@ -57,11 +57,11 @@ export function AgendamentoForm({ initial }: { initial: Initial }) {
         <CalendarCog className="h-4 w-4 text-[#71717A]" />
         <span className="text-sm font-medium text-[#09090B]">Modo de agendamento</span>
       </div>
-      <p className="mb-4 text-xs text-[#71717A]">Como o cliente fecha o horario no seu link.</p>
+      <p className="mb-4 text-xs text-[#71717A]">Como o cliente fecha o horário no seu link.</p>
 
       {!initial.hasKey && (
         <p className="mb-4 rounded-lg bg-[#FAFAFA] px-3.5 py-2.5 text-xs leading-relaxed text-[#71717A]">
-          Sem uma conta Asaas conectada, a barbearia funciona em &quot;So agendar&quot;. Conecte uma
+          Sem uma conta Asaas conectada, a barbearia funciona em &quot;Só agendar&quot;. Conecte uma
           conta acima para exigir ou oferecer pagamento.
         </p>
       )}
@@ -123,7 +123,7 @@ export function AgendamentoForm({ initial }: { initial: Initial }) {
           </button>
         </div>
         <p className="mt-1 text-xs text-[#71717A]">
-          Desconto pra quem paga adiantado. Aparece uma tag de % no botao do checkout. O desconto
+          Desconto pra quem paga adiantado. Aparece uma tag de % no botão do checkout. O desconto
           incide sobre o total.
         </p>
 

@@ -22,9 +22,9 @@ export async function createService(
   }
 ) {
   if (!tenantId) throw new Error('tenantId is required')
-  if (!data.name || data.name.trim().length === 0) throw new Error('Nome obrigatorio')
-  if (data.price < 0) throw new Error('Preco deve ser positivo')
-  if (data.durationMin < 5) throw new Error('Duracao minima: 5 minutos')
+  if (!data.name || data.name.trim().length === 0) throw new Error('Nome obrigatório')
+  if (data.price < 0) throw new Error('Preço deve ser positivo')
+  if (data.durationMin < 5) throw new Error('Duração mínima: 5 minutos')
 
   return prisma.service.create({
     data: {
@@ -54,11 +54,11 @@ export async function updateService(
   if (data.name !== undefined) updateData.name = data.name.trim()
   if (data.category !== undefined) updateData.category = data.category
   if (data.price !== undefined) {
-    if (data.price < 0) throw new Error('Preco deve ser positivo')
+    if (data.price < 0) throw new Error('Preço deve ser positivo')
     updateData.price = data.price
   }
   if (data.durationMin !== undefined) {
-    if (data.durationMin < 5) throw new Error('Duracao minima: 5 minutos')
+    if (data.durationMin < 5) throw new Error('Duração mínima: 5 minutos')
     updateData.durationMin = data.durationMin
   }
   if (data.description !== undefined) updateData.description = data.description?.trim() || null
@@ -76,7 +76,7 @@ export async function toggleServiceActive(serviceId: string) {
     where: { id: serviceId },
     select: { active: true },
   })
-  if (!service) throw new Error('Servico nao encontrado')
+  if (!service) throw new Error('Serviço não encontrado')
 
   return prisma.service.update({
     where: { id: serviceId },

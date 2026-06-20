@@ -128,6 +128,7 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   role: 'role',
   tenantId: 'tenantId',
+  barberId: 'barberId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -329,7 +330,8 @@ exports.Prisma.JsonNullValueFilter = {
 };
 exports.Role = exports.$Enums.Role = {
   MASTER: 'MASTER',
-  TENANT: 'TENANT'
+  TENANT: 'TENANT',
+  BARBER: 'BARBER'
 };
 
 exports.BookingMode = exports.$Enums.BookingMode = {

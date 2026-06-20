@@ -33,6 +33,8 @@ export default function LoginPage() {
 
       if (data.role === 'MASTER') {
         router.push('/master')
+      } else if (data.role === 'BARBER') {
+        router.push('/pro')
       } else {
         router.push('/painel')
       }

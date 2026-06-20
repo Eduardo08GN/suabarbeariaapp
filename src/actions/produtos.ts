@@ -33,12 +33,12 @@ export async function salvarProduto(input: {
   imageUrl?: string | null
 }): Promise<{ success: true } | { error: string }> {
   const s = await getSession()
-  if (!s?.tenantId) return { error: 'Nao autorizado' }
+  if (!s?.tenantId) return { error: 'Não autorizado' }
 
   const name = input.name?.trim()
   if (!name) return { error: 'Informe o nome do produto.' }
   const price = Number(input.price)
-  if (!(price > 0)) return { error: 'Informe um preco valido.' }
+  if (!(price > 0)) return { error: 'Informe um preço válido.' }
 
   // imageUrl e Server Action input (o dono controla 100%). So aceita objeto do
   // R2 na pasta DESTE tenant — fecha delete cross-tenant e URL externa
@@ -48,7 +48,7 @@ export async function salvarProduto(input: {
   const rawImg = input.imageUrl?.trim()
   if (rawImg) {
     const key = r2KeyFromUrl(rawImg)
-    if (!key || !key.startsWith(prefix)) return { error: 'Imagem invalida.' }
+    if (!key || !key.startsWith(prefix)) return { error: 'Imagem inválida.' }
     imageUrl = rawImg
   }
 
@@ -70,7 +70,7 @@ export async function salvarProduto(input: {
       where: { id: input.id, tenantId: s.tenantId },
       data,
     })
-    if (r.count === 0) return { error: 'Produto nao encontrado.' }
+    if (r.count === 0) return { error: 'Produto não encontrado.' }
     if (old?.imageUrl && old.imageUrl !== imageUrl) {
       const oldKey = r2KeyFromUrl(old.imageUrl)
       if (oldKey && oldKey.startsWith(prefix)) await r2Delete(oldKey).catch(() => {})
@@ -85,12 +85,12 @@ export async function salvarProduto(input: {
 
 export async function toggleProduto(id: string): Promise<{ success: true } | { error: string }> {
   const s = await getSession()
-  if (!s?.tenantId) return { error: 'Nao autorizado' }
+  if (!s?.tenantId) return { error: 'Não autorizado' }
   const p = await prisma.product.findFirst({
     where: { id, tenantId: s.tenantId },
     select: { active: true },
   })
-  if (!p) return { error: 'Produto nao encontrado.' }
+  if (!p) return { error: 'Produto não encontrado.' }
   await prisma.product.updateMany({
     where: { id, tenantId: s.tenantId },
     data: { active: !p.active },
@@ -101,7 +101,7 @@ export async function toggleProduto(id: string): Promise<{ success: true } | { e
 
 export async function deletarProduto(id: string): Promise<{ success: true } | { error: string }> {
   const s = await getSession()
-  if (!s?.tenantId) return { error: 'Nao autorizado' }
+  if (!s?.tenantId) return { error: 'Não autorizado' }
   // BookingItem.productId vira null (snapshot de nome/preco preservado), entao
   // apagar um produto nao apaga o historico do que ja foi vendido.
   const p = await prisma.product.findFirst({

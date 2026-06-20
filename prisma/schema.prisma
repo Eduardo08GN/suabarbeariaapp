@@ -16,6 +16,9 @@ model User {
   role      Role     @default(TENANT)
   tenantId  String?
   tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  // acesso do profissional: User role BARBER ligado 1:1 a um Barber
+  barberId  String?  @unique
+  barber    Barber?  @relation(fields: [barberId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -27,6 +30,7 @@ model User {
 enum Role {
   MASTER
   TENANT
+  BARBER
 }
 
 // Inscricao de Web Push (notificacao). Uma por dispositivo/navegador do usuario.
@@ -167,6 +171,7 @@ model Barber {
   blocks           BarberBlock[]
   workShifts       WorkShift[]
   unavailabilities Unavailability[]
+  user             User?
 
   @@index([tenantId])
 }

@@ -35,7 +35,7 @@ export function PagamentosForm({ initial }: { initial: InitialConfig }) {
       const r = await salvarConfigPagamento({ apiKey })
       if ('error' in r) setStatus({ ok: false, msg: r.error })
       else {
-        setStatus({ ok: true, msg: 'Configuracao salva.' })
+        setStatus({ ok: true, msg: 'Configuração salva.' })
         setApiKey('')
       }
     })
@@ -73,7 +73,7 @@ export function PagamentosForm({ initial }: { initial: InitialConfig }) {
             <CreditCard className="h-3.5 w-3.5" />
           </span>
           <span className="text-sm font-medium text-[#09090B]">
-            {initial.hasKey ? 'Conta conectada' : 'Conta nao conectada'}
+            {initial.hasKey ? 'Conta conectada' : 'Conta não conectada'}
           </span>
         </div>
 
@@ -93,8 +93,8 @@ export function PagamentosForm({ initial }: { initial: InitialConfig }) {
           className="mt-1.5 w-full rounded-lg border border-[#E4E4E7] bg-white px-3.5 py-2.5 text-sm text-[#09090B] outline-none transition-colors duration-150 placeholder:text-[#A1A1AA] focus:border-[#18181B]"
         />
         <p className="mt-1.5 text-xs text-[#A1A1AA]">
-          A chave fica guardada de forma cifrada. Voce a encontra no painel da Asaas, em
-          Integracoes.
+          A chave fica guardada de forma cifrada. Você a encontra no painel da Asaas, em
+          Integrações.
         </p>
 
         <p className="mt-4 rounded-lg bg-[#FAFAFA] px-3.5 py-2.5 text-xs leading-relaxed text-[#71717A]">
@@ -128,10 +128,10 @@ export function PagamentosForm({ initial }: { initial: InitialConfig }) {
         <div className="rounded-xl border border-[#E4E4E7] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
           <div className="mb-2 flex items-center gap-2">
             <Link2 className="h-4 w-4 text-[#71717A]" />
-            <span className="text-sm font-medium text-[#09090B]">URL de notificacao</span>
+            <span className="text-sm font-medium text-[#09090B]">URL de notificação</span>
           </div>
           <p className="mb-3 text-xs leading-relaxed text-[#71717A]">
-            No painel da Asaas, em Integracoes, Webhooks, cole esta URL para a confirmacao do
+            No painel da Asaas, em Integrações, Webhooks, cole esta URL para a confirmação do
             pagamento chegar na hora.
           </p>
           <div className="flex items-center gap-2 rounded-lg border border-[#E4E4E7] bg-[#FAFAFA] px-3 py-2.5">
@@ -151,11 +151,11 @@ export function PagamentosForm({ initial }: { initial: InitialConfig }) {
       <div className="rounded-xl border border-[#E4E4E7] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
         <div className="mb-2 flex items-center gap-2">
           <Star className="h-4 w-4 text-[#CA8A04]" />
-          <span className="text-sm font-medium text-[#09090B]">Avaliacao no Google</span>
+          <span className="text-sm font-medium text-[#09090B]">Avaliação no Google</span>
         </div>
         <p className="mb-3 text-xs leading-relaxed text-[#71717A]">
-          Cole o link de avaliacao do seu Perfil de Empresa no Google. Ao fim do agendamento, o
-          cliente ve um QR code para avaliar.
+          Cole o link de avaliação do seu Perfil de Empresa no Google. Ao fim do agendamento, o
+          cliente vê um QR code para avaliar.
         </p>
         <input
           type="url"

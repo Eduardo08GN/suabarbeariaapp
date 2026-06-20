@@ -167,7 +167,7 @@ export default function ConfirmarPage() {
       return
     }
     if (mode !== 'NONE' && !cpfValid) {
-      setError('Informe um CPF valido para o pagamento.')
+      setError('Informe um CPF válido para o pagamento.')
       return
     }
 
@@ -210,7 +210,7 @@ export default function ConfirmarPage() {
         router.push(`/b/${slug}/sucesso?bookingId=${data.bookingId}`)
       }
     } catch {
-      setError('Erro de conexao. Tente novamente.')
+      setError('Erro de conexão. Tente novamente.')
     } finally {
       setLoadingMode(null)
     }
@@ -241,7 +241,7 @@ export default function ConfirmarPage() {
           <div className="flex items-center gap-3">
             <Scissors className="w-4 h-4 text-(--tenant-primary) shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-(--text-secondary)">Servico</p>
+              <p className="text-xs text-(--text-secondary)">Serviço</p>
               <p className="text-sm font-semibold text-(--text) truncate">
                 {serviceInfo?.name || 'Carregando...'}
               </p>
@@ -278,7 +278,7 @@ export default function ConfirmarPage() {
           <div className="flex items-center gap-3">
             <Clock className="w-4 h-4 text-(--tenant-primary) shrink-0" />
             <div>
-              <p className="text-xs text-(--text-secondary)">Horario</p>
+              <p className="text-xs text-(--text-secondary)">Horário</p>
               <p className="text-sm font-semibold text-(--text)">{time}</p>
             </div>
           </div>
@@ -287,7 +287,7 @@ export default function ConfirmarPage() {
         {/* Aproveite tambem (order bump) */}
         {canPay && config.products.length > 0 && (
           <div>
-            <h3 className="text-sm font-semibold text-(--text) mb-3">Aproveite tambem</h3>
+            <h3 className="text-sm font-semibold text-(--text) mb-3">Aproveite também</h3>
             <div className="space-y-2">
               {config.products.map((p) => {
                 const on = selectedIds.includes(p.id)
@@ -383,7 +383,7 @@ export default function ConfirmarPage() {
                   className={inputCls}
                 />
                 <p className="mt-1 text-[11px] text-(--text-secondary)">
-                  Necessario apenas para o pagamento via PIX.
+                  Necessário apenas para o pagamento via PIX.
                 </p>
               </div>
             </>
@@ -467,8 +467,8 @@ export default function ConfirmarPage() {
             <p className="flex items-center justify-center gap-2 rounded-lg bg-(--bg-subtle) px-3 py-3 text-center text-xs text-(--text-secondary)">
               <AlertCircle className="h-3.5 w-3.5 shrink-0" />
               {selectedProducts.length > 0
-                ? 'Este item deixa o total abaixo do minimo do PIX. Remova o item para continuar.'
-                : 'Pagamento indisponivel para este valor. Fale com a barbearia.'}
+                ? 'Este item deixa o total abaixo do mínimo do PIX. Remova o item para continuar.'
+                : 'Pagamento indisponível para este valor. Fale com a barbearia.'}
             </p>
           )}
         </div>

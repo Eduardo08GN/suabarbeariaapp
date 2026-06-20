@@ -7,9 +7,15 @@ import Image from 'next/image'
 export default function MasterLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
-  const handleLogout = () => {
-    document.cookie = 'session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+  const handleLogout = async () => {
+    // logout real: o cookie e httpOnly, so o servidor consegue apaga-lo
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+    } catch {
+      // mesmo se a chamada falhar, leva pro login
+    }
     router.push('/login')
+    router.refresh()
   }
 
   return (

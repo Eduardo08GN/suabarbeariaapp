@@ -90,7 +90,8 @@ export type BookingItem = $Result.DefaultSelection<Prisma.$BookingItemPayload>
 export namespace $Enums {
   export const Role: {
   MASTER: 'MASTER',
-  TENANT: 'TENANT'
+  TENANT: 'TENANT',
+  BARBER: 'BARBER'
 };
 
 export type Role = (typeof Role)[keyof typeof Role]
@@ -2556,6 +2557,7 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role | null
     tenantId: string | null
+    barberId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2567,6 +2569,7 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role | null
     tenantId: string | null
+    barberId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2578,6 +2581,7 @@ export namespace Prisma {
     password: number
     role: number
     tenantId: number
+    barberId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2591,6 +2595,7 @@ export namespace Prisma {
     password?: true
     role?: true
     tenantId?: true
+    barberId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2602,6 +2607,7 @@ export namespace Prisma {
     password?: true
     role?: true
     tenantId?: true
+    barberId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2613,6 +2619,7 @@ export namespace Prisma {
     password?: true
     role?: true
     tenantId?: true
+    barberId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2697,6 +2704,7 @@ export namespace Prisma {
     password: string
     role: $Enums.Role
     tenantId: string | null
+    barberId: string | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -2725,9 +2733,11 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     tenantId?: boolean
+    barberId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | User$tenantArgs<ExtArgs>
+    barber?: boolean | User$barberArgs<ExtArgs>
     pushSubscriptions?: boolean | User$pushSubscriptionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -2739,9 +2749,11 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     tenantId?: boolean
+    barberId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | User$tenantArgs<ExtArgs>
+    barber?: boolean | User$barberArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2751,9 +2763,11 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     tenantId?: boolean
+    barberId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | User$tenantArgs<ExtArgs>
+    barber?: boolean | User$barberArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2763,27 +2777,32 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     tenantId?: boolean
+    barberId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "role" | "tenantId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "role" | "tenantId" | "barberId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | User$tenantArgs<ExtArgs>
+    barber?: boolean | User$barberArgs<ExtArgs>
     pushSubscriptions?: boolean | User$pushSubscriptionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | User$tenantArgs<ExtArgs>
+    barber?: boolean | User$barberArgs<ExtArgs>
   }
   export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | User$tenantArgs<ExtArgs>
+    barber?: boolean | User$barberArgs<ExtArgs>
   }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs> | null
+      barber: Prisma.$BarberPayload<ExtArgs> | null
       pushSubscriptions: Prisma.$PushSubscriptionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -2793,6 +2812,7 @@ export namespace Prisma {
       password: string
       role: $Enums.Role
       tenantId: string | null
+      barberId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -3190,6 +3210,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends User$tenantArgs<ExtArgs> = {}>(args?: Subset<T, User$tenantArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    barber<T extends User$barberArgs<ExtArgs> = {}>(args?: Subset<T, User$barberArgs<ExtArgs>>): Prisma__BarberClient<$Result.GetResult<Prisma.$BarberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     pushSubscriptions<T extends User$pushSubscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$pushSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3226,6 +3247,7 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly tenantId: FieldRef<"User", 'String'>
+    readonly barberId: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -3640,6 +3662,25 @@ export namespace Prisma {
      */
     include?: TenantInclude<ExtArgs> | null
     where?: TenantWhereInput
+  }
+
+  /**
+   * User.barber
+   */
+  export type User$barberArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Barber
+     */
+    select?: BarberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Barber
+     */
+    omit?: BarberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BarberInclude<ExtArgs> | null
+    where?: BarberWhereInput
   }
 
   /**
@@ -10049,6 +10090,7 @@ export namespace Prisma {
     blocks?: boolean | Barber$blocksArgs<ExtArgs>
     workShifts?: boolean | Barber$workShiftsArgs<ExtArgs>
     unavailabilities?: boolean | Barber$unavailabilitiesArgs<ExtArgs>
+    user?: boolean | Barber$userArgs<ExtArgs>
     _count?: boolean | BarberCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["barber"]>
 
@@ -10092,6 +10134,7 @@ export namespace Prisma {
     blocks?: boolean | Barber$blocksArgs<ExtArgs>
     workShifts?: boolean | Barber$workShiftsArgs<ExtArgs>
     unavailabilities?: boolean | Barber$unavailabilitiesArgs<ExtArgs>
+    user?: boolean | Barber$userArgs<ExtArgs>
     _count?: boolean | BarberCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BarberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10110,6 +10153,7 @@ export namespace Prisma {
       blocks: Prisma.$BarberBlockPayload<ExtArgs>[]
       workShifts: Prisma.$WorkShiftPayload<ExtArgs>[]
       unavailabilities: Prisma.$UnavailabilityPayload<ExtArgs>[]
+      user: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10519,6 +10563,7 @@ export namespace Prisma {
     blocks<T extends Barber$blocksArgs<ExtArgs> = {}>(args?: Subset<T, Barber$blocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BarberBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workShifts<T extends Barber$workShiftsArgs<ExtArgs> = {}>(args?: Subset<T, Barber$workShiftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     unavailabilities<T extends Barber$unavailabilitiesArgs<ExtArgs> = {}>(args?: Subset<T, Barber$unavailabilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    user<T extends Barber$userArgs<ExtArgs> = {}>(args?: Subset<T, Barber$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11068,6 +11113,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UnavailabilityScalarFieldEnum | UnavailabilityScalarFieldEnum[]
+  }
+
+  /**
+   * Barber.user
+   */
+  export type Barber$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -19289,6 +19353,7 @@ export namespace Prisma {
     password: 'password',
     role: 'role',
     tenantId: 'tenantId',
+    barberId: 'barberId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -19770,9 +19835,11 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     tenantId?: StringNullableFilter<"User"> | string | null
+    barberId?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     tenant?: XOR<TenantNullableScalarRelationFilter, TenantWhereInput> | null
+    barber?: XOR<BarberNullableScalarRelationFilter, BarberWhereInput> | null
     pushSubscriptions?: PushSubscriptionListRelationFilter
   }
 
@@ -19783,15 +19850,18 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     tenantId?: SortOrderInput | SortOrder
+    barberId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
+    barber?: BarberOrderByWithRelationInput
     pushSubscriptions?: PushSubscriptionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    barberId?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -19802,8 +19872,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     tenant?: XOR<TenantNullableScalarRelationFilter, TenantWhereInput> | null
+    barber?: XOR<BarberNullableScalarRelationFilter, BarberWhereInput> | null
     pushSubscriptions?: PushSubscriptionListRelationFilter
-  }, "id" | "email">
+  }, "id" | "email" | "barberId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -19812,6 +19883,7 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     tenantId?: SortOrderInput | SortOrder
+    barberId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -19829,6 +19901,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     tenantId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    barberId?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -20318,6 +20391,7 @@ export namespace Prisma {
     blocks?: BarberBlockListRelationFilter
     workShifts?: WorkShiftListRelationFilter
     unavailabilities?: UnavailabilityListRelationFilter
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type BarberOrderByWithRelationInput = {
@@ -20334,6 +20408,7 @@ export namespace Prisma {
     blocks?: BarberBlockOrderByRelationAggregateInput
     workShifts?: WorkShiftOrderByRelationAggregateInput
     unavailabilities?: UnavailabilityOrderByRelationAggregateInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type BarberWhereUniqueInput = Prisma.AtLeast<{
@@ -20353,6 +20428,7 @@ export namespace Prisma {
     blocks?: BarberBlockListRelationFilter
     workShifts?: WorkShiftListRelationFilter
     unavailabilities?: UnavailabilityListRelationFilter
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type BarberOrderByWithAggregationInput = {
@@ -20969,6 +21045,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant?: TenantCreateNestedOneWithoutUsersInput
+    barber?: BarberCreateNestedOneWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
   }
 
@@ -20979,6 +21056,7 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     tenantId?: string | null
+    barberId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -20993,6 +21071,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneWithoutUsersNestedInput
+    barber?: BarberUpdateOneWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
   }
 
@@ -21003,6 +21082,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    barberId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -21015,6 +21095,7 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     tenantId?: string | null
+    barberId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21036,6 +21117,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    barberId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21591,6 +21673,7 @@ export namespace Prisma {
     blocks?: BarberBlockCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
+    user?: UserCreateNestedOneWithoutBarberInput
   }
 
   export type BarberUncheckedCreateInput = {
@@ -21606,6 +21689,7 @@ export namespace Prisma {
     blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
+    user?: UserUncheckedCreateNestedOneWithoutBarberInput
   }
 
   export type BarberUpdateInput = {
@@ -21621,6 +21705,7 @@ export namespace Prisma {
     blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
+    user?: UserUpdateOneWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateInput = {
@@ -21636,6 +21721,7 @@ export namespace Prisma {
     blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
+    user?: UserUncheckedUpdateOneWithoutBarberNestedInput
   }
 
   export type BarberCreateManyInput = {
@@ -22315,6 +22401,11 @@ export namespace Prisma {
     isNot?: TenantWhereInput | null
   }
 
+  export type BarberNullableScalarRelationFilter = {
+    is?: BarberWhereInput | null
+    isNot?: BarberWhereInput | null
+  }
+
   export type PushSubscriptionListRelationFilter = {
     every?: PushSubscriptionWhereInput
     some?: PushSubscriptionWhereInput
@@ -22337,6 +22428,7 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     tenantId?: SortOrder
+    barberId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -22348,6 +22440,7 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     tenantId?: SortOrder
+    barberId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -22359,6 +22452,7 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     tenantId?: SortOrder
+    barberId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -22957,6 +23051,11 @@ export namespace Prisma {
     every?: BarberBlockWhereInput
     some?: BarberBlockWhereInput
     none?: BarberBlockWhereInput
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
   }
 
   export type BarberBlockOrderByRelationAggregateInput = {
@@ -23579,6 +23678,12 @@ export namespace Prisma {
     connect?: TenantWhereUniqueInput
   }
 
+  export type BarberCreateNestedOneWithoutUserInput = {
+    create?: XOR<BarberCreateWithoutUserInput, BarberUncheckedCreateWithoutUserInput>
+    connectOrCreate?: BarberCreateOrConnectWithoutUserInput
+    connect?: BarberWhereUniqueInput
+  }
+
   export type PushSubscriptionCreateNestedManyWithoutUserInput = {
     create?: XOR<PushSubscriptionCreateWithoutUserInput, PushSubscriptionUncheckedCreateWithoutUserInput> | PushSubscriptionCreateWithoutUserInput[] | PushSubscriptionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PushSubscriptionCreateOrConnectWithoutUserInput | PushSubscriptionCreateOrConnectWithoutUserInput[]
@@ -23613,6 +23718,16 @@ export namespace Prisma {
     delete?: TenantWhereInput | boolean
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutUsersInput, TenantUpdateWithoutUsersInput>, TenantUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type BarberUpdateOneWithoutUserNestedInput = {
+    create?: XOR<BarberCreateWithoutUserInput, BarberUncheckedCreateWithoutUserInput>
+    connectOrCreate?: BarberCreateOrConnectWithoutUserInput
+    upsert?: BarberUpsertWithoutUserInput
+    disconnect?: BarberWhereInput | boolean
+    delete?: BarberWhereInput | boolean
+    connect?: BarberWhereUniqueInput
+    update?: XOR<XOR<BarberUpdateToOneWithWhereWithoutUserInput, BarberUpdateWithoutUserInput>, BarberUncheckedUpdateWithoutUserInput>
   }
 
   export type PushSubscriptionUpdateManyWithoutUserNestedInput = {
@@ -24322,6 +24437,12 @@ export namespace Prisma {
     connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
   }
 
+  export type UserCreateNestedOneWithoutBarberInput = {
+    create?: XOR<UserCreateWithoutBarberInput, UserUncheckedCreateWithoutBarberInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBarberInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type BarberUnitUncheckedCreateNestedManyWithoutBarberInput = {
     create?: XOR<BarberUnitCreateWithoutBarberInput, BarberUnitUncheckedCreateWithoutBarberInput> | BarberUnitCreateWithoutBarberInput[] | BarberUnitUncheckedCreateWithoutBarberInput[]
     connectOrCreate?: BarberUnitCreateOrConnectWithoutBarberInput | BarberUnitCreateOrConnectWithoutBarberInput[]
@@ -24355,6 +24476,12 @@ export namespace Prisma {
     connectOrCreate?: UnavailabilityCreateOrConnectWithoutBarberInput | UnavailabilityCreateOrConnectWithoutBarberInput[]
     createMany?: UnavailabilityCreateManyBarberInputEnvelope
     connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedOneWithoutBarberInput = {
+    create?: XOR<UserCreateWithoutBarberInput, UserUncheckedCreateWithoutBarberInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBarberInput
+    connect?: UserWhereUniqueInput
   }
 
   export type TenantUpdateOneRequiredWithoutBarbersNestedInput = {
@@ -24435,6 +24562,16 @@ export namespace Prisma {
     deleteMany?: UnavailabilityScalarWhereInput | UnavailabilityScalarWhereInput[]
   }
 
+  export type UserUpdateOneWithoutBarberNestedInput = {
+    create?: XOR<UserCreateWithoutBarberInput, UserUncheckedCreateWithoutBarberInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBarberInput
+    upsert?: UserUpsertWithoutBarberInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBarberInput, UserUpdateWithoutBarberInput>, UserUncheckedUpdateWithoutBarberInput>
+  }
+
   export type BarberUnitUncheckedUpdateManyWithoutBarberNestedInput = {
     create?: XOR<BarberUnitCreateWithoutBarberInput, BarberUnitUncheckedCreateWithoutBarberInput> | BarberUnitCreateWithoutBarberInput[] | BarberUnitUncheckedCreateWithoutBarberInput[]
     connectOrCreate?: BarberUnitCreateOrConnectWithoutBarberInput | BarberUnitCreateOrConnectWithoutBarberInput[]
@@ -24503,6 +24640,16 @@ export namespace Prisma {
     update?: UnavailabilityUpdateWithWhereUniqueWithoutBarberInput | UnavailabilityUpdateWithWhereUniqueWithoutBarberInput[]
     updateMany?: UnavailabilityUpdateManyWithWhereWithoutBarberInput | UnavailabilityUpdateManyWithWhereWithoutBarberInput[]
     deleteMany?: UnavailabilityScalarWhereInput | UnavailabilityScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateOneWithoutBarberNestedInput = {
+    create?: XOR<UserCreateWithoutBarberInput, UserUncheckedCreateWithoutBarberInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBarberInput
+    upsert?: UserUpsertWithoutBarberInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBarberInput, UserUpdateWithoutBarberInput>, UserUncheckedUpdateWithoutBarberInput>
   }
 
   export type BarberCreateNestedOneWithoutUnitsInput = {
@@ -25346,6 +25493,41 @@ export namespace Prisma {
     create: XOR<TenantCreateWithoutUsersInput, TenantUncheckedCreateWithoutUsersInput>
   }
 
+  export type BarberCreateWithoutUserInput = {
+    id?: string
+    name: string
+    nickname?: string | null
+    photoUrl?: string | null
+    commissionPct?: number
+    active?: boolean
+    tenant: TenantCreateNestedOneWithoutBarbersInput
+    units?: BarberUnitCreateNestedManyWithoutBarberInput
+    bookings?: BookingCreateNestedManyWithoutBarberInput
+    blocks?: BarberBlockCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
+  }
+
+  export type BarberUncheckedCreateWithoutUserInput = {
+    id?: string
+    tenantId: string
+    name: string
+    nickname?: string | null
+    photoUrl?: string | null
+    commissionPct?: number
+    active?: boolean
+    units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
+    blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
+  }
+
+  export type BarberCreateOrConnectWithoutUserInput = {
+    where: BarberWhereUniqueInput
+    create: XOR<BarberCreateWithoutUserInput, BarberUncheckedCreateWithoutUserInput>
+  }
+
   export type PushSubscriptionCreateWithoutUserInput = {
     id?: string
     endpoint: string
@@ -25447,6 +25629,47 @@ export namespace Prisma {
     products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
   }
 
+  export type BarberUpsertWithoutUserInput = {
+    update: XOR<BarberUpdateWithoutUserInput, BarberUncheckedUpdateWithoutUserInput>
+    create: XOR<BarberCreateWithoutUserInput, BarberUncheckedCreateWithoutUserInput>
+    where?: BarberWhereInput
+  }
+
+  export type BarberUpdateToOneWithWhereWithoutUserInput = {
+    where?: BarberWhereInput
+    data: XOR<BarberUpdateWithoutUserInput, BarberUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BarberUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    commissionPct?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
+    units?: BarberUnitUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUpdateManyWithoutBarberNestedInput
+    blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
+  }
+
+  export type BarberUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    commissionPct?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
+    blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
+  }
+
   export type PushSubscriptionUpsertWithWhereUniqueWithoutUserInput = {
     where: PushSubscriptionWhereUniqueInput
     update: XOR<PushSubscriptionUpdateWithoutUserInput, PushSubscriptionUncheckedUpdateWithoutUserInput>
@@ -25484,6 +25707,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant?: TenantCreateNestedOneWithoutUsersInput
+    barber?: BarberCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -25493,6 +25717,7 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     tenantId?: string | null
+    barberId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25522,6 +25747,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneWithoutUsersNestedInput
+    barber?: BarberUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -25531,6 +25757,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    barberId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25543,6 +25770,7 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
+    barber?: BarberCreateNestedOneWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
   }
 
@@ -25552,6 +25780,7 @@ export namespace Prisma {
     name: string
     password: string
     role?: $Enums.Role
+    barberId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -25613,6 +25842,7 @@ export namespace Prisma {
     blocks?: BarberBlockCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
+    user?: UserCreateNestedOneWithoutBarberInput
   }
 
   export type BarberUncheckedCreateWithoutTenantInput = {
@@ -25627,6 +25857,7 @@ export namespace Prisma {
     blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
+    user?: UserUncheckedCreateNestedOneWithoutBarberInput
   }
 
   export type BarberCreateOrConnectWithoutTenantInput = {
@@ -25831,6 +26062,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     tenantId?: StringNullableFilter<"User"> | string | null
+    barberId?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
   }
@@ -27087,6 +27319,35 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserCreateWithoutBarberInput = {
+    id?: string
+    email: string
+    name: string
+    password: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant?: TenantCreateNestedOneWithoutUsersInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBarberInput = {
+    id?: string
+    email: string
+    name: string
+    password: string
+    role?: $Enums.Role
+    tenantId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBarberInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBarberInput, UserUncheckedCreateWithoutBarberInput>
+  }
+
   export type TenantUpsertWithoutBarbersInput = {
     update: XOR<TenantUpdateWithoutBarbersInput, TenantUncheckedUpdateWithoutBarbersInput>
     create: XOR<TenantCreateWithoutBarbersInput, TenantUncheckedCreateWithoutBarbersInput>
@@ -27253,6 +27514,41 @@ export namespace Prisma {
     data: XOR<UnavailabilityUpdateManyMutationInput, UnavailabilityUncheckedUpdateManyWithoutBarberInput>
   }
 
+  export type UserUpsertWithoutBarberInput = {
+    update: XOR<UserUpdateWithoutBarberInput, UserUncheckedUpdateWithoutBarberInput>
+    create: XOR<UserCreateWithoutBarberInput, UserUncheckedCreateWithoutBarberInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBarberInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBarberInput, UserUncheckedUpdateWithoutBarberInput>
+  }
+
+  export type UserUpdateWithoutBarberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneWithoutUsersNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBarberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type BarberCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -27265,6 +27561,7 @@ export namespace Prisma {
     blocks?: BarberBlockCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
+    user?: UserCreateNestedOneWithoutBarberInput
   }
 
   export type BarberUncheckedCreateWithoutUnitsInput = {
@@ -27279,6 +27576,7 @@ export namespace Prisma {
     blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
+    user?: UserUncheckedCreateNestedOneWithoutBarberInput
   }
 
   export type BarberCreateOrConnectWithoutUnitsInput = {
@@ -27340,6 +27638,7 @@ export namespace Prisma {
     blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
+    user?: UserUpdateOneWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateWithoutUnitsInput = {
@@ -27354,6 +27653,7 @@ export namespace Prisma {
     blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
+    user?: UserUncheckedUpdateOneWithoutBarberNestedInput
   }
 
   export type UnitUpsertWithoutBarberUnitsInput = {
@@ -27405,6 +27705,7 @@ export namespace Prisma {
     bookings?: BookingCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
+    user?: UserCreateNestedOneWithoutBarberInput
   }
 
   export type BarberUncheckedCreateWithoutBlocksInput = {
@@ -27419,6 +27720,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
+    user?: UserUncheckedCreateNestedOneWithoutBarberInput
   }
 
   export type BarberCreateOrConnectWithoutBlocksInput = {
@@ -27449,6 +27751,7 @@ export namespace Prisma {
     bookings?: BookingUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
+    user?: UserUpdateOneWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateWithoutBlocksInput = {
@@ -27463,6 +27766,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
+    user?: UserUncheckedUpdateOneWithoutBarberNestedInput
   }
 
   export type BarberCreateWithoutWorkShiftsInput = {
@@ -27477,6 +27781,7 @@ export namespace Prisma {
     bookings?: BookingCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
+    user?: UserCreateNestedOneWithoutBarberInput
   }
 
   export type BarberUncheckedCreateWithoutWorkShiftsInput = {
@@ -27491,6 +27796,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
+    user?: UserUncheckedCreateNestedOneWithoutBarberInput
   }
 
   export type BarberCreateOrConnectWithoutWorkShiftsInput = {
@@ -27552,6 +27858,7 @@ export namespace Prisma {
     bookings?: BookingUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
+    user?: UserUpdateOneWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateWithoutWorkShiftsInput = {
@@ -27566,6 +27873,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
+    user?: UserUncheckedUpdateOneWithoutBarberNestedInput
   }
 
   export type UnitUpsertWithoutWorkShiftsInput = {
@@ -27617,6 +27925,7 @@ export namespace Prisma {
     bookings?: BookingCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
+    user?: UserCreateNestedOneWithoutBarberInput
   }
 
   export type BarberUncheckedCreateWithoutUnavailabilitiesInput = {
@@ -27631,6 +27940,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
+    user?: UserUncheckedCreateNestedOneWithoutBarberInput
   }
 
   export type BarberCreateOrConnectWithoutUnavailabilitiesInput = {
@@ -27692,6 +28002,7 @@ export namespace Prisma {
     bookings?: BookingUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
+    user?: UserUpdateOneWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateWithoutUnavailabilitiesInput = {
@@ -27706,6 +28017,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
+    user?: UserUncheckedUpdateOneWithoutBarberNestedInput
   }
 
   export type UnitUpsertWithoutUnavailabilitiesInput = {
@@ -28079,6 +28391,7 @@ export namespace Prisma {
     blocks?: BarberBlockCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
+    user?: UserCreateNestedOneWithoutBarberInput
   }
 
   export type BarberUncheckedCreateWithoutBookingsInput = {
@@ -28093,6 +28406,7 @@ export namespace Prisma {
     blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
     workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
     unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
+    user?: UserUncheckedCreateNestedOneWithoutBarberInput
   }
 
   export type BarberCreateOrConnectWithoutBookingsInput = {
@@ -28323,6 +28637,7 @@ export namespace Prisma {
     blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
+    user?: UserUpdateOneWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateWithoutBookingsInput = {
@@ -28337,6 +28652,7 @@ export namespace Prisma {
     blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
+    user?: UserUncheckedUpdateOneWithoutBarberNestedInput
   }
 
   export type ClientUpsertWithoutBookingsInput = {
@@ -28649,6 +28965,7 @@ export namespace Prisma {
     name: string
     password: string
     role?: $Enums.Role
+    barberId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28737,6 +29054,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    barber?: BarberUpdateOneWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
   }
 
@@ -28746,6 +29064,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    barberId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -28757,6 +29076,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    barberId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28808,6 +29128,7 @@ export namespace Prisma {
     blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
+    user?: UserUpdateOneWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateWithoutTenantInput = {
@@ -28822,6 +29143,7 @@ export namespace Prisma {
     blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
     workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
     unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
+    user?: UserUncheckedUpdateOneWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateManyWithoutTenantInput = {

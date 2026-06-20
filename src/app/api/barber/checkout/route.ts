@@ -40,29 +40,29 @@ export async function POST(request: NextRequest) {
     const timeNorm = String(time).slice(0, 5)
     // valida o formato igual a rota de slots (evita rollover de data tipo 2026-13-40)
     if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date)) || !/^\d{2}:\d{2}$/.test(timeNorm)) {
-      return NextResponse.json({ error: 'Data ou horario invalidos.' }, { status: 400 })
+      return NextResponse.json({ error: 'Data ou horário inválidos.' }, { status: 400 })
     }
 
     const tenant = await prisma.tenant.findUnique({ where: { slug: tenantSlug } })
-    if (!tenant) return NextResponse.json({ error: 'Barbearia nao encontrada.' }, { status: 404 })
+    if (!tenant) return NextResponse.json({ error: 'Barbearia não encontrada.' }, { status: 404 })
 
     const service = await prisma.service.findFirst({
       where: { id: serviceId, tenantId: tenant.id, active: true },
       select: { id: true, durationMin: true, price: true, name: true },
     })
-    if (!service) return NextResponse.json({ error: 'Servico nao encontrado.' }, { status: 404 })
+    if (!service) return NextResponse.json({ error: 'Serviço não encontrado.' }, { status: 404 })
 
     const barber = await prisma.barber.findFirst({
       where: { id: barberId, tenantId: tenant.id, active: true },
       select: { id: true, name: true },
     })
-    if (!barber) return NextResponse.json({ error: 'Profissional nao encontrado.' }, { status: 404 })
+    if (!barber) return NextResponse.json({ error: 'Profissional não encontrado.' }, { status: 404 })
 
     // instante no fuso do tenant — coerente com o motor de slots (project_fuso_horario_utc)
     const tz = tenant.timezone || 'America/Sao_Paulo'
     const dateObj = instantFromLocal(date, timeNorm, tz)
     if (isNaN(dateObj.getTime())) {
-      return NextResponse.json({ error: 'Data ou horario invalidos.' }, { status: 400 })
+      return NextResponse.json({ error: 'Data ou horário inválidos.' }, { status: 400 })
     }
 
     const phoneDigits = String(clientPhone).replace(/\D/g, '')
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Esta barbearia exige pagamento para agendar.' }, { status: 400 })
       }
     } else if (!hasAsaas || policy === 'BOOK_ONLY') {
-      return NextResponse.json({ error: 'Pagamento indisponivel para esta barbearia.' }, { status: 400 })
+      return NextResponse.json({ error: 'Pagamento indisponível para esta barbearia.' }, { status: 400 })
     }
 
     // produtos (order bump). So existem quando ha Asaas pra cobrar; valida cada
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
       // em silencio (o cliente concordou com um total maior) — pede revisao.
       if (products.length !== wantedIds.length) {
         return NextResponse.json(
-          { error: 'Um dos itens saiu de catalogo. Revise seu pedido e tente de novo.' },
+          { error: 'Um dos itens saiu de catálogo. Revise seu pedido e tente de novo.' },
           { status: 409 }
         )
       }
@@ -122,11 +122,11 @@ export async function POST(request: NextRequest) {
 
     if (willCharge) {
       if (cpfDigits.length !== 11) {
-        return NextResponse.json({ error: 'Informe um CPF valido para o pagamento.' }, { status: 400 })
+        return NextResponse.json({ error: 'Informe um CPF válido para o pagamento.' }, { status: 400 })
       }
       if (value < ASAAS_PIX_MIN) {
         return NextResponse.json(
-          { error: `O valor minimo para pagamento via PIX e R$ ${ASAAS_PIX_MIN},00.` },
+          { error: `O valor mínimo para pagamento via PIX é R$ ${ASAAS_PIX_MIN},00.` },
           { status: 400 }
         )
       }
@@ -155,7 +155,7 @@ export async function POST(request: NextRequest) {
     })
     if (activeCount >= MAX_ACTIVE_PER_CLIENT) {
       return NextResponse.json(
-        { error: 'Voce ja tem varios agendamentos ativos. Conclua ou cancele antes de marcar outro.' },
+        { error: 'Você já tem vários agendamentos ativos. Conclua ou cancele antes de marcar outro.' },
         { status: 429 }
       )
     }
@@ -171,7 +171,7 @@ export async function POST(request: NextRequest) {
     })
     if (!slots.find((s) => s.time === timeNorm)?.available) {
       return NextResponse.json(
-        { error: 'Este horario nao esta mais disponivel. Escolha outro.' },
+        { error: 'Este horário não está mais disponível. Escolha outro.' },
         { status: 409 }
       )
     }
@@ -249,7 +249,7 @@ export async function POST(request: NextRequest) {
     } catch (e) {
       if (e instanceof Error && e.message === 'SLOT_TAKEN') {
         return NextResponse.json(
-          { error: 'Este horario acabou de ser reservado. Escolha outro.' },
+          { error: 'Este horário acabou de ser reservado. Escolha outro.' },
           { status: 409 }
         )
       }
@@ -281,7 +281,7 @@ export async function POST(request: NextRequest) {
       await prisma.booking.update({ where: { id: booking.id }, data: { asaasPaymentId: payment.id } })
 
       const qr = await getPixQrCode(ctx, payment.id)
-      if (!qr) throw new Error('Nao foi possivel gerar o QR do PIX.')
+      if (!qr) throw new Error('Não foi possível gerar o QR do PIX.')
 
       await prisma.booking.update({ where: { id: booking.id }, data: { pixCopiaECola: qr.copiaECola } })
 

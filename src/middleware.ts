@@ -16,6 +16,14 @@ function isPublicPath(pathname: string): boolean {
   return PUBLIC_PATHS.some((p) => pathname.startsWith(p))
 }
 
+// A "casa" de cada papel. Mismatch de rota redireciona pra casa do papel (e
+// nao pro login), pra ninguem ficar preso numa tela que nao e dele.
+function homeForRole(role: unknown): string {
+  if (role === 'MASTER') return '/master'
+  if (role === 'BARBER') return '/pro'
+  return '/painel'
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -24,7 +32,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Protected paths: /painel/*, /master/*
+  // Protected paths: /painel/*, /master/*, /pro/*
   const token = request.cookies.get('session')?.value
 
   if (!token) {
@@ -34,23 +42,37 @@ export async function middleware(request: NextRequest) {
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback-dev-secret-change-me')
     const { payload } = await jwtVerify(token, secret)
+    const role = payload.role
+    const home = homeForRole(role)
+
+    // casa o prefixo no LIMITE de segmento (/pro mas nao /produtos-publicos),
+    // pra um futuro irmao de rota nao herdar a regra sem querer
+    const onSegment = (p: string) => pathname === p || pathname.startsWith(p + '/')
 
     // Master routes: only MASTER role
-    if (pathname.startsWith('/master') && payload.role !== 'MASTER') {
-      return NextResponse.redirect(new URL('/login', request.url))
+    if (onSegment('/master') && role !== 'MASTER') {
+      return NextResponse.redirect(new URL(home, request.url))
     }
 
-    // Tenant routes: MASTER or TENANT
-    if (pathname.startsWith('/painel') && !['MASTER', 'TENANT'].includes(payload.role as string)) {
-      return NextResponse.redirect(new URL('/login', request.url))
+    // Tenant routes: MASTER or TENANT (o dono e a agencia)
+    if (onSegment('/painel') && !['MASTER', 'TENANT'].includes(role as string)) {
+      return NextResponse.redirect(new URL(home, request.url))
+    }
+
+    // Professional routes: only BARBER role (superficie do profissional)
+    if (onSegment('/pro') && role !== 'BARBER') {
+      return NextResponse.redirect(new URL(home, request.url))
     }
 
     // Inject user info into headers for downstream use
     const requestHeaders = new Headers(request.headers)
     requestHeaders.set('x-user-id', payload.userId as string)
-    requestHeaders.set('x-user-role', payload.role as string)
+    requestHeaders.set('x-user-role', role as string)
     if (payload.tenantId) {
       requestHeaders.set('x-tenant-id', payload.tenantId as string)
+    }
+    if (payload.barberId) {
+      requestHeaders.set('x-barber-id', payload.barberId as string)
     }
 
     return NextResponse.next({
@@ -65,5 +87,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3)$).*)'],
 }

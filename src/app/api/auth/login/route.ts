@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { error: 'Email e senha obrigatorios' },
+        { error: 'Email e senha obrigatórios' },
         { status: 400 }
       )
     }
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: 'Credenciais invalidas' },
+        { error: 'Credenciais inválidas' },
         { status: 401 }
       )
     }
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     const isValid = await bcrypt.compare(password, user.password)
     if (!isValid) {
       return NextResponse.json(
-        { error: 'Credenciais invalidas' },
+        { error: 'Credenciais inválidas' },
         { status: 401 }
       )
     }
@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
       email: user.email,
       role: user.role,
       tenantId: user.tenantId ?? undefined,
+      barberId: user.barberId ?? undefined,
     })
 
     const response = NextResponse.json({

@@ -86,13 +86,13 @@ export function DashboardClient({
         <div className="px-5 py-4 border-b border-[#E4E4E7]">
           <h2 className="text-sm font-semibold text-[#09090B] flex items-center gap-2">
             <Clock className="w-4 h-4 text-[#71717A]" />
-            Proximos Agendamentos
+            Próximos Agendamentos
           </h2>
         </div>
         <div className="divide-y divide-[#E4E4E7]">
           {upcoming.length === 0 ? (
             <div className="px-5 py-8 text-center text-sm text-[#71717A]">
-              Nenhum agendamento proximo
+              Nenhum agendamento próximo
             </div>
           ) : (
             upcoming.map((booking) => (

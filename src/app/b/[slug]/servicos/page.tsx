@@ -11,8 +11,8 @@ interface PageProps {
 const categoryLabels: Record<string, string> = {
   HAIR: 'Cabelo',
   BEARD: 'Barba',
-  CHEMISTRY: 'Quimica',
-  AESTHETICS: 'Estetica',
+  CHEMISTRY: 'Química',
+  AESTHETICS: 'Estética',
   COMBO: 'Combos',
   TREATMENT: 'Tratamentos',
 }

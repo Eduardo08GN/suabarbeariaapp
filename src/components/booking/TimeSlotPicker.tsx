@@ -33,7 +33,7 @@ export function TimeSlotPicker({
 }: TimeSlotPickerProps) {
   const periods: PeriodGroup[] = [
     {
-      label: 'Manha',
+      label: 'Manhã',
       icon: <Sun className="w-4 h-4" />,
       slots: slots.filter((s) => timeToMinutes(s.time) < 720),
     },
@@ -107,7 +107,7 @@ export function TimeSlotPicker({
       )}
       {slots.length === 0 && (
         <div className="text-center py-8 text-(--text-secondary) text-sm">
-          Nenhum horario disponivel neste dia.
+          Nenhum horário disponível neste dia.
         </div>
       )}
     </div>

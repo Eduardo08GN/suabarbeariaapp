@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
   if (!barberId || !serviceId || !date || !tenantSlug) {
     return NextResponse.json(
-      { error: 'Parametros obrigatorios: barberId, serviceId, date, tenantSlug' },
+      { error: 'Parâmetros obrigatórios: barberId, serviceId, date, tenantSlug' },
       { status: 400 }
     )
   }
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   // Validate date format
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     return NextResponse.json(
-      { error: 'Formato de data invalido. Use YYYY-MM-DD' },
+      { error: 'Formato de data inválido. Use YYYY-MM-DD' },
       { status: 400 }
     )
   }
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
   if (!tenant) {
     return NextResponse.json(
-      { error: 'Barbearia nao encontrada' },
+      { error: 'Barbearia não encontrada' },
       { status: 404 }
     )
   }

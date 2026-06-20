@@ -24,7 +24,7 @@ function sniff(buf: Buffer): { ext: string; mime: string } | null {
 
 export async function POST(request: NextRequest) {
   const s = await getSession()
-  if (!s?.tenantId) return NextResponse.json({ error: 'Nao autorizado' }, { status: 401 })
+  if (!s?.tenantId) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
 
   // freio de abuso/custo: endpoint autenticado que escreve em storage pago
   if (!rateLimit(`upload:${s.tenantId}`, 30, 60_000)) {
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   }
   // teto antecipado por content-length, antes de bufferizar o corpo
   if (Number(request.headers.get('content-length') || 0) > 5 * 1024 * 1024) {
-    return NextResponse.json({ error: 'Imagem muito grande (max 4MB).' }, { status: 413 })
+    return NextResponse.json({ error: 'Imagem muito grande (máx 4MB).' }, { status: 413 })
   }
 
   let file: File | null = null
@@ -41,17 +41,17 @@ export async function POST(request: NextRequest) {
     const f = form.get('file')
     if (f instanceof File) file = f
   } catch {
-    return NextResponse.json({ error: 'Envio invalido.' }, { status: 400 })
+    return NextResponse.json({ error: 'Envio inválido.' }, { status: 400 })
   }
   if (!file) return NextResponse.json({ error: 'Nenhum arquivo enviado.' }, { status: 400 })
   if (file.size > MAX_BYTES) {
-    return NextResponse.json({ error: 'Imagem muito grande (max 4MB).' }, { status: 413 })
+    return NextResponse.json({ error: 'Imagem muito grande (máx 4MB).' }, { status: 413 })
   }
 
   const buf = Buffer.from(await file.arrayBuffer())
   const kind = sniff(buf)
   if (!kind) {
-    return NextResponse.json({ error: 'Arquivo nao e uma imagem valida.' }, { status: 400 })
+    return NextResponse.json({ error: 'Arquivo não é uma imagem válida.' }, { status: 400 })
   }
 
   const key = `suabarbearia/produtos/${s.tenantId}/${crypto.randomBytes(10).toString('hex')}.${kind.ext}`

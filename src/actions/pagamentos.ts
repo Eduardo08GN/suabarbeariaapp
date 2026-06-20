@@ -79,7 +79,7 @@ export async function salvarConfigAgendamento(input: {
   descontoTotalPct: number
 }): Promise<{ success: true; warnings: string[] } | { error: string }> {
   const s = await getSession()
-  if (!s?.tenantId) return { error: 'Nao autorizado' }
+  if (!s?.tenantId) return { error: 'Não autorizado' }
 
   const mode = BOOKING_MODES.includes(input.bookingMode as BookingMode)
     ? (input.bookingMode as BookingMode)
@@ -108,11 +108,11 @@ export async function salvarConfigAgendamento(input: {
       arr.slice(0, 5).map((x) => x.name).join(', ') + (arr.length > 5 ? '...' : '')
     if (totalLow.length) {
       warnings.push(
-        `O PIX total fica abaixo de R$${ASAAS_PIX_MIN} (cliente nao consegue pagar) em: ${names(totalLow)}.`
+        `O PIX total fica abaixo de R$${ASAAS_PIX_MIN} (cliente não consegue pagar) em: ${names(totalLow)}.`
       )
     } else if (sinalLow.length) {
       warnings.push(
-        `No sinal, o PIX de alguns servicos fica abaixo de R$${ASAAS_PIX_MIN}; nesses so a opcao de pagar o total aparece: ${names(sinalLow)}.`
+        `No sinal, o PIX de alguns serviços fica abaixo de R$${ASAAS_PIX_MIN}; nesses só a opção de pagar o total aparece: ${names(sinalLow)}.`
       )
     }
   }
@@ -126,10 +126,10 @@ export async function salvarGoogleReview(input: {
   url: string
 }): Promise<{ success: true } | { error: string }> {
   const s = await getSession()
-  if (!s?.tenantId) return { error: 'Nao autorizado' }
+  if (!s?.tenantId) return { error: 'Não autorizado' }
   const url = input.url?.trim() || null
   if (url && !/^https?:\/\//i.test(url)) {
-    return { error: 'Informe um link valido (comecando com https://)' }
+    return { error: 'Informe um link válido (começando com https://)' }
   }
   await prisma.tenant.update({ where: { id: s.tenantId }, data: { googleReviewUrl: url } })
   revalidatePath('/painel/pagamentos')
@@ -200,11 +200,11 @@ export async function salvarConfigPagamento(input: {
   apiKey: string
 }): Promise<{ success: true } | { error: string }> {
   const s = await getSession()
-  if (!s?.tenantId) return { error: 'Nao autorizado' }
+  if (!s?.tenantId) return { error: 'Não autorizado' }
 
   const key = input.apiKey?.trim()
   if (!key) return { error: 'Informe a chave da Asaas' }
-  if (key.length < 20) return { error: 'A chave da Asaas parece invalida' }
+  if (key.length < 20) return { error: 'A chave da Asaas parece inválida' }
 
   const data: {
     asaasApiKey: string

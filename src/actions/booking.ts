@@ -1,10 +1,21 @@
 'use server'
 
 import { prisma } from '@/lib/db'
+import { getSession } from '@/lib/auth'
 import { startOfDay, endOfDay, startOfMonth, endOfMonth } from 'date-fns'
 
-export async function getBookingsForDate(tenantId: string, date: Date) {
-  if (!tenantId) throw new Error('tenantId is required')
+// O tenant SEMPRE sai da sessao. Estas server actions sao endpoints POST que
+// qualquer usuario logado pode chamar direto com argumentos arbitrarios — por
+// isso nenhum id vindo do client e confiavel. O tenant (e o barbeiro, no /pro)
+// vem do token verificado, fechando IDOR cross-tenant.
+async function requireTenantId(): Promise<string> {
+  const session = await getSession()
+  if (!session?.tenantId) throw new Error('Não autorizado')
+  return session.tenantId
+}
+
+export async function getBookingsForDate(_tenantId: string, date: Date) {
+  const tenantId = await requireTenantId()
 
   const dayStart = startOfDay(date)
   const dayEnd = endOfDay(date)
@@ -24,11 +35,44 @@ export async function getBookingsForDate(tenantId: string, date: Date) {
   })
 }
 
+// Agenda do PROFISSIONAL (superficie /pro): tenant e barberId saem da sessao do
+// barbeiro logado, nunca de argumento — um barbeiro nao ve a agenda de outro.
+export async function getBookingsForBarberDate(_tenantId: string, _barberId: string, date: Date) {
+  const session = await getSession()
+  if (!session?.tenantId || !session.barberId) throw new Error('Não autorizado')
+
+  const dayStart = startOfDay(date)
+  const dayEnd = endOfDay(date)
+
+  return prisma.booking.findMany({
+    where: {
+      tenantId: session.tenantId,
+      barberId: session.barberId,
+      dateTime: { gte: dayStart, lte: dayEnd },
+    },
+    include: {
+      service: { select: { name: true, category: true } },
+      barber: { select: { name: true, nickname: true } },
+      client: { select: { name: true, phone: true } },
+      items: { where: { kind: 'PRODUCT' }, select: { name: true } },
+    },
+    orderBy: { dateTime: 'asc' },
+  })
+}
+
 export async function updateBookingStatus(
   bookingId: string,
   status: 'PENDING' | 'CONFIRMED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED_CLIENT' | 'CANCELLED_BARBER' | 'NO_SHOW'
 ) {
-  if (!bookingId) throw new Error('bookingId is required')
+  const tenantId = await requireTenantId()
+  if (!bookingId) throw new Error('Não autorizado')
+
+  // confirma que o agendamento e do tenant da sessao antes de alterar
+  const owned = await prisma.booking.findFirst({
+    where: { id: bookingId, tenantId },
+    select: { id: true },
+  })
+  if (!owned) throw new Error('Agendamento não encontrado')
 
   return prisma.booking.update({
     where: { id: bookingId },
@@ -36,8 +80,8 @@ export async function updateBookingStatus(
   })
 }
 
-export async function getBookingStats(tenantId: string) {
-  if (!tenantId) throw new Error('tenantId is required')
+export async function getBookingStats(_tenantId: string) {
+  const tenantId = await requireTenantId()
 
   const now = new Date()
   const todayStart = startOfDay(now)
@@ -73,8 +117,8 @@ export async function getBookingStats(tenantId: string) {
   }
 }
 
-export async function getUpcomingBookings(tenantId: string, limit = 5) {
-  if (!tenantId) throw new Error('tenantId is required')
+export async function getUpcomingBookings(_tenantId: string, limit = 5) {
+  const tenantId = await requireTenantId()
 
   return prisma.booking.findMany({
     where: {

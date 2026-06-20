@@ -56,7 +56,7 @@ export function ProdutosClient({ initial }: { initial: ProdutoDTO[] }) {
     try {
       setCropSrc(await readAsDataUrl(file))
     } catch {
-      setError('Nao foi possivel abrir a imagem.')
+      setError('Não foi possível abrir a imagem.')
     }
   }
 
@@ -75,7 +75,7 @@ export function ProdutosClient({ initial }: { initial: ProdutoDTO[] }) {
         setError(data.error || 'Falha ao enviar a imagem.')
       }
     } catch {
-      setError('Nao foi possivel enviar a imagem.')
+      setError('Não foi possível enviar a imagem.')
     } finally {
       setUploading(false)
     }
@@ -175,14 +175,14 @@ export function ProdutosClient({ initial }: { initial: ProdutoDTO[] }) {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 inputMode="decimal"
-                placeholder="Preco (R$)"
+                placeholder="Preço (R$)"
                 className={inputCls}
               />
             </div>
             <input
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Descricao curta (opcional)"
+              placeholder="Descrição curta (opcional)"
               className={inputCls}
             />
           </div>

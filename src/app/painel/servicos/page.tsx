@@ -19,8 +19,8 @@ type Service = {
 const categoryLabels: Record<string, string> = {
   HAIR: 'Cabelo',
   BEARD: 'Barba',
-  CHEMISTRY: 'Quimica',
-  AESTHETICS: 'Estetica',
+  CHEMISTRY: 'Química',
+  AESTHETICS: 'Estética',
   COMBO: 'Combo',
   TREATMENT: 'Tratamento',
 }
@@ -124,13 +124,13 @@ export default function ServicosPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-lg font-semibold text-[#09090B]">Servicos</h1>
+        <h1 className="text-lg font-semibold text-[#09090B]">Serviços</h1>
         <button
           onClick={openCreate}
           className="flex items-center gap-2 bg-[#18181B] text-[#FAFAFA] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#27272A] transition-colors"
         >
           <Plus className="w-4 h-4" />
-          Novo Servico
+          Novo Serviço
         </button>
       </div>
 
@@ -142,10 +142,10 @@ export default function ServicosPage() {
               <tr className="bg-[#F4F4F5]">
                 <th className="text-left px-5 py-3 text-xs font-semibold text-[#71717A] uppercase tracking-wider">Nome</th>
                 <th className="text-left px-5 py-3 text-xs font-semibold text-[#71717A] uppercase tracking-wider">Categoria</th>
-                <th className="text-left px-5 py-3 text-xs font-semibold text-[#71717A] uppercase tracking-wider">Preco</th>
-                <th className="text-left px-5 py-3 text-xs font-semibold text-[#71717A] uppercase tracking-wider">Duracao</th>
+                <th className="text-left px-5 py-3 text-xs font-semibold text-[#71717A] uppercase tracking-wider">Preço</th>
+                <th className="text-left px-5 py-3 text-xs font-semibold text-[#71717A] uppercase tracking-wider">Duração</th>
                 <th className="text-left px-5 py-3 text-xs font-semibold text-[#71717A] uppercase tracking-wider">Status</th>
-                <th className="text-right px-5 py-3 text-xs font-semibold text-[#71717A] uppercase tracking-wider">Acoes</th>
+                <th className="text-right px-5 py-3 text-xs font-semibold text-[#71717A] uppercase tracking-wider">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E4E4E7]">
@@ -158,7 +158,7 @@ export default function ServicosPage() {
               ) : services.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-5 py-8 text-center text-sm text-[#71717A]">
-                    Nenhum servico cadastrado
+                    Nenhum serviço cadastrado
                   </td>
                 </tr>
               ) : (
@@ -223,7 +223,7 @@ export default function ServicosPage() {
             >
               <div className="flex items-center justify-between mb-5">
                 <h3 className="text-base font-semibold text-[#09090B]">
-                  {editing ? 'Editar Servico' : 'Novo Servico'}
+                  {editing ? 'Editar Serviço' : 'Novo Serviço'}
                 </h3>
                 <button onClick={() => setShowModal(false)} className="p-1 text-[#71717A] hover:text-[#09090B]">
                   <X className="w-5 h-5" />
@@ -254,7 +254,7 @@ export default function ServicosPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-sm font-medium text-[#09090B] mb-1.5">Preco (R$)</label>
+                    <label className="block text-sm font-medium text-[#09090B] mb-1.5">Preço (R$)</label>
                     <input
                       type="number"
                       step="0.01"
@@ -266,7 +266,7 @@ export default function ServicosPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-[#09090B] mb-1.5">Duracao (min)</label>
+                    <label className="block text-sm font-medium text-[#09090B] mb-1.5">Duração (min)</label>
                     <input
                       type="number"
                       min="5"
@@ -278,12 +278,12 @@ export default function ServicosPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#09090B] mb-1.5">Descricao (opcional)</label>
+                  <label className="block text-sm font-medium text-[#09090B] mb-1.5">Descrição (opcional)</label>
                   <input
                     value={formDesc}
                     onChange={(e) => setFormDesc(e.target.value)}
                     className="w-full bg-white border border-[#E4E4E7] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B]"
-                    placeholder="Descricao breve do servico"
+                    placeholder="Descrição breve do serviço"
                   />
                 </div>
               </div>

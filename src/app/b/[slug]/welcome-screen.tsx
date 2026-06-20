@@ -73,7 +73,7 @@ export function WelcomeScreen({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, type: 'spring', stiffness: 300, damping: 24 }}
         >
-          {description || 'Agende seu horario'}
+          {description || 'Agende seu horário'}
         </motion.p>
 
         {/* CTA Button — min 44px touch target */}

@@ -9,8 +9,8 @@ export default async function ProdutosPage() {
     <div className="mx-auto max-w-2xl">
       <h1 className="text-lg font-semibold text-[#09090B]">Produtos</h1>
       <p className="mt-1 text-sm text-[#71717A]">
-        Itens de balcao que aparecem como &quot;Aproveite tambem&quot; no checkout. So aparecem
-        para o cliente quando ha uma conta de pagamento conectada.
+        Itens de balcão que aparecem como &quot;Aproveite também&quot; no checkout. Só aparecem
+        para o cliente quando há uma conta de pagamento conectada.
       </p>
       <ProdutosClient initial={produtos} />
     </div>

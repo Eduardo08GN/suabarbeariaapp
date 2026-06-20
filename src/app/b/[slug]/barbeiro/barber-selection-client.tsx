@@ -90,7 +90,7 @@ export function BarberSelectionClient({
                 Qualquer Profissional
               </h3>
               <p className="text-xs text-(--text-secondary)">
-                Sem preferencia
+                Sem preferência
               </p>
             </div>
           </motion.button>

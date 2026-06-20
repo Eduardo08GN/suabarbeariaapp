@@ -4,8 +4,9 @@ import { cookies } from 'next/headers'
 export type SessionPayload = {
   userId: string
   email: string
-  role: 'MASTER' | 'TENANT'
+  role: 'MASTER' | 'TENANT' | 'BARBER'
   tenantId?: string
+  barberId?: string // so para role BARBER (acesso do profissional)
 }
 
 const getSecret = () => {

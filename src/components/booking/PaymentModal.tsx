@@ -161,7 +161,7 @@ export function PaymentModal({ open, data, slug, onClose }: PaymentModalProps) {
                     <Check className="h-8 w-8 text-white" strokeWidth={3} />
                   </motion.div>
                   <p className="text-lg font-bold text-(--text)">Pagamento confirmado</p>
-                  <p className="mt-1 text-sm text-(--text-secondary)">Levando voce ao seu agendamento...</p>
+                  <p className="mt-1 text-sm text-(--text-secondary)">Levando você ao seu agendamento...</p>
                 </div>
               ) : status === 'EXPIRED' ? (
                 <div className="flex flex-col items-center py-10 text-center">
@@ -170,7 +170,7 @@ export function PaymentModal({ open, data, slug, onClose }: PaymentModalProps) {
                   </div>
                   <p className="text-lg font-bold text-(--text)">O tempo do PIX acabou</p>
                   <p className="mt-1 mb-5 text-sm text-(--text-secondary)">
-                    O horario foi liberado. Faca o agendamento de novo para gerar um novo codigo.
+                    O horário foi liberado. Faça o agendamento de novo para gerar um novo código.
                   </p>
                   <button onClick={onClose} className="btn-primary w-full min-h-[48px]">
                     Voltar
@@ -227,7 +227,7 @@ export function PaymentModal({ open, data, slug, onClose }: PaymentModalProps) {
 
                   <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-(--text-secondary)">
                     <ShieldCheck className="h-3 w-3" />
-                    Abra o app do seu banco, escolha PIX e leia o codigo
+                    Abra o app do seu banco, escolha PIX e leia o código
                   </p>
                 </>
               )}

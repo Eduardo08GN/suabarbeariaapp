@@ -20,7 +20,7 @@ import { NotificationSound } from '@/components/painel/notification-sound'
 const navItems = [
   { href: '/painel', label: 'Painel', icon: LayoutDashboard },
   { href: '/painel/agenda', label: 'Agenda', icon: Calendar },
-  { href: '/painel/servicos', label: 'Servicos', icon: Scissors },
+  { href: '/painel/servicos', label: 'Serviços', icon: Scissors },
   { href: '/painel/produtos', label: 'Produtos', icon: Package },
   { href: '/painel/equipe', label: 'Equipe', icon: Users },
   { href: '/painel/clientes', label: 'Clientes', icon: Contact },
@@ -37,9 +37,15 @@ export default function PainelLayout({ children }: { children: React.ReactNode }
     return pathname.startsWith(href)
   }
 
-  const handleLogout = () => {
-    document.cookie = 'session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+  const handleLogout = async () => {
+    // logout real: o cookie e httpOnly, so o servidor consegue apaga-lo
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+    } catch {
+      // mesmo se a chamada falhar, leva pro login
+    }
     router.push('/login')
+    router.refresh()
   }
 
   return (
@@ -129,16 +135,9 @@ export default function PainelLayout({ children }: { children: React.ReactNode }
 
       {/* === MAIN CONTENT === */}
       <div className="lg:pl-[240px]">
-        {/* Desktop TopBar */}
+        {/* Desktop TopBar (logout fica so na sidebar, evita "Sair" duplicado) */}
         <header className="h-16 bg-white border-b border-[#E4E4E7] items-center px-6 sticky top-0 z-30 hidden lg:flex">
           <h2 className="text-sm font-semibold text-[#09090B]">Painel</h2>
-          <button
-            onClick={handleLogout}
-            className="ml-auto flex items-center gap-2 text-sm text-[#71717A] hover:text-[#09090B] transition-colors"
-          >
-            <LogOut className="w-4 h-4" />
-            Sair
-          </button>
         </header>
 
         {/* Page content — pb-20 on mobile for bottom tab bar clearance */}

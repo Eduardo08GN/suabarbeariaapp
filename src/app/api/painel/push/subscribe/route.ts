@@ -12,7 +12,7 @@ interface SubBody {
 
 export async function POST(request: NextRequest) {
   const s = await getSession()
-  if (!s?.userId) return NextResponse.json({ error: 'Nao autorizado' }, { status: 401 })
+  if (!s?.userId) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   if (!rateLimit(`push-sub:${s.userId}`, 20, 60_000)) {
     return NextResponse.json({ error: 'Muitas tentativas.' }, { status: 429 })
   }
@@ -21,11 +21,11 @@ export async function POST(request: NextRequest) {
   try {
     body = await request.json()
   } catch {
-    return NextResponse.json({ error: 'payload invalido' }, { status: 400 })
+    return NextResponse.json({ error: 'payload inválido' }, { status: 400 })
   }
   const sub = body?.subscription
   if (!sub?.endpoint || !sub.keys?.p256dh || !sub.keys?.auth) {
-    return NextResponse.json({ error: 'inscricao invalida' }, { status: 400 })
+    return NextResponse.json({ error: 'inscrição inválida' }, { status: 400 })
   }
 
   // escrita SEGURA por dono: atualiza so se o endpoint ja e deste usuario; senao
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         data: { userId: s.userId, endpoint: sub.endpoint, p256dh: sub.keys.p256dh, auth: sub.keys.auth },
       })
     } catch {
-      return NextResponse.json({ error: 'inscricao em uso' }, { status: 409 })
+      return NextResponse.json({ error: 'inscrição em uso' }, { status: 409 })
     }
   }
   return NextResponse.json({ ok: true })
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   const s = await getSession()
-  if (!s?.userId) return NextResponse.json({ error: 'Nao autorizado' }, { status: 401 })
+  if (!s?.userId) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   if (!rateLimit(`push-sub:${s.userId}`, 20, 60_000)) {
     return NextResponse.json({ error: 'Muitas tentativas.' }, { status: 429 })
   }

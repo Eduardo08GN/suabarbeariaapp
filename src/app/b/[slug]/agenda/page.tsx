@@ -102,10 +102,10 @@ export default function AgendaPage() {
       <div className="px-4 py-6 space-y-6 flex-1 pb-24">
         <div>
           <h2 className="text-xl font-bold text-(--text)">
-            Escolha o horario
+            Escolha o horário
           </h2>
           <p className="text-sm text-(--text-secondary) mt-1">
-            Selecione a data e o horario desejado
+            Selecione a data e o horário desejado
           </p>
         </div>
 

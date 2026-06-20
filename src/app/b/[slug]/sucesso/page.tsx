@@ -117,7 +117,7 @@ export default function SucessoPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, type: 'spring', stiffness: 300, damping: 24 }}
       >
-        Tudo certo! Estaremos esperando por voce. Ate breve!
+        Tudo certo! Estaremos esperando por você. Até breve!
       </motion.p>
 
       {/* Avalie-nos no Google */}
@@ -135,7 +135,7 @@ export default function SucessoPage() {
           </div>
           <p className="text-sm font-bold text-(--text)">Gostou do atendimento?</p>
           <p className="mt-1 mb-4 text-xs text-(--text-secondary)">
-            Sua avaliacao no Google ajuda muito. Aponte a camera ou toque no botao.
+            Sua avaliação no Google ajuda muito. Aponte a câmera ou toque no botão.
           </p>
           <div className="mx-auto mb-4 w-fit rounded-xl border border-(--border) bg-white p-2.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -169,7 +169,7 @@ export default function SucessoPage() {
           className="btn-primary w-full flex items-center justify-center gap-2"
         >
           <Home className="w-4 h-4" />
-          Voltar ao Inicio
+          Voltar ao Início
         </Link>
 
         {'share' in navigator && (

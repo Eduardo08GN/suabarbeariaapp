@@ -26,7 +26,7 @@ async function safeJson(res: Response, label: string): Promise<any> {
   try {
     return JSON.parse(text)
   } catch {
-    throw new Error(`Asaas ${label}: JSON invalido (status ${res.status}): ${text.slice(0, 200)}`)
+    throw new Error(`Asaas ${label}: JSON inválido (status ${res.status}): ${text.slice(0, 200)}`)
   }
 }
 
@@ -41,7 +41,7 @@ export async function getOrCreateCustomer(
   const cpf = onlyDigits(buyer.cpfCnpj)
 
   const lookup = await fetch(`${url}/customers?cpfCnpj=${cpf}`, { headers: headers(ctx.apiKey) })
-  if (lookup.status === 401) throw new Error('Chave da Asaas invalida (401).')
+  if (lookup.status === 401) throw new Error('Chave da Asaas inválida (401).')
   const found = await safeJson(lookup, 'buscar cliente').catch(() => null)
   if (found?.data?.length > 0) return found.data[0].id
 
@@ -112,8 +112,8 @@ export async function createPixPayment(
       ...(split ? { split } : {}),
     }),
   })
-  const data = await safeJson(res, 'criar cobranca')
-  if (!res.ok) throw new Error(`Asaas cobranca: ${data.errors?.[0]?.description || JSON.stringify(data)}`)
+  const data = await safeJson(res, 'criar cobrança')
+  if (!res.ok) throw new Error(`Asaas cobrança: ${data.errors?.[0]?.description || JSON.stringify(data)}`)
   if (split && (!data.split || data.split.length === 0)) {
     console.warn(`[asaas] split enviado mas nao retornado para ${data.id}; a taxa pode nao ter sido aplicada`)
   }
@@ -159,7 +159,7 @@ export async function getPaymentStatus(ctx: AsaasCtx, paymentId: string): Promis
   const url = baseUrl(ctx.sandbox)
   const res = await fetch(`${url}/payments/${paymentId}`, { headers: headers(ctx.apiKey) })
   if (!res.ok) return null
-  const d = await safeJson(res, 'status cobranca').catch(() => null)
+  const d = await safeJson(res, 'status cobrança').catch(() => null)
   return d?.status ?? null
 }
 

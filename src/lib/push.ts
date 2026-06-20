@@ -66,6 +66,7 @@ export async function notifyNewBooking(bookingId: string): Promise<void> {
       where: { id: bookingId },
       select: {
         tenantId: true,
+        barberId: true,
         dateTime: true,
         client: { select: { name: true } },
         service: { select: { name: true } },
@@ -74,19 +75,33 @@ export async function notifyNewBooking(bookingId: string): Promise<void> {
       },
     })
     if (!b) return
+
+    // Donos do tenant (MASTER/TENANT) recebem TODOS os agendamentos; o
+    // barbeiro so recebe os DELE — por isso o filtro de role aqui, senao cada
+    // profissional ouviria a caixa registradora do salao inteiro.
     const owners = await prisma.user.findMany({
-      where: { tenantId: b.tenantId },
+      where: { tenantId: b.tenantId, role: { in: ['MASTER', 'TENANT'] } },
       select: { id: true },
     })
-    if (owners.length === 0) return
+    const barberUser = b.barberId
+      ? await prisma.user.findUnique({ where: { barberId: b.barberId }, select: { id: true } })
+      : null
+    if (owners.length === 0 && !barberUser) return
+
     const quando = horaLocal(b.dateTime, b.tenant.timezone || 'America/Sao_Paulo')
-    const payload: PushPayload = {
+    const base = {
       title: 'Novo agendamento',
       body: `${b.client.name} - ${b.service.name} com ${b.barber.name} (${quando})`,
-      url: '/painel/agenda',
       tag: `booking-${bookingId}`,
     }
-    await Promise.all(owners.map((o) => sendPushToUser(o.id, payload)))
+    // dedupe por usuario: cada superficie abre na propria agenda ao tocar a
+    // notificacao, e se um dono tambem fosse barbeiro nao recebe push dobrado
+    const targets = new Map<string, string>()
+    for (const o of owners) targets.set(o.id, '/painel/agenda')
+    if (barberUser) targets.set(barberUser.id, '/pro')
+    await Promise.all(
+      [...targets].map(([userId, url]) => sendPushToUser(userId, { ...base, url }))
+    )
   } catch (e) {
     console.error('notifyNewBooking error:', e)
   }
