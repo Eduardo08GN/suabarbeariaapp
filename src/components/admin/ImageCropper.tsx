@@ -25,7 +25,10 @@ async function getCroppedBlob(src: string, area: Area): Promise<Blob> {
   const ctx = canvas.getContext('2d')!
   ctx.drawImage(img, area.x, area.y, area.width, area.height, 0, 0, out, out)
   const webp = await new Promise<Blob | null>((r) => canvas.toBlob(r, 'image/webp', 0.82))
-  return webp ?? (await new Promise<Blob>((r) => canvas.toBlob((b) => r(b!), 'image/jpeg', 0.85)))
+  if (webp) return webp
+  const jpeg = await new Promise<Blob | null>((r) => canvas.toBlob(r, 'image/jpeg', 0.85))
+  if (jpeg) return jpeg
+  throw new Error('encode-failed')
 }
 
 interface Props {
@@ -41,16 +44,20 @@ export function ImageCropper({ src, busy, onCancel, onConfirm }: Props) {
   const [zoom, setZoom] = useState(1)
   const [area, setArea] = useState<Area | null>(null)
   const [working, setWorking] = useState(false)
+  const [err, setErr] = useState('')
 
   useEffect(() => setMounted(true), [])
   const onComplete = useCallback((_: Area, pixels: Area) => setArea(pixels), [])
 
   async function confirm() {
     if (!area) return
+    setErr('')
     setWorking(true)
     try {
       const blob = await getCroppedBlob(src, area)
       onConfirm(blob)
+    } catch {
+      setErr('Nao foi possivel processar a imagem. Tente outra.')
     } finally {
       setWorking(false)
     }
@@ -98,6 +105,8 @@ export function ImageCropper({ src, busy, onCancel, onConfirm }: Props) {
           />
           <ZoomIn className="h-4 w-4 shrink-0 text-[#A1A1AA]" />
         </div>
+
+        {err && <p className="px-5 pt-3 text-sm text-red-600">{err}</p>}
 
         {/* Acoes */}
         <div className="flex items-center justify-end gap-2 px-5 py-5">

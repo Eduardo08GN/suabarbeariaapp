@@ -40,21 +40,41 @@ export async function salvarProduto(input: {
   const price = Number(input.price)
   if (!(price > 0)) return { error: 'Informe um preco valido.' }
 
+  // imageUrl e Server Action input (o dono controla 100%). So aceita objeto do
+  // R2 na pasta DESTE tenant — fecha delete cross-tenant e URL externa
+  // (beacon de tracking) no checkout publico. Confiar no .trim() seria furo.
+  const prefix = `suabarbearia/produtos/${s.tenantId}/`
+  let imageUrl: string | null = null
+  const rawImg = input.imageUrl?.trim()
+  if (rawImg) {
+    const key = r2KeyFromUrl(rawImg)
+    if (!key || !key.startsWith(prefix)) return { error: 'Imagem invalida.' }
+    imageUrl = rawImg
+  }
+
   const data = {
     name,
     price: Math.round(price * 100) / 100,
     description: input.description?.trim() || null,
     active: input.active ?? true,
-    imageUrl: input.imageUrl?.trim() || null,
+    imageUrl,
   }
 
   if (input.id) {
-    // escopa ao tenant: so atualiza se o produto for dele
+    // pega a imagem antiga pra limpar o R2 se foi trocada/removida
+    const old = await prisma.product.findFirst({
+      where: { id: input.id, tenantId: s.tenantId },
+      select: { imageUrl: true },
+    })
     const r = await prisma.product.updateMany({
       where: { id: input.id, tenantId: s.tenantId },
       data,
     })
     if (r.count === 0) return { error: 'Produto nao encontrado.' }
+    if (old?.imageUrl && old.imageUrl !== imageUrl) {
+      const oldKey = r2KeyFromUrl(old.imageUrl)
+      if (oldKey && oldKey.startsWith(prefix)) await r2Delete(oldKey).catch(() => {})
+    }
   } else {
     await prisma.product.create({ data: { ...data, tenantId: s.tenantId } })
   }
@@ -89,10 +109,12 @@ export async function deletarProduto(id: string): Promise<{ success: true } | { 
     select: { imageUrl: true },
   })
   await prisma.product.deleteMany({ where: { id, tenantId: s.tenantId } })
-  // limpa a imagem no R2 (se for nossa) pra nao deixar lixo
+  // limpa a imagem no R2 — so apaga key DENTRO da pasta deste tenant
   if (p?.imageUrl) {
     const key = r2KeyFromUrl(p.imageUrl)
-    if (key) await r2Delete(key).catch(() => {})
+    if (key && key.startsWith(`suabarbearia/produtos/${s.tenantId}/`)) {
+      await r2Delete(key).catch(() => {})
+    }
   }
   revalidatePath('/painel/produtos')
   return { success: true }

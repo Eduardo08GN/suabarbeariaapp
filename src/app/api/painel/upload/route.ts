@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 import { getSession } from '@/lib/auth'
 import { r2Put } from '@/lib/r2'
+import { rateLimit } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 
@@ -24,6 +25,15 @@ function sniff(buf: Buffer): { ext: string; mime: string } | null {
 export async function POST(request: NextRequest) {
   const s = await getSession()
   if (!s?.tenantId) return NextResponse.json({ error: 'Nao autorizado' }, { status: 401 })
+
+  // freio de abuso/custo: endpoint autenticado que escreve em storage pago
+  if (!rateLimit(`upload:${s.tenantId}`, 30, 60_000)) {
+    return NextResponse.json({ error: 'Muitos envios. Aguarde um instante.' }, { status: 429 })
+  }
+  // teto antecipado por content-length, antes de bufferizar o corpo
+  if (Number(request.headers.get('content-length') || 0) > 5 * 1024 * 1024) {
+    return NextResponse.json({ error: 'Imagem muito grande (max 4MB).' }, { status: 413 })
+  }
 
   let file: File | null = null
   try {
