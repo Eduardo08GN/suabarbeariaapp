@@ -9,6 +9,7 @@ import {
   Scissors,
   Users,
   Contact,
+  CreditCard,
   LogOut,
   Menu,
   X,
@@ -20,6 +21,7 @@ const navItems = [
   { href: '/painel/servicos', label: 'Servicos', icon: Scissors },
   { href: '/painel/equipe', label: 'Equipe', icon: Users },
   { href: '/painel/clientes', label: 'Clientes', icon: Contact },
+  { href: '/painel/pagamentos', label: 'Pagamentos', icon: CreditCard },
 ]
 
 export default function PainelLayout({ children }: { children: React.ReactNode }) {
@@ -59,13 +61,13 @@ export default function PainelLayout({ children }: { children: React.ReactNode }
       <nav className="fixed inset-x-0 bottom-0 z-50 flex h-16 items-center justify-around border-t border-[#E4E4E7] bg-white/95 backdrop-blur-sm pb-[env(safe-area-inset-bottom)] lg:hidden">
         {navItems.map((item) => {
           const Icon = item.icon
-          const active = active(item.href)
+          const isActive = active(item.href)
           return (
             <Link
               key={item.href}
               href={item.href}
               className={`flex flex-col items-center justify-center gap-1 min-w-[44px] min-h-[44px] ${
-                active ? 'text-[#18181B]' : 'text-[#A1A1AA]'
+                isActive ? 'text-[#18181B]' : 'text-[#A1A1AA]'
               }`}
             >
               <Icon className="w-[18px] h-[18px]" />
@@ -91,13 +93,13 @@ export default function PainelLayout({ children }: { children: React.ReactNode }
         <nav className="flex-1 py-4 px-3 space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon
-            const active = active(item.href)
+            const isActive = active(item.href)
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  active
+                  isActive
                     ? 'bg-[#F4F4F5] text-[#18181B]'
                     : 'text-[#71717A] hover:bg-[#F4F4F5] hover:text-[#09090B]'
                 }`}
