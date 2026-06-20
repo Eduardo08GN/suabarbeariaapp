@@ -450,7 +450,9 @@ export default function ConfirmarPage() {
           {lockedOut && (
             <p className="flex items-center justify-center gap-2 rounded-lg bg-(--bg-subtle) px-3 py-3 text-center text-xs text-(--text-secondary)">
               <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-              Pagamento indisponivel para este valor. Fale com a barbearia.
+              {selectedProducts.length > 0
+                ? 'Este item deixa o total abaixo do minimo do PIX. Remova o item para continuar.'
+                : 'Pagamento indisponivel para este valor. Fale com a barbearia.'}
             </p>
           )}
         </div>

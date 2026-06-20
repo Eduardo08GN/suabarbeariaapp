@@ -87,12 +87,21 @@ export async function POST(request: NextRequest) {
     const rawProductIds: string[] = Array.isArray(body.productIds)
       ? body.productIds.filter((x: unknown) => typeof x === 'string').slice(0, 20)
       : []
+    const wantedIds = [...new Set(rawProductIds)]
     let products: { id: string; name: string; price: number }[] = []
-    if (hasAsaas && rawProductIds.length) {
+    if (hasAsaas && wantedIds.length) {
       products = await prisma.product.findMany({
-        where: { id: { in: rawProductIds }, tenantId: tenant.id, active: true, isOrderBump: true },
+        where: { id: { in: wantedIds }, tenantId: tenant.id, active: true, isOrderBump: true },
         select: { id: true, name: true, price: true },
       })
+      // algum item saiu de catalogo entre a tela e o submit: nao cobra por menos
+      // em silencio (o cliente concordou com um total maior) — pede revisao.
+      if (products.length !== wantedIds.length) {
+        return NextResponse.json(
+          { error: 'Um dos itens saiu de catalogo. Revise seu pedido e tente de novo.' },
+          { status: 409 }
+        )
+      }
     }
     const productsTotal = products.reduce((sum, p) => sum + p.price, 0)
 

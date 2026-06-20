@@ -27,7 +27,9 @@ const brl = (n: number) =>
 function paymentChip(b: BookingItem): { label: string; cls: string } | null {
   if (b.paymentStatus === 'PAID') {
     const val = b.paidAmount ?? (b.paymentMode === 'SINAL' ? b.price / 2 : b.price)
-    const prefix = b.paymentMode === 'SINAL' ? 'Sinal pago' : 'Pago'
+    // com produto o valor mistura sinal do servico + produtos cheios; o rotulo
+    // "Sinal pago" enganaria, entao usa "Pago" neutro nesse caso.
+    const prefix = b.paymentMode === 'SINAL' && b.products.length === 0 ? 'Sinal pago' : 'Pago'
     return { label: `${prefix} ${brl(val)}`, cls: 'bg-emerald-50 text-emerald-700' }
   }
   if (b.paymentStatus === 'PENDING') {

@@ -61,14 +61,15 @@ export async function getBookingStats(tenantId: string) {
         dateTime: { gte: monthStart, lte: monthEnd },
         status: { in: ['COMPLETED', 'CONFIRMED', 'IN_PROGRESS'] },
       },
-      _sum: { price: true },
+      // servico + produtos (order bump), pra a receita extra aparecer
+      _sum: { price: true, itemsTotal: true },
     }),
   ])
 
   return {
     todayCount,
     totalClients,
-    monthRevenue: monthRevenue._sum.price ?? 0,
+    monthRevenue: (monthRevenue._sum.price ?? 0) + (monthRevenue._sum.itemsTotal ?? 0),
   }
 }
 
