@@ -38,6 +38,8 @@ model Tenant {
   colorPrimary String       @default("#18181B")
   colorAccent  String       @default("#D4A853")
   openingHours Json?
+  timezone     String       @default("America/Sao_Paulo")
+  leadTimeMin  Int          @default(30)
   status       TenantStatus @default(ACTIVE)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
@@ -67,8 +69,10 @@ model Unit {
   phone    String?
   active   Boolean @default(true)
 
-  barberUnits BarberUnit[]
-  bookings    Booking[]
+  barberUnits      BarberUnit[]
+  bookings         Booking[]
+  workShifts       WorkShift[]
+  unavailabilities Unavailability[]
 
   @@unique([tenantId, slug])
 }
@@ -109,9 +113,11 @@ model Barber {
   commissionPct Float   @default(50)
   active        Boolean @default(true)
 
-  units    BarberUnit[]
-  bookings Booking[]
-  blocks   BarberBlock[]
+  units            BarberUnit[]
+  bookings         Booking[]
+  blocks           BarberBlock[]
+  workShifts       WorkShift[]
+  unavailabilities Unavailability[]
 
   @@index([tenantId])
 }
@@ -134,6 +140,43 @@ model BarberBlock {
   startTime DateTime
   endTime   DateTime
   reason    String?
+}
+
+// Jornada semanal do profissional por unidade. Varias linhas no mesmo dia =
+// turno quebrado (ex.: 09-12 e 14-19). Dia sem linha = nao trabalha. dayOfWeek
+// segue Date.getDay() (0=domingo) e horario em minutos — sem chave de idioma,
+// mata o bug PT/EN na raiz. Substitui o BarberUnit.schedule (Json, dado morto).
+model WorkShift {
+  id        String @id @default(cuid())
+  barberId  String
+  barber    Barber @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  unitId    String
+  unit      Unit   @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  dayOfWeek Int // 0=domingo .. 6=sabado (Date.getDay)
+  startMin  Int // minutos desde 00:00 (540 = 09:00)
+  endMin    Int // minutos desde 00:00 (1140 = 19:00)
+
+  @@index([barberId, unitId, dayOfWeek])
+}
+
+// Indisponibilidade por periodo: o profissional nao atende naquelas datas.
+// Termo geral de proposito (sem taxonomia de motivo). allDay=false -> so uma
+// faixa de horario do dia. unitId null = vale em todas as unidades.
+model Unavailability {
+  id        String   @id @default(cuid())
+  barberId  String
+  barber    Barber   @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  unitId    String?
+  unit      Unit?    @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  startDate DateTime // dia inclusivo (00:00 local)
+  endDate   DateTime // dia inclusivo (00:00 local)
+  allDay    Boolean  @default(true)
+  startMin  Int? // se allDay=false: inicio da faixa indisponivel
+  endMin    Int? // se allDay=false: fim
+  reason    String? // opcional, livre
+  createdAt DateTime @default(now())
+
+  @@index([barberId, startDate, endDate])
 }
 
 model Client {

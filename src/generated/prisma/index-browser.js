@@ -143,6 +143,8 @@ exports.Prisma.TenantScalarFieldEnum = {
   colorPrimary: 'colorPrimary',
   colorAccent: 'colorAccent',
   openingHours: 'openingHours',
+  timezone: 'timezone',
+  leadTimeMin: 'leadTimeMin',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -193,6 +195,28 @@ exports.Prisma.BarberBlockScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   reason: 'reason'
+};
+
+exports.Prisma.WorkShiftScalarFieldEnum = {
+  id: 'id',
+  barberId: 'barberId',
+  unitId: 'unitId',
+  dayOfWeek: 'dayOfWeek',
+  startMin: 'startMin',
+  endMin: 'endMin'
+};
+
+exports.Prisma.UnavailabilityScalarFieldEnum = {
+  id: 'id',
+  barberId: 'barberId',
+  unitId: 'unitId',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  allDay: 'allDay',
+  startMin: 'startMin',
+  endMin: 'endMin',
+  reason: 'reason',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.ClientScalarFieldEnum = {
@@ -299,6 +323,8 @@ exports.Prisma.ModelName = {
   Barber: 'Barber',
   BarberUnit: 'BarberUnit',
   BarberBlock: 'BarberBlock',
+  WorkShift: 'WorkShift',
+  Unavailability: 'Unavailability',
   Client: 'Client',
   Booking: 'Booking'
 };

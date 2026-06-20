@@ -49,6 +49,16 @@ export type BarberUnit = $Result.DefaultSelection<Prisma.$BarberUnitPayload>
  */
 export type BarberBlock = $Result.DefaultSelection<Prisma.$BarberBlockPayload>
 /**
+ * Model WorkShift
+ * 
+ */
+export type WorkShift = $Result.DefaultSelection<Prisma.$WorkShiftPayload>
+/**
+ * Model Unavailability
+ * 
+ */
+export type Unavailability = $Result.DefaultSelection<Prisma.$UnavailabilityPayload>
+/**
  * Model Client
  * 
  */
@@ -325,6 +335,26 @@ export class PrismaClient<
     * ```
     */
   get barberBlock(): Prisma.BarberBlockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.workShift`: Exposes CRUD operations for the **WorkShift** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WorkShifts
+    * const workShifts = await prisma.workShift.findMany()
+    * ```
+    */
+  get workShift(): Prisma.WorkShiftDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.unavailability`: Exposes CRUD operations for the **Unavailability** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Unavailabilities
+    * const unavailabilities = await prisma.unavailability.findMany()
+    * ```
+    */
+  get unavailability(): Prisma.UnavailabilityDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.client`: Exposes CRUD operations for the **Client** model.
@@ -793,6 +823,8 @@ export namespace Prisma {
     Barber: 'Barber',
     BarberUnit: 'BarberUnit',
     BarberBlock: 'BarberBlock',
+    WorkShift: 'WorkShift',
+    Unavailability: 'Unavailability',
     Client: 'Client',
     Booking: 'Booking'
   };
@@ -813,7 +845,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "tenant" | "unit" | "service" | "barber" | "barberUnit" | "barberBlock" | "client" | "booking"
+      modelProps: "user" | "tenant" | "unit" | "service" | "barber" | "barberUnit" | "barberBlock" | "workShift" | "unavailability" | "client" | "booking"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1335,6 +1367,154 @@ export namespace Prisma {
           }
         }
       }
+      WorkShift: {
+        payload: Prisma.$WorkShiftPayload<ExtArgs>
+        fields: Prisma.WorkShiftFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WorkShiftFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WorkShiftFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload>
+          }
+          findFirst: {
+            args: Prisma.WorkShiftFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WorkShiftFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload>
+          }
+          findMany: {
+            args: Prisma.WorkShiftFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload>[]
+          }
+          create: {
+            args: Prisma.WorkShiftCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload>
+          }
+          createMany: {
+            args: Prisma.WorkShiftCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WorkShiftCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload>[]
+          }
+          delete: {
+            args: Prisma.WorkShiftDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload>
+          }
+          update: {
+            args: Prisma.WorkShiftUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload>
+          }
+          deleteMany: {
+            args: Prisma.WorkShiftDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WorkShiftUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WorkShiftUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload>[]
+          }
+          upsert: {
+            args: Prisma.WorkShiftUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkShiftPayload>
+          }
+          aggregate: {
+            args: Prisma.WorkShiftAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWorkShift>
+          }
+          groupBy: {
+            args: Prisma.WorkShiftGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WorkShiftGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WorkShiftCountArgs<ExtArgs>
+            result: $Utils.Optional<WorkShiftCountAggregateOutputType> | number
+          }
+        }
+      }
+      Unavailability: {
+        payload: Prisma.$UnavailabilityPayload<ExtArgs>
+        fields: Prisma.UnavailabilityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UnavailabilityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UnavailabilityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload>
+          }
+          findFirst: {
+            args: Prisma.UnavailabilityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UnavailabilityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload>
+          }
+          findMany: {
+            args: Prisma.UnavailabilityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload>[]
+          }
+          create: {
+            args: Prisma.UnavailabilityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload>
+          }
+          createMany: {
+            args: Prisma.UnavailabilityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UnavailabilityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload>[]
+          }
+          delete: {
+            args: Prisma.UnavailabilityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload>
+          }
+          update: {
+            args: Prisma.UnavailabilityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload>
+          }
+          deleteMany: {
+            args: Prisma.UnavailabilityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UnavailabilityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UnavailabilityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload>[]
+          }
+          upsert: {
+            args: Prisma.UnavailabilityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnavailabilityPayload>
+          }
+          aggregate: {
+            args: Prisma.UnavailabilityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUnavailability>
+          }
+          groupBy: {
+            args: Prisma.UnavailabilityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UnavailabilityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UnavailabilityCountArgs<ExtArgs>
+            result: $Utils.Optional<UnavailabilityCountAggregateOutputType> | number
+          }
+        }
+      }
       Client: {
         payload: Prisma.$ClientPayload<ExtArgs>
         fields: Prisma.ClientFieldRefs
@@ -1586,6 +1766,8 @@ export namespace Prisma {
     barber?: BarberOmit
     barberUnit?: BarberUnitOmit
     barberBlock?: BarberBlockOmit
+    workShift?: WorkShiftOmit
+    unavailability?: UnavailabilityOmit
     client?: ClientOmit
     booking?: BookingOmit
   }
@@ -1746,11 +1928,15 @@ export namespace Prisma {
   export type UnitCountOutputType = {
     barberUnits: number
     bookings: number
+    workShifts: number
+    unavailabilities: number
   }
 
   export type UnitCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     barberUnits?: boolean | UnitCountOutputTypeCountBarberUnitsArgs
     bookings?: boolean | UnitCountOutputTypeCountBookingsArgs
+    workShifts?: boolean | UnitCountOutputTypeCountWorkShiftsArgs
+    unavailabilities?: boolean | UnitCountOutputTypeCountUnavailabilitiesArgs
   }
 
   // Custom InputTypes
@@ -1776,6 +1962,20 @@ export namespace Prisma {
    */
   export type UnitCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookingWhereInput
+  }
+
+  /**
+   * UnitCountOutputType without action
+   */
+  export type UnitCountOutputTypeCountWorkShiftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkShiftWhereInput
+  }
+
+  /**
+   * UnitCountOutputType without action
+   */
+  export type UnitCountOutputTypeCountUnavailabilitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UnavailabilityWhereInput
   }
 
 
@@ -1818,12 +2018,16 @@ export namespace Prisma {
     units: number
     bookings: number
     blocks: number
+    workShifts: number
+    unavailabilities: number
   }
 
   export type BarberCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     units?: boolean | BarberCountOutputTypeCountUnitsArgs
     bookings?: boolean | BarberCountOutputTypeCountBookingsArgs
     blocks?: boolean | BarberCountOutputTypeCountBlocksArgs
+    workShifts?: boolean | BarberCountOutputTypeCountWorkShiftsArgs
+    unavailabilities?: boolean | BarberCountOutputTypeCountUnavailabilitiesArgs
   }
 
   // Custom InputTypes
@@ -1856,6 +2060,20 @@ export namespace Prisma {
    */
   export type BarberCountOutputTypeCountBlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BarberBlockWhereInput
+  }
+
+  /**
+   * BarberCountOutputType without action
+   */
+  export type BarberCountOutputTypeCountWorkShiftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkShiftWhereInput
+  }
+
+  /**
+   * BarberCountOutputType without action
+   */
+  export type BarberCountOutputTypeCountUnavailabilitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UnavailabilityWhereInput
   }
 
 
@@ -3016,8 +3234,18 @@ export namespace Prisma {
 
   export type AggregateTenant = {
     _count: TenantCountAggregateOutputType | null
+    _avg: TenantAvgAggregateOutputType | null
+    _sum: TenantSumAggregateOutputType | null
     _min: TenantMinAggregateOutputType | null
     _max: TenantMaxAggregateOutputType | null
+  }
+
+  export type TenantAvgAggregateOutputType = {
+    leadTimeMin: number | null
+  }
+
+  export type TenantSumAggregateOutputType = {
+    leadTimeMin: number | null
   }
 
   export type TenantMinAggregateOutputType = {
@@ -3029,6 +3257,8 @@ export namespace Prisma {
     logo: string | null
     colorPrimary: string | null
     colorAccent: string | null
+    timezone: string | null
+    leadTimeMin: number | null
     status: $Enums.TenantStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3043,6 +3273,8 @@ export namespace Prisma {
     logo: string | null
     colorPrimary: string | null
     colorAccent: string | null
+    timezone: string | null
+    leadTimeMin: number | null
     status: $Enums.TenantStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3059,12 +3291,22 @@ export namespace Prisma {
     colorPrimary: number
     colorAccent: number
     openingHours: number
+    timezone: number
+    leadTimeMin: number
     status: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type TenantAvgAggregateInputType = {
+    leadTimeMin?: true
+  }
+
+  export type TenantSumAggregateInputType = {
+    leadTimeMin?: true
+  }
 
   export type TenantMinAggregateInputType = {
     id?: true
@@ -3075,6 +3317,8 @@ export namespace Prisma {
     logo?: true
     colorPrimary?: true
     colorAccent?: true
+    timezone?: true
+    leadTimeMin?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -3089,6 +3333,8 @@ export namespace Prisma {
     logo?: true
     colorPrimary?: true
     colorAccent?: true
+    timezone?: true
+    leadTimeMin?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -3105,6 +3351,8 @@ export namespace Prisma {
     colorPrimary?: true
     colorAccent?: true
     openingHours?: true
+    timezone?: true
+    leadTimeMin?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -3149,6 +3397,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: TenantAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TenantSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TenantMinAggregateInputType
@@ -3179,6 +3439,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TenantCountAggregateInputType | true
+    _avg?: TenantAvgAggregateInputType
+    _sum?: TenantSumAggregateInputType
     _min?: TenantMinAggregateInputType
     _max?: TenantMaxAggregateInputType
   }
@@ -3194,10 +3456,14 @@ export namespace Prisma {
     colorPrimary: string
     colorAccent: string
     openingHours: JsonValue | null
+    timezone: string
+    leadTimeMin: number
     status: $Enums.TenantStatus
     createdAt: Date
     updatedAt: Date
     _count: TenantCountAggregateOutputType | null
+    _avg: TenantAvgAggregateOutputType | null
+    _sum: TenantSumAggregateOutputType | null
     _min: TenantMinAggregateOutputType | null
     _max: TenantMaxAggregateOutputType | null
   }
@@ -3227,6 +3493,8 @@ export namespace Prisma {
     colorPrimary?: boolean
     colorAccent?: boolean
     openingHours?: boolean
+    timezone?: boolean
+    leadTimeMin?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3250,6 +3518,8 @@ export namespace Prisma {
     colorPrimary?: boolean
     colorAccent?: boolean
     openingHours?: boolean
+    timezone?: boolean
+    leadTimeMin?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3266,6 +3536,8 @@ export namespace Prisma {
     colorPrimary?: boolean
     colorAccent?: boolean
     openingHours?: boolean
+    timezone?: boolean
+    leadTimeMin?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3282,12 +3554,14 @@ export namespace Prisma {
     colorPrimary?: boolean
     colorAccent?: boolean
     openingHours?: boolean
+    timezone?: boolean
+    leadTimeMin?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "phone" | "email" | "address" | "logo" | "colorPrimary" | "colorAccent" | "openingHours" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "phone" | "email" | "address" | "logo" | "colorPrimary" | "colorAccent" | "openingHours" | "timezone" | "leadTimeMin" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
   export type TenantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Tenant$usersArgs<ExtArgs>
     services?: boolean | Tenant$servicesArgs<ExtArgs>
@@ -3321,6 +3595,8 @@ export namespace Prisma {
       colorPrimary: string
       colorAccent: string
       openingHours: Prisma.JsonValue | null
+      timezone: string
+      leadTimeMin: number
       status: $Enums.TenantStatus
       createdAt: Date
       updatedAt: Date
@@ -3763,6 +4039,8 @@ export namespace Prisma {
     readonly colorPrimary: FieldRef<"Tenant", 'String'>
     readonly colorAccent: FieldRef<"Tenant", 'String'>
     readonly openingHours: FieldRef<"Tenant", 'Json'>
+    readonly timezone: FieldRef<"Tenant", 'String'>
+    readonly leadTimeMin: FieldRef<"Tenant", 'Int'>
     readonly status: FieldRef<"Tenant", 'TenantStatus'>
     readonly createdAt: FieldRef<"Tenant", 'DateTime'>
     readonly updatedAt: FieldRef<"Tenant", 'DateTime'>
@@ -4495,6 +4773,8 @@ export namespace Prisma {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     barberUnits?: boolean | Unit$barberUnitsArgs<ExtArgs>
     bookings?: boolean | Unit$bookingsArgs<ExtArgs>
+    workShifts?: boolean | Unit$workShiftsArgs<ExtArgs>
+    unavailabilities?: boolean | Unit$unavailabilitiesArgs<ExtArgs>
     _count?: boolean | UnitCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["unit"]>
 
@@ -4535,6 +4815,8 @@ export namespace Prisma {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     barberUnits?: boolean | Unit$barberUnitsArgs<ExtArgs>
     bookings?: boolean | Unit$bookingsArgs<ExtArgs>
+    workShifts?: boolean | Unit$workShiftsArgs<ExtArgs>
+    unavailabilities?: boolean | Unit$unavailabilitiesArgs<ExtArgs>
     _count?: boolean | UnitCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UnitIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4550,6 +4832,8 @@ export namespace Prisma {
       tenant: Prisma.$TenantPayload<ExtArgs>
       barberUnits: Prisma.$BarberUnitPayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
+      workShifts: Prisma.$WorkShiftPayload<ExtArgs>[]
+      unavailabilities: Prisma.$UnavailabilityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4956,6 +5240,8 @@ export namespace Prisma {
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     barberUnits<T extends Unit$barberUnitsArgs<ExtArgs> = {}>(args?: Subset<T, Unit$barberUnitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BarberUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends Unit$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Unit$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workShifts<T extends Unit$workShiftsArgs<ExtArgs> = {}>(args?: Subset<T, Unit$workShiftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    unavailabilities<T extends Unit$unavailabilitiesArgs<ExtArgs> = {}>(args?: Subset<T, Unit$unavailabilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5433,6 +5719,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
+  }
+
+  /**
+   * Unit.workShifts
+   */
+  export type Unit$workShiftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    where?: WorkShiftWhereInput
+    orderBy?: WorkShiftOrderByWithRelationInput | WorkShiftOrderByWithRelationInput[]
+    cursor?: WorkShiftWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkShiftScalarFieldEnum | WorkShiftScalarFieldEnum[]
+  }
+
+  /**
+   * Unit.unavailabilities
+   */
+  export type Unit$unavailabilitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    where?: UnavailabilityWhereInput
+    orderBy?: UnavailabilityOrderByWithRelationInput | UnavailabilityOrderByWithRelationInput[]
+    cursor?: UnavailabilityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UnavailabilityScalarFieldEnum | UnavailabilityScalarFieldEnum[]
   }
 
   /**
@@ -6854,6 +7188,8 @@ export namespace Prisma {
     units?: boolean | Barber$unitsArgs<ExtArgs>
     bookings?: boolean | Barber$bookingsArgs<ExtArgs>
     blocks?: boolean | Barber$blocksArgs<ExtArgs>
+    workShifts?: boolean | Barber$workShiftsArgs<ExtArgs>
+    unavailabilities?: boolean | Barber$unavailabilitiesArgs<ExtArgs>
     _count?: boolean | BarberCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["barber"]>
 
@@ -6895,6 +7231,8 @@ export namespace Prisma {
     units?: boolean | Barber$unitsArgs<ExtArgs>
     bookings?: boolean | Barber$bookingsArgs<ExtArgs>
     blocks?: boolean | Barber$blocksArgs<ExtArgs>
+    workShifts?: boolean | Barber$workShiftsArgs<ExtArgs>
+    unavailabilities?: boolean | Barber$unavailabilitiesArgs<ExtArgs>
     _count?: boolean | BarberCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BarberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6911,6 +7249,8 @@ export namespace Prisma {
       units: Prisma.$BarberUnitPayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
       blocks: Prisma.$BarberBlockPayload<ExtArgs>[]
+      workShifts: Prisma.$WorkShiftPayload<ExtArgs>[]
+      unavailabilities: Prisma.$UnavailabilityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7318,6 +7658,8 @@ export namespace Prisma {
     units<T extends Barber$unitsArgs<ExtArgs> = {}>(args?: Subset<T, Barber$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BarberUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends Barber$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Barber$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     blocks<T extends Barber$blocksArgs<ExtArgs> = {}>(args?: Subset<T, Barber$blocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BarberBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workShifts<T extends Barber$workShiftsArgs<ExtArgs> = {}>(args?: Subset<T, Barber$workShiftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    unavailabilities<T extends Barber$unavailabilitiesArgs<ExtArgs> = {}>(args?: Subset<T, Barber$unavailabilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7819,6 +8161,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BarberBlockScalarFieldEnum | BarberBlockScalarFieldEnum[]
+  }
+
+  /**
+   * Barber.workShifts
+   */
+  export type Barber$workShiftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    where?: WorkShiftWhereInput
+    orderBy?: WorkShiftOrderByWithRelationInput | WorkShiftOrderByWithRelationInput[]
+    cursor?: WorkShiftWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkShiftScalarFieldEnum | WorkShiftScalarFieldEnum[]
+  }
+
+  /**
+   * Barber.unavailabilities
+   */
+  export type Barber$unavailabilitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    where?: UnavailabilityWhereInput
+    orderBy?: UnavailabilityOrderByWithRelationInput | UnavailabilityOrderByWithRelationInput[]
+    cursor?: UnavailabilityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UnavailabilityScalarFieldEnum | UnavailabilityScalarFieldEnum[]
   }
 
   /**
@@ -9944,6 +10334,2315 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BarberBlockInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WorkShift
+   */
+
+  export type AggregateWorkShift = {
+    _count: WorkShiftCountAggregateOutputType | null
+    _avg: WorkShiftAvgAggregateOutputType | null
+    _sum: WorkShiftSumAggregateOutputType | null
+    _min: WorkShiftMinAggregateOutputType | null
+    _max: WorkShiftMaxAggregateOutputType | null
+  }
+
+  export type WorkShiftAvgAggregateOutputType = {
+    dayOfWeek: number | null
+    startMin: number | null
+    endMin: number | null
+  }
+
+  export type WorkShiftSumAggregateOutputType = {
+    dayOfWeek: number | null
+    startMin: number | null
+    endMin: number | null
+  }
+
+  export type WorkShiftMinAggregateOutputType = {
+    id: string | null
+    barberId: string | null
+    unitId: string | null
+    dayOfWeek: number | null
+    startMin: number | null
+    endMin: number | null
+  }
+
+  export type WorkShiftMaxAggregateOutputType = {
+    id: string | null
+    barberId: string | null
+    unitId: string | null
+    dayOfWeek: number | null
+    startMin: number | null
+    endMin: number | null
+  }
+
+  export type WorkShiftCountAggregateOutputType = {
+    id: number
+    barberId: number
+    unitId: number
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+    _all: number
+  }
+
+
+  export type WorkShiftAvgAggregateInputType = {
+    dayOfWeek?: true
+    startMin?: true
+    endMin?: true
+  }
+
+  export type WorkShiftSumAggregateInputType = {
+    dayOfWeek?: true
+    startMin?: true
+    endMin?: true
+  }
+
+  export type WorkShiftMinAggregateInputType = {
+    id?: true
+    barberId?: true
+    unitId?: true
+    dayOfWeek?: true
+    startMin?: true
+    endMin?: true
+  }
+
+  export type WorkShiftMaxAggregateInputType = {
+    id?: true
+    barberId?: true
+    unitId?: true
+    dayOfWeek?: true
+    startMin?: true
+    endMin?: true
+  }
+
+  export type WorkShiftCountAggregateInputType = {
+    id?: true
+    barberId?: true
+    unitId?: true
+    dayOfWeek?: true
+    startMin?: true
+    endMin?: true
+    _all?: true
+  }
+
+  export type WorkShiftAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkShift to aggregate.
+     */
+    where?: WorkShiftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkShifts to fetch.
+     */
+    orderBy?: WorkShiftOrderByWithRelationInput | WorkShiftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WorkShiftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkShifts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkShifts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WorkShifts
+    **/
+    _count?: true | WorkShiftCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WorkShiftAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WorkShiftSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WorkShiftMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WorkShiftMaxAggregateInputType
+  }
+
+  export type GetWorkShiftAggregateType<T extends WorkShiftAggregateArgs> = {
+        [P in keyof T & keyof AggregateWorkShift]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWorkShift[P]>
+      : GetScalarType<T[P], AggregateWorkShift[P]>
+  }
+
+
+
+
+  export type WorkShiftGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkShiftWhereInput
+    orderBy?: WorkShiftOrderByWithAggregationInput | WorkShiftOrderByWithAggregationInput[]
+    by: WorkShiftScalarFieldEnum[] | WorkShiftScalarFieldEnum
+    having?: WorkShiftScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WorkShiftCountAggregateInputType | true
+    _avg?: WorkShiftAvgAggregateInputType
+    _sum?: WorkShiftSumAggregateInputType
+    _min?: WorkShiftMinAggregateInputType
+    _max?: WorkShiftMaxAggregateInputType
+  }
+
+  export type WorkShiftGroupByOutputType = {
+    id: string
+    barberId: string
+    unitId: string
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+    _count: WorkShiftCountAggregateOutputType | null
+    _avg: WorkShiftAvgAggregateOutputType | null
+    _sum: WorkShiftSumAggregateOutputType | null
+    _min: WorkShiftMinAggregateOutputType | null
+    _max: WorkShiftMaxAggregateOutputType | null
+  }
+
+  type GetWorkShiftGroupByPayload<T extends WorkShiftGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WorkShiftGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WorkShiftGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WorkShiftGroupByOutputType[P]>
+            : GetScalarType<T[P], WorkShiftGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WorkShiftSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    barberId?: boolean
+    unitId?: boolean
+    dayOfWeek?: boolean
+    startMin?: boolean
+    endMin?: boolean
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | UnitDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workShift"]>
+
+  export type WorkShiftSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    barberId?: boolean
+    unitId?: boolean
+    dayOfWeek?: boolean
+    startMin?: boolean
+    endMin?: boolean
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | UnitDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workShift"]>
+
+  export type WorkShiftSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    barberId?: boolean
+    unitId?: boolean
+    dayOfWeek?: boolean
+    startMin?: boolean
+    endMin?: boolean
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | UnitDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workShift"]>
+
+  export type WorkShiftSelectScalar = {
+    id?: boolean
+    barberId?: boolean
+    unitId?: boolean
+    dayOfWeek?: boolean
+    startMin?: boolean
+    endMin?: boolean
+  }
+
+  export type WorkShiftOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "barberId" | "unitId" | "dayOfWeek" | "startMin" | "endMin", ExtArgs["result"]["workShift"]>
+  export type WorkShiftInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | UnitDefaultArgs<ExtArgs>
+  }
+  export type WorkShiftIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | UnitDefaultArgs<ExtArgs>
+  }
+  export type WorkShiftIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | UnitDefaultArgs<ExtArgs>
+  }
+
+  export type $WorkShiftPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WorkShift"
+    objects: {
+      barber: Prisma.$BarberPayload<ExtArgs>
+      unit: Prisma.$UnitPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      barberId: string
+      unitId: string
+      dayOfWeek: number
+      startMin: number
+      endMin: number
+    }, ExtArgs["result"]["workShift"]>
+    composites: {}
+  }
+
+  type WorkShiftGetPayload<S extends boolean | null | undefined | WorkShiftDefaultArgs> = $Result.GetResult<Prisma.$WorkShiftPayload, S>
+
+  type WorkShiftCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WorkShiftFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WorkShiftCountAggregateInputType | true
+    }
+
+  export interface WorkShiftDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WorkShift'], meta: { name: 'WorkShift' } }
+    /**
+     * Find zero or one WorkShift that matches the filter.
+     * @param {WorkShiftFindUniqueArgs} args - Arguments to find a WorkShift
+     * @example
+     * // Get one WorkShift
+     * const workShift = await prisma.workShift.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WorkShiftFindUniqueArgs>(args: SelectSubset<T, WorkShiftFindUniqueArgs<ExtArgs>>): Prisma__WorkShiftClient<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WorkShift that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WorkShiftFindUniqueOrThrowArgs} args - Arguments to find a WorkShift
+     * @example
+     * // Get one WorkShift
+     * const workShift = await prisma.workShift.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WorkShiftFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkShiftFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkShiftClient<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkShift that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkShiftFindFirstArgs} args - Arguments to find a WorkShift
+     * @example
+     * // Get one WorkShift
+     * const workShift = await prisma.workShift.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WorkShiftFindFirstArgs>(args?: SelectSubset<T, WorkShiftFindFirstArgs<ExtArgs>>): Prisma__WorkShiftClient<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkShift that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkShiftFindFirstOrThrowArgs} args - Arguments to find a WorkShift
+     * @example
+     * // Get one WorkShift
+     * const workShift = await prisma.workShift.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WorkShiftFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkShiftFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkShiftClient<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WorkShifts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkShiftFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WorkShifts
+     * const workShifts = await prisma.workShift.findMany()
+     * 
+     * // Get first 10 WorkShifts
+     * const workShifts = await prisma.workShift.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const workShiftWithIdOnly = await prisma.workShift.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WorkShiftFindManyArgs>(args?: SelectSubset<T, WorkShiftFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WorkShift.
+     * @param {WorkShiftCreateArgs} args - Arguments to create a WorkShift.
+     * @example
+     * // Create one WorkShift
+     * const WorkShift = await prisma.workShift.create({
+     *   data: {
+     *     // ... data to create a WorkShift
+     *   }
+     * })
+     * 
+     */
+    create<T extends WorkShiftCreateArgs>(args: SelectSubset<T, WorkShiftCreateArgs<ExtArgs>>): Prisma__WorkShiftClient<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WorkShifts.
+     * @param {WorkShiftCreateManyArgs} args - Arguments to create many WorkShifts.
+     * @example
+     * // Create many WorkShifts
+     * const workShift = await prisma.workShift.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WorkShiftCreateManyArgs>(args?: SelectSubset<T, WorkShiftCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WorkShifts and returns the data saved in the database.
+     * @param {WorkShiftCreateManyAndReturnArgs} args - Arguments to create many WorkShifts.
+     * @example
+     * // Create many WorkShifts
+     * const workShift = await prisma.workShift.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WorkShifts and only return the `id`
+     * const workShiftWithIdOnly = await prisma.workShift.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WorkShiftCreateManyAndReturnArgs>(args?: SelectSubset<T, WorkShiftCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WorkShift.
+     * @param {WorkShiftDeleteArgs} args - Arguments to delete one WorkShift.
+     * @example
+     * // Delete one WorkShift
+     * const WorkShift = await prisma.workShift.delete({
+     *   where: {
+     *     // ... filter to delete one WorkShift
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WorkShiftDeleteArgs>(args: SelectSubset<T, WorkShiftDeleteArgs<ExtArgs>>): Prisma__WorkShiftClient<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WorkShift.
+     * @param {WorkShiftUpdateArgs} args - Arguments to update one WorkShift.
+     * @example
+     * // Update one WorkShift
+     * const workShift = await prisma.workShift.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WorkShiftUpdateArgs>(args: SelectSubset<T, WorkShiftUpdateArgs<ExtArgs>>): Prisma__WorkShiftClient<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WorkShifts.
+     * @param {WorkShiftDeleteManyArgs} args - Arguments to filter WorkShifts to delete.
+     * @example
+     * // Delete a few WorkShifts
+     * const { count } = await prisma.workShift.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WorkShiftDeleteManyArgs>(args?: SelectSubset<T, WorkShiftDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkShifts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkShiftUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WorkShifts
+     * const workShift = await prisma.workShift.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WorkShiftUpdateManyArgs>(args: SelectSubset<T, WorkShiftUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkShifts and returns the data updated in the database.
+     * @param {WorkShiftUpdateManyAndReturnArgs} args - Arguments to update many WorkShifts.
+     * @example
+     * // Update many WorkShifts
+     * const workShift = await prisma.workShift.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WorkShifts and only return the `id`
+     * const workShiftWithIdOnly = await prisma.workShift.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WorkShiftUpdateManyAndReturnArgs>(args: SelectSubset<T, WorkShiftUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WorkShift.
+     * @param {WorkShiftUpsertArgs} args - Arguments to update or create a WorkShift.
+     * @example
+     * // Update or create a WorkShift
+     * const workShift = await prisma.workShift.upsert({
+     *   create: {
+     *     // ... data to create a WorkShift
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WorkShift we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WorkShiftUpsertArgs>(args: SelectSubset<T, WorkShiftUpsertArgs<ExtArgs>>): Prisma__WorkShiftClient<$Result.GetResult<Prisma.$WorkShiftPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WorkShifts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkShiftCountArgs} args - Arguments to filter WorkShifts to count.
+     * @example
+     * // Count the number of WorkShifts
+     * const count = await prisma.workShift.count({
+     *   where: {
+     *     // ... the filter for the WorkShifts we want to count
+     *   }
+     * })
+    **/
+    count<T extends WorkShiftCountArgs>(
+      args?: Subset<T, WorkShiftCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WorkShiftCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WorkShift.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkShiftAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WorkShiftAggregateArgs>(args: Subset<T, WorkShiftAggregateArgs>): Prisma.PrismaPromise<GetWorkShiftAggregateType<T>>
+
+    /**
+     * Group by WorkShift.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkShiftGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WorkShiftGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WorkShiftGroupByArgs['orderBy'] }
+        : { orderBy?: WorkShiftGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WorkShiftGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkShiftGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WorkShift model
+   */
+  readonly fields: WorkShiftFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WorkShift.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WorkShiftClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    barber<T extends BarberDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BarberDefaultArgs<ExtArgs>>): Prisma__BarberClient<$Result.GetResult<Prisma.$BarberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    unit<T extends UnitDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UnitDefaultArgs<ExtArgs>>): Prisma__UnitClient<$Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WorkShift model
+   */
+  interface WorkShiftFieldRefs {
+    readonly id: FieldRef<"WorkShift", 'String'>
+    readonly barberId: FieldRef<"WorkShift", 'String'>
+    readonly unitId: FieldRef<"WorkShift", 'String'>
+    readonly dayOfWeek: FieldRef<"WorkShift", 'Int'>
+    readonly startMin: FieldRef<"WorkShift", 'Int'>
+    readonly endMin: FieldRef<"WorkShift", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WorkShift findUnique
+   */
+  export type WorkShiftFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkShift to fetch.
+     */
+    where: WorkShiftWhereUniqueInput
+  }
+
+  /**
+   * WorkShift findUniqueOrThrow
+   */
+  export type WorkShiftFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkShift to fetch.
+     */
+    where: WorkShiftWhereUniqueInput
+  }
+
+  /**
+   * WorkShift findFirst
+   */
+  export type WorkShiftFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkShift to fetch.
+     */
+    where?: WorkShiftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkShifts to fetch.
+     */
+    orderBy?: WorkShiftOrderByWithRelationInput | WorkShiftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkShifts.
+     */
+    cursor?: WorkShiftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkShifts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkShifts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkShifts.
+     */
+    distinct?: WorkShiftScalarFieldEnum | WorkShiftScalarFieldEnum[]
+  }
+
+  /**
+   * WorkShift findFirstOrThrow
+   */
+  export type WorkShiftFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkShift to fetch.
+     */
+    where?: WorkShiftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkShifts to fetch.
+     */
+    orderBy?: WorkShiftOrderByWithRelationInput | WorkShiftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkShifts.
+     */
+    cursor?: WorkShiftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkShifts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkShifts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkShifts.
+     */
+    distinct?: WorkShiftScalarFieldEnum | WorkShiftScalarFieldEnum[]
+  }
+
+  /**
+   * WorkShift findMany
+   */
+  export type WorkShiftFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkShifts to fetch.
+     */
+    where?: WorkShiftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkShifts to fetch.
+     */
+    orderBy?: WorkShiftOrderByWithRelationInput | WorkShiftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WorkShifts.
+     */
+    cursor?: WorkShiftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkShifts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkShifts.
+     */
+    skip?: number
+    distinct?: WorkShiftScalarFieldEnum | WorkShiftScalarFieldEnum[]
+  }
+
+  /**
+   * WorkShift create
+   */
+  export type WorkShiftCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WorkShift.
+     */
+    data: XOR<WorkShiftCreateInput, WorkShiftUncheckedCreateInput>
+  }
+
+  /**
+   * WorkShift createMany
+   */
+  export type WorkShiftCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WorkShifts.
+     */
+    data: WorkShiftCreateManyInput | WorkShiftCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WorkShift createManyAndReturn
+   */
+  export type WorkShiftCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * The data used to create many WorkShifts.
+     */
+    data: WorkShiftCreateManyInput | WorkShiftCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WorkShift update
+   */
+  export type WorkShiftUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WorkShift.
+     */
+    data: XOR<WorkShiftUpdateInput, WorkShiftUncheckedUpdateInput>
+    /**
+     * Choose, which WorkShift to update.
+     */
+    where: WorkShiftWhereUniqueInput
+  }
+
+  /**
+   * WorkShift updateMany
+   */
+  export type WorkShiftUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WorkShifts.
+     */
+    data: XOR<WorkShiftUpdateManyMutationInput, WorkShiftUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkShifts to update
+     */
+    where?: WorkShiftWhereInput
+    /**
+     * Limit how many WorkShifts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkShift updateManyAndReturn
+   */
+  export type WorkShiftUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * The data used to update WorkShifts.
+     */
+    data: XOR<WorkShiftUpdateManyMutationInput, WorkShiftUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkShifts to update
+     */
+    where?: WorkShiftWhereInput
+    /**
+     * Limit how many WorkShifts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WorkShift upsert
+   */
+  export type WorkShiftUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WorkShift to update in case it exists.
+     */
+    where: WorkShiftWhereUniqueInput
+    /**
+     * In case the WorkShift found by the `where` argument doesn't exist, create a new WorkShift with this data.
+     */
+    create: XOR<WorkShiftCreateInput, WorkShiftUncheckedCreateInput>
+    /**
+     * In case the WorkShift was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WorkShiftUpdateInput, WorkShiftUncheckedUpdateInput>
+  }
+
+  /**
+   * WorkShift delete
+   */
+  export type WorkShiftDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+    /**
+     * Filter which WorkShift to delete.
+     */
+    where: WorkShiftWhereUniqueInput
+  }
+
+  /**
+   * WorkShift deleteMany
+   */
+  export type WorkShiftDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkShifts to delete
+     */
+    where?: WorkShiftWhereInput
+    /**
+     * Limit how many WorkShifts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkShift without action
+   */
+  export type WorkShiftDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkShift
+     */
+    select?: WorkShiftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkShift
+     */
+    omit?: WorkShiftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkShiftInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Unavailability
+   */
+
+  export type AggregateUnavailability = {
+    _count: UnavailabilityCountAggregateOutputType | null
+    _avg: UnavailabilityAvgAggregateOutputType | null
+    _sum: UnavailabilitySumAggregateOutputType | null
+    _min: UnavailabilityMinAggregateOutputType | null
+    _max: UnavailabilityMaxAggregateOutputType | null
+  }
+
+  export type UnavailabilityAvgAggregateOutputType = {
+    startMin: number | null
+    endMin: number | null
+  }
+
+  export type UnavailabilitySumAggregateOutputType = {
+    startMin: number | null
+    endMin: number | null
+  }
+
+  export type UnavailabilityMinAggregateOutputType = {
+    id: string | null
+    barberId: string | null
+    unitId: string | null
+    startDate: Date | null
+    endDate: Date | null
+    allDay: boolean | null
+    startMin: number | null
+    endMin: number | null
+    reason: string | null
+    createdAt: Date | null
+  }
+
+  export type UnavailabilityMaxAggregateOutputType = {
+    id: string | null
+    barberId: string | null
+    unitId: string | null
+    startDate: Date | null
+    endDate: Date | null
+    allDay: boolean | null
+    startMin: number | null
+    endMin: number | null
+    reason: string | null
+    createdAt: Date | null
+  }
+
+  export type UnavailabilityCountAggregateOutputType = {
+    id: number
+    barberId: number
+    unitId: number
+    startDate: number
+    endDate: number
+    allDay: number
+    startMin: number
+    endMin: number
+    reason: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UnavailabilityAvgAggregateInputType = {
+    startMin?: true
+    endMin?: true
+  }
+
+  export type UnavailabilitySumAggregateInputType = {
+    startMin?: true
+    endMin?: true
+  }
+
+  export type UnavailabilityMinAggregateInputType = {
+    id?: true
+    barberId?: true
+    unitId?: true
+    startDate?: true
+    endDate?: true
+    allDay?: true
+    startMin?: true
+    endMin?: true
+    reason?: true
+    createdAt?: true
+  }
+
+  export type UnavailabilityMaxAggregateInputType = {
+    id?: true
+    barberId?: true
+    unitId?: true
+    startDate?: true
+    endDate?: true
+    allDay?: true
+    startMin?: true
+    endMin?: true
+    reason?: true
+    createdAt?: true
+  }
+
+  export type UnavailabilityCountAggregateInputType = {
+    id?: true
+    barberId?: true
+    unitId?: true
+    startDate?: true
+    endDate?: true
+    allDay?: true
+    startMin?: true
+    endMin?: true
+    reason?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UnavailabilityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Unavailability to aggregate.
+     */
+    where?: UnavailabilityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Unavailabilities to fetch.
+     */
+    orderBy?: UnavailabilityOrderByWithRelationInput | UnavailabilityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UnavailabilityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Unavailabilities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Unavailabilities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Unavailabilities
+    **/
+    _count?: true | UnavailabilityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UnavailabilityAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UnavailabilitySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UnavailabilityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UnavailabilityMaxAggregateInputType
+  }
+
+  export type GetUnavailabilityAggregateType<T extends UnavailabilityAggregateArgs> = {
+        [P in keyof T & keyof AggregateUnavailability]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUnavailability[P]>
+      : GetScalarType<T[P], AggregateUnavailability[P]>
+  }
+
+
+
+
+  export type UnavailabilityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UnavailabilityWhereInput
+    orderBy?: UnavailabilityOrderByWithAggregationInput | UnavailabilityOrderByWithAggregationInput[]
+    by: UnavailabilityScalarFieldEnum[] | UnavailabilityScalarFieldEnum
+    having?: UnavailabilityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UnavailabilityCountAggregateInputType | true
+    _avg?: UnavailabilityAvgAggregateInputType
+    _sum?: UnavailabilitySumAggregateInputType
+    _min?: UnavailabilityMinAggregateInputType
+    _max?: UnavailabilityMaxAggregateInputType
+  }
+
+  export type UnavailabilityGroupByOutputType = {
+    id: string
+    barberId: string
+    unitId: string | null
+    startDate: Date
+    endDate: Date
+    allDay: boolean
+    startMin: number | null
+    endMin: number | null
+    reason: string | null
+    createdAt: Date
+    _count: UnavailabilityCountAggregateOutputType | null
+    _avg: UnavailabilityAvgAggregateOutputType | null
+    _sum: UnavailabilitySumAggregateOutputType | null
+    _min: UnavailabilityMinAggregateOutputType | null
+    _max: UnavailabilityMaxAggregateOutputType | null
+  }
+
+  type GetUnavailabilityGroupByPayload<T extends UnavailabilityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UnavailabilityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UnavailabilityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UnavailabilityGroupByOutputType[P]>
+            : GetScalarType<T[P], UnavailabilityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UnavailabilitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    barberId?: boolean
+    unitId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    allDay?: boolean
+    startMin?: boolean
+    endMin?: boolean
+    reason?: boolean
+    createdAt?: boolean
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | Unavailability$unitArgs<ExtArgs>
+  }, ExtArgs["result"]["unavailability"]>
+
+  export type UnavailabilitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    barberId?: boolean
+    unitId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    allDay?: boolean
+    startMin?: boolean
+    endMin?: boolean
+    reason?: boolean
+    createdAt?: boolean
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | Unavailability$unitArgs<ExtArgs>
+  }, ExtArgs["result"]["unavailability"]>
+
+  export type UnavailabilitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    barberId?: boolean
+    unitId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    allDay?: boolean
+    startMin?: boolean
+    endMin?: boolean
+    reason?: boolean
+    createdAt?: boolean
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | Unavailability$unitArgs<ExtArgs>
+  }, ExtArgs["result"]["unavailability"]>
+
+  export type UnavailabilitySelectScalar = {
+    id?: boolean
+    barberId?: boolean
+    unitId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    allDay?: boolean
+    startMin?: boolean
+    endMin?: boolean
+    reason?: boolean
+    createdAt?: boolean
+  }
+
+  export type UnavailabilityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "barberId" | "unitId" | "startDate" | "endDate" | "allDay" | "startMin" | "endMin" | "reason" | "createdAt", ExtArgs["result"]["unavailability"]>
+  export type UnavailabilityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | Unavailability$unitArgs<ExtArgs>
+  }
+  export type UnavailabilityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | Unavailability$unitArgs<ExtArgs>
+  }
+  export type UnavailabilityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    barber?: boolean | BarberDefaultArgs<ExtArgs>
+    unit?: boolean | Unavailability$unitArgs<ExtArgs>
+  }
+
+  export type $UnavailabilityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Unavailability"
+    objects: {
+      barber: Prisma.$BarberPayload<ExtArgs>
+      unit: Prisma.$UnitPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      barberId: string
+      unitId: string | null
+      startDate: Date
+      endDate: Date
+      allDay: boolean
+      startMin: number | null
+      endMin: number | null
+      reason: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["unavailability"]>
+    composites: {}
+  }
+
+  type UnavailabilityGetPayload<S extends boolean | null | undefined | UnavailabilityDefaultArgs> = $Result.GetResult<Prisma.$UnavailabilityPayload, S>
+
+  type UnavailabilityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UnavailabilityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UnavailabilityCountAggregateInputType | true
+    }
+
+  export interface UnavailabilityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Unavailability'], meta: { name: 'Unavailability' } }
+    /**
+     * Find zero or one Unavailability that matches the filter.
+     * @param {UnavailabilityFindUniqueArgs} args - Arguments to find a Unavailability
+     * @example
+     * // Get one Unavailability
+     * const unavailability = await prisma.unavailability.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UnavailabilityFindUniqueArgs>(args: SelectSubset<T, UnavailabilityFindUniqueArgs<ExtArgs>>): Prisma__UnavailabilityClient<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Unavailability that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UnavailabilityFindUniqueOrThrowArgs} args - Arguments to find a Unavailability
+     * @example
+     * // Get one Unavailability
+     * const unavailability = await prisma.unavailability.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UnavailabilityFindUniqueOrThrowArgs>(args: SelectSubset<T, UnavailabilityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UnavailabilityClient<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Unavailability that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnavailabilityFindFirstArgs} args - Arguments to find a Unavailability
+     * @example
+     * // Get one Unavailability
+     * const unavailability = await prisma.unavailability.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UnavailabilityFindFirstArgs>(args?: SelectSubset<T, UnavailabilityFindFirstArgs<ExtArgs>>): Prisma__UnavailabilityClient<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Unavailability that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnavailabilityFindFirstOrThrowArgs} args - Arguments to find a Unavailability
+     * @example
+     * // Get one Unavailability
+     * const unavailability = await prisma.unavailability.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UnavailabilityFindFirstOrThrowArgs>(args?: SelectSubset<T, UnavailabilityFindFirstOrThrowArgs<ExtArgs>>): Prisma__UnavailabilityClient<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Unavailabilities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnavailabilityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Unavailabilities
+     * const unavailabilities = await prisma.unavailability.findMany()
+     * 
+     * // Get first 10 Unavailabilities
+     * const unavailabilities = await prisma.unavailability.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const unavailabilityWithIdOnly = await prisma.unavailability.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UnavailabilityFindManyArgs>(args?: SelectSubset<T, UnavailabilityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Unavailability.
+     * @param {UnavailabilityCreateArgs} args - Arguments to create a Unavailability.
+     * @example
+     * // Create one Unavailability
+     * const Unavailability = await prisma.unavailability.create({
+     *   data: {
+     *     // ... data to create a Unavailability
+     *   }
+     * })
+     * 
+     */
+    create<T extends UnavailabilityCreateArgs>(args: SelectSubset<T, UnavailabilityCreateArgs<ExtArgs>>): Prisma__UnavailabilityClient<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Unavailabilities.
+     * @param {UnavailabilityCreateManyArgs} args - Arguments to create many Unavailabilities.
+     * @example
+     * // Create many Unavailabilities
+     * const unavailability = await prisma.unavailability.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UnavailabilityCreateManyArgs>(args?: SelectSubset<T, UnavailabilityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Unavailabilities and returns the data saved in the database.
+     * @param {UnavailabilityCreateManyAndReturnArgs} args - Arguments to create many Unavailabilities.
+     * @example
+     * // Create many Unavailabilities
+     * const unavailability = await prisma.unavailability.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Unavailabilities and only return the `id`
+     * const unavailabilityWithIdOnly = await prisma.unavailability.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UnavailabilityCreateManyAndReturnArgs>(args?: SelectSubset<T, UnavailabilityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Unavailability.
+     * @param {UnavailabilityDeleteArgs} args - Arguments to delete one Unavailability.
+     * @example
+     * // Delete one Unavailability
+     * const Unavailability = await prisma.unavailability.delete({
+     *   where: {
+     *     // ... filter to delete one Unavailability
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UnavailabilityDeleteArgs>(args: SelectSubset<T, UnavailabilityDeleteArgs<ExtArgs>>): Prisma__UnavailabilityClient<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Unavailability.
+     * @param {UnavailabilityUpdateArgs} args - Arguments to update one Unavailability.
+     * @example
+     * // Update one Unavailability
+     * const unavailability = await prisma.unavailability.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UnavailabilityUpdateArgs>(args: SelectSubset<T, UnavailabilityUpdateArgs<ExtArgs>>): Prisma__UnavailabilityClient<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Unavailabilities.
+     * @param {UnavailabilityDeleteManyArgs} args - Arguments to filter Unavailabilities to delete.
+     * @example
+     * // Delete a few Unavailabilities
+     * const { count } = await prisma.unavailability.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UnavailabilityDeleteManyArgs>(args?: SelectSubset<T, UnavailabilityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Unavailabilities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnavailabilityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Unavailabilities
+     * const unavailability = await prisma.unavailability.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UnavailabilityUpdateManyArgs>(args: SelectSubset<T, UnavailabilityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Unavailabilities and returns the data updated in the database.
+     * @param {UnavailabilityUpdateManyAndReturnArgs} args - Arguments to update many Unavailabilities.
+     * @example
+     * // Update many Unavailabilities
+     * const unavailability = await prisma.unavailability.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Unavailabilities and only return the `id`
+     * const unavailabilityWithIdOnly = await prisma.unavailability.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UnavailabilityUpdateManyAndReturnArgs>(args: SelectSubset<T, UnavailabilityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Unavailability.
+     * @param {UnavailabilityUpsertArgs} args - Arguments to update or create a Unavailability.
+     * @example
+     * // Update or create a Unavailability
+     * const unavailability = await prisma.unavailability.upsert({
+     *   create: {
+     *     // ... data to create a Unavailability
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Unavailability we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UnavailabilityUpsertArgs>(args: SelectSubset<T, UnavailabilityUpsertArgs<ExtArgs>>): Prisma__UnavailabilityClient<$Result.GetResult<Prisma.$UnavailabilityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Unavailabilities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnavailabilityCountArgs} args - Arguments to filter Unavailabilities to count.
+     * @example
+     * // Count the number of Unavailabilities
+     * const count = await prisma.unavailability.count({
+     *   where: {
+     *     // ... the filter for the Unavailabilities we want to count
+     *   }
+     * })
+    **/
+    count<T extends UnavailabilityCountArgs>(
+      args?: Subset<T, UnavailabilityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UnavailabilityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Unavailability.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnavailabilityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UnavailabilityAggregateArgs>(args: Subset<T, UnavailabilityAggregateArgs>): Prisma.PrismaPromise<GetUnavailabilityAggregateType<T>>
+
+    /**
+     * Group by Unavailability.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnavailabilityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UnavailabilityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UnavailabilityGroupByArgs['orderBy'] }
+        : { orderBy?: UnavailabilityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UnavailabilityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUnavailabilityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Unavailability model
+   */
+  readonly fields: UnavailabilityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Unavailability.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UnavailabilityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    barber<T extends BarberDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BarberDefaultArgs<ExtArgs>>): Prisma__BarberClient<$Result.GetResult<Prisma.$BarberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    unit<T extends Unavailability$unitArgs<ExtArgs> = {}>(args?: Subset<T, Unavailability$unitArgs<ExtArgs>>): Prisma__UnitClient<$Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Unavailability model
+   */
+  interface UnavailabilityFieldRefs {
+    readonly id: FieldRef<"Unavailability", 'String'>
+    readonly barberId: FieldRef<"Unavailability", 'String'>
+    readonly unitId: FieldRef<"Unavailability", 'String'>
+    readonly startDate: FieldRef<"Unavailability", 'DateTime'>
+    readonly endDate: FieldRef<"Unavailability", 'DateTime'>
+    readonly allDay: FieldRef<"Unavailability", 'Boolean'>
+    readonly startMin: FieldRef<"Unavailability", 'Int'>
+    readonly endMin: FieldRef<"Unavailability", 'Int'>
+    readonly reason: FieldRef<"Unavailability", 'String'>
+    readonly createdAt: FieldRef<"Unavailability", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Unavailability findUnique
+   */
+  export type UnavailabilityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    /**
+     * Filter, which Unavailability to fetch.
+     */
+    where: UnavailabilityWhereUniqueInput
+  }
+
+  /**
+   * Unavailability findUniqueOrThrow
+   */
+  export type UnavailabilityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    /**
+     * Filter, which Unavailability to fetch.
+     */
+    where: UnavailabilityWhereUniqueInput
+  }
+
+  /**
+   * Unavailability findFirst
+   */
+  export type UnavailabilityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    /**
+     * Filter, which Unavailability to fetch.
+     */
+    where?: UnavailabilityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Unavailabilities to fetch.
+     */
+    orderBy?: UnavailabilityOrderByWithRelationInput | UnavailabilityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Unavailabilities.
+     */
+    cursor?: UnavailabilityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Unavailabilities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Unavailabilities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Unavailabilities.
+     */
+    distinct?: UnavailabilityScalarFieldEnum | UnavailabilityScalarFieldEnum[]
+  }
+
+  /**
+   * Unavailability findFirstOrThrow
+   */
+  export type UnavailabilityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    /**
+     * Filter, which Unavailability to fetch.
+     */
+    where?: UnavailabilityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Unavailabilities to fetch.
+     */
+    orderBy?: UnavailabilityOrderByWithRelationInput | UnavailabilityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Unavailabilities.
+     */
+    cursor?: UnavailabilityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Unavailabilities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Unavailabilities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Unavailabilities.
+     */
+    distinct?: UnavailabilityScalarFieldEnum | UnavailabilityScalarFieldEnum[]
+  }
+
+  /**
+   * Unavailability findMany
+   */
+  export type UnavailabilityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    /**
+     * Filter, which Unavailabilities to fetch.
+     */
+    where?: UnavailabilityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Unavailabilities to fetch.
+     */
+    orderBy?: UnavailabilityOrderByWithRelationInput | UnavailabilityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Unavailabilities.
+     */
+    cursor?: UnavailabilityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Unavailabilities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Unavailabilities.
+     */
+    skip?: number
+    distinct?: UnavailabilityScalarFieldEnum | UnavailabilityScalarFieldEnum[]
+  }
+
+  /**
+   * Unavailability create
+   */
+  export type UnavailabilityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Unavailability.
+     */
+    data: XOR<UnavailabilityCreateInput, UnavailabilityUncheckedCreateInput>
+  }
+
+  /**
+   * Unavailability createMany
+   */
+  export type UnavailabilityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Unavailabilities.
+     */
+    data: UnavailabilityCreateManyInput | UnavailabilityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Unavailability createManyAndReturn
+   */
+  export type UnavailabilityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * The data used to create many Unavailabilities.
+     */
+    data: UnavailabilityCreateManyInput | UnavailabilityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Unavailability update
+   */
+  export type UnavailabilityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Unavailability.
+     */
+    data: XOR<UnavailabilityUpdateInput, UnavailabilityUncheckedUpdateInput>
+    /**
+     * Choose, which Unavailability to update.
+     */
+    where: UnavailabilityWhereUniqueInput
+  }
+
+  /**
+   * Unavailability updateMany
+   */
+  export type UnavailabilityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Unavailabilities.
+     */
+    data: XOR<UnavailabilityUpdateManyMutationInput, UnavailabilityUncheckedUpdateManyInput>
+    /**
+     * Filter which Unavailabilities to update
+     */
+    where?: UnavailabilityWhereInput
+    /**
+     * Limit how many Unavailabilities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Unavailability updateManyAndReturn
+   */
+  export type UnavailabilityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * The data used to update Unavailabilities.
+     */
+    data: XOR<UnavailabilityUpdateManyMutationInput, UnavailabilityUncheckedUpdateManyInput>
+    /**
+     * Filter which Unavailabilities to update
+     */
+    where?: UnavailabilityWhereInput
+    /**
+     * Limit how many Unavailabilities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Unavailability upsert
+   */
+  export type UnavailabilityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Unavailability to update in case it exists.
+     */
+    where: UnavailabilityWhereUniqueInput
+    /**
+     * In case the Unavailability found by the `where` argument doesn't exist, create a new Unavailability with this data.
+     */
+    create: XOR<UnavailabilityCreateInput, UnavailabilityUncheckedCreateInput>
+    /**
+     * In case the Unavailability was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UnavailabilityUpdateInput, UnavailabilityUncheckedUpdateInput>
+  }
+
+  /**
+   * Unavailability delete
+   */
+  export type UnavailabilityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
+    /**
+     * Filter which Unavailability to delete.
+     */
+    where: UnavailabilityWhereUniqueInput
+  }
+
+  /**
+   * Unavailability deleteMany
+   */
+  export type UnavailabilityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Unavailabilities to delete
+     */
+    where?: UnavailabilityWhereInput
+    /**
+     * Limit how many Unavailabilities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Unavailability.unit
+   */
+  export type Unavailability$unitArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unit
+     */
+    select?: UnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unit
+     */
+    omit?: UnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnitInclude<ExtArgs> | null
+    where?: UnitWhereInput
+  }
+
+  /**
+   * Unavailability without action
+   */
+  export type UnavailabilityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Unavailability
+     */
+    select?: UnavailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Unavailability
+     */
+    omit?: UnavailabilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnavailabilityInclude<ExtArgs> | null
   }
 
 
@@ -12411,6 +15110,8 @@ export namespace Prisma {
     colorPrimary: 'colorPrimary',
     colorAccent: 'colorAccent',
     openingHours: 'openingHours',
+    timezone: 'timezone',
+    leadTimeMin: 'leadTimeMin',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -12479,6 +15180,34 @@ export namespace Prisma {
   };
 
   export type BarberBlockScalarFieldEnum = (typeof BarberBlockScalarFieldEnum)[keyof typeof BarberBlockScalarFieldEnum]
+
+
+  export const WorkShiftScalarFieldEnum: {
+    id: 'id',
+    barberId: 'barberId',
+    unitId: 'unitId',
+    dayOfWeek: 'dayOfWeek',
+    startMin: 'startMin',
+    endMin: 'endMin'
+  };
+
+  export type WorkShiftScalarFieldEnum = (typeof WorkShiftScalarFieldEnum)[keyof typeof WorkShiftScalarFieldEnum]
+
+
+  export const UnavailabilityScalarFieldEnum: {
+    id: 'id',
+    barberId: 'barberId',
+    unitId: 'unitId',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    allDay: 'allDay',
+    startMin: 'startMin',
+    endMin: 'endMin',
+    reason: 'reason',
+    createdAt: 'createdAt'
+  };
+
+  export type UnavailabilityScalarFieldEnum = (typeof UnavailabilityScalarFieldEnum)[keyof typeof UnavailabilityScalarFieldEnum]
 
 
   export const ClientScalarFieldEnum: {
@@ -12625,6 +15354,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'TenantStatus'
    */
   export type EnumTenantStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TenantStatus'>
@@ -12670,20 +15413,6 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -12802,6 +15531,8 @@ export namespace Prisma {
     colorPrimary?: StringFilter<"Tenant"> | string
     colorAccent?: StringFilter<"Tenant"> | string
     openingHours?: JsonNullableFilter<"Tenant">
+    timezone?: StringFilter<"Tenant"> | string
+    leadTimeMin?: IntFilter<"Tenant"> | number
     status?: EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -12824,6 +15555,8 @@ export namespace Prisma {
     colorPrimary?: SortOrder
     colorAccent?: SortOrder
     openingHours?: SortOrderInput | SortOrder
+    timezone?: SortOrder
+    leadTimeMin?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12849,6 +15582,8 @@ export namespace Prisma {
     colorPrimary?: StringFilter<"Tenant"> | string
     colorAccent?: StringFilter<"Tenant"> | string
     openingHours?: JsonNullableFilter<"Tenant">
+    timezone?: StringFilter<"Tenant"> | string
+    leadTimeMin?: IntFilter<"Tenant"> | number
     status?: EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -12871,12 +15606,16 @@ export namespace Prisma {
     colorPrimary?: SortOrder
     colorAccent?: SortOrder
     openingHours?: SortOrderInput | SortOrder
+    timezone?: SortOrder
+    leadTimeMin?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TenantCountOrderByAggregateInput
+    _avg?: TenantAvgOrderByAggregateInput
     _max?: TenantMaxOrderByAggregateInput
     _min?: TenantMinOrderByAggregateInput
+    _sum?: TenantSumOrderByAggregateInput
   }
 
   export type TenantScalarWhereWithAggregatesInput = {
@@ -12893,6 +15632,8 @@ export namespace Prisma {
     colorPrimary?: StringWithAggregatesFilter<"Tenant"> | string
     colorAccent?: StringWithAggregatesFilter<"Tenant"> | string
     openingHours?: JsonNullableWithAggregatesFilter<"Tenant">
+    timezone?: StringWithAggregatesFilter<"Tenant"> | string
+    leadTimeMin?: IntWithAggregatesFilter<"Tenant"> | number
     status?: EnumTenantStatusWithAggregatesFilter<"Tenant"> | $Enums.TenantStatus
     createdAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
@@ -12912,6 +15653,8 @@ export namespace Prisma {
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     barberUnits?: BarberUnitListRelationFilter
     bookings?: BookingListRelationFilter
+    workShifts?: WorkShiftListRelationFilter
+    unavailabilities?: UnavailabilityListRelationFilter
   }
 
   export type UnitOrderByWithRelationInput = {
@@ -12925,6 +15668,8 @@ export namespace Prisma {
     tenant?: TenantOrderByWithRelationInput
     barberUnits?: BarberUnitOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
+    workShifts?: WorkShiftOrderByRelationAggregateInput
+    unavailabilities?: UnavailabilityOrderByRelationAggregateInput
   }
 
   export type UnitWhereUniqueInput = Prisma.AtLeast<{
@@ -12942,6 +15687,8 @@ export namespace Prisma {
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     barberUnits?: BarberUnitListRelationFilter
     bookings?: BookingListRelationFilter
+    workShifts?: WorkShiftListRelationFilter
+    unavailabilities?: UnavailabilityListRelationFilter
   }, "id" | "tenantId_slug">
 
   export type UnitOrderByWithAggregationInput = {
@@ -13065,6 +15812,8 @@ export namespace Prisma {
     units?: BarberUnitListRelationFilter
     bookings?: BookingListRelationFilter
     blocks?: BarberBlockListRelationFilter
+    workShifts?: WorkShiftListRelationFilter
+    unavailabilities?: UnavailabilityListRelationFilter
   }
 
   export type BarberOrderByWithRelationInput = {
@@ -13079,6 +15828,8 @@ export namespace Prisma {
     units?: BarberUnitOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
     blocks?: BarberBlockOrderByRelationAggregateInput
+    workShifts?: WorkShiftOrderByRelationAggregateInput
+    unavailabilities?: UnavailabilityOrderByRelationAggregateInput
   }
 
   export type BarberWhereUniqueInput = Prisma.AtLeast<{
@@ -13096,6 +15847,8 @@ export namespace Prisma {
     units?: BarberUnitListRelationFilter
     bookings?: BookingListRelationFilter
     blocks?: BarberBlockListRelationFilter
+    workShifts?: WorkShiftListRelationFilter
+    unavailabilities?: UnavailabilityListRelationFilter
   }, "id">
 
   export type BarberOrderByWithAggregationInput = {
@@ -13233,6 +15986,156 @@ export namespace Prisma {
     startTime?: DateTimeWithAggregatesFilter<"BarberBlock"> | Date | string
     endTime?: DateTimeWithAggregatesFilter<"BarberBlock"> | Date | string
     reason?: StringNullableWithAggregatesFilter<"BarberBlock"> | string | null
+  }
+
+  export type WorkShiftWhereInput = {
+    AND?: WorkShiftWhereInput | WorkShiftWhereInput[]
+    OR?: WorkShiftWhereInput[]
+    NOT?: WorkShiftWhereInput | WorkShiftWhereInput[]
+    id?: StringFilter<"WorkShift"> | string
+    barberId?: StringFilter<"WorkShift"> | string
+    unitId?: StringFilter<"WorkShift"> | string
+    dayOfWeek?: IntFilter<"WorkShift"> | number
+    startMin?: IntFilter<"WorkShift"> | number
+    endMin?: IntFilter<"WorkShift"> | number
+    barber?: XOR<BarberScalarRelationFilter, BarberWhereInput>
+    unit?: XOR<UnitScalarRelationFilter, UnitWhereInput>
+  }
+
+  export type WorkShiftOrderByWithRelationInput = {
+    id?: SortOrder
+    barberId?: SortOrder
+    unitId?: SortOrder
+    dayOfWeek?: SortOrder
+    startMin?: SortOrder
+    endMin?: SortOrder
+    barber?: BarberOrderByWithRelationInput
+    unit?: UnitOrderByWithRelationInput
+  }
+
+  export type WorkShiftWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WorkShiftWhereInput | WorkShiftWhereInput[]
+    OR?: WorkShiftWhereInput[]
+    NOT?: WorkShiftWhereInput | WorkShiftWhereInput[]
+    barberId?: StringFilter<"WorkShift"> | string
+    unitId?: StringFilter<"WorkShift"> | string
+    dayOfWeek?: IntFilter<"WorkShift"> | number
+    startMin?: IntFilter<"WorkShift"> | number
+    endMin?: IntFilter<"WorkShift"> | number
+    barber?: XOR<BarberScalarRelationFilter, BarberWhereInput>
+    unit?: XOR<UnitScalarRelationFilter, UnitWhereInput>
+  }, "id">
+
+  export type WorkShiftOrderByWithAggregationInput = {
+    id?: SortOrder
+    barberId?: SortOrder
+    unitId?: SortOrder
+    dayOfWeek?: SortOrder
+    startMin?: SortOrder
+    endMin?: SortOrder
+    _count?: WorkShiftCountOrderByAggregateInput
+    _avg?: WorkShiftAvgOrderByAggregateInput
+    _max?: WorkShiftMaxOrderByAggregateInput
+    _min?: WorkShiftMinOrderByAggregateInput
+    _sum?: WorkShiftSumOrderByAggregateInput
+  }
+
+  export type WorkShiftScalarWhereWithAggregatesInput = {
+    AND?: WorkShiftScalarWhereWithAggregatesInput | WorkShiftScalarWhereWithAggregatesInput[]
+    OR?: WorkShiftScalarWhereWithAggregatesInput[]
+    NOT?: WorkShiftScalarWhereWithAggregatesInput | WorkShiftScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WorkShift"> | string
+    barberId?: StringWithAggregatesFilter<"WorkShift"> | string
+    unitId?: StringWithAggregatesFilter<"WorkShift"> | string
+    dayOfWeek?: IntWithAggregatesFilter<"WorkShift"> | number
+    startMin?: IntWithAggregatesFilter<"WorkShift"> | number
+    endMin?: IntWithAggregatesFilter<"WorkShift"> | number
+  }
+
+  export type UnavailabilityWhereInput = {
+    AND?: UnavailabilityWhereInput | UnavailabilityWhereInput[]
+    OR?: UnavailabilityWhereInput[]
+    NOT?: UnavailabilityWhereInput | UnavailabilityWhereInput[]
+    id?: StringFilter<"Unavailability"> | string
+    barberId?: StringFilter<"Unavailability"> | string
+    unitId?: StringNullableFilter<"Unavailability"> | string | null
+    startDate?: DateTimeFilter<"Unavailability"> | Date | string
+    endDate?: DateTimeFilter<"Unavailability"> | Date | string
+    allDay?: BoolFilter<"Unavailability"> | boolean
+    startMin?: IntNullableFilter<"Unavailability"> | number | null
+    endMin?: IntNullableFilter<"Unavailability"> | number | null
+    reason?: StringNullableFilter<"Unavailability"> | string | null
+    createdAt?: DateTimeFilter<"Unavailability"> | Date | string
+    barber?: XOR<BarberScalarRelationFilter, BarberWhereInput>
+    unit?: XOR<UnitNullableScalarRelationFilter, UnitWhereInput> | null
+  }
+
+  export type UnavailabilityOrderByWithRelationInput = {
+    id?: SortOrder
+    barberId?: SortOrder
+    unitId?: SortOrderInput | SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    allDay?: SortOrder
+    startMin?: SortOrderInput | SortOrder
+    endMin?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    barber?: BarberOrderByWithRelationInput
+    unit?: UnitOrderByWithRelationInput
+  }
+
+  export type UnavailabilityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UnavailabilityWhereInput | UnavailabilityWhereInput[]
+    OR?: UnavailabilityWhereInput[]
+    NOT?: UnavailabilityWhereInput | UnavailabilityWhereInput[]
+    barberId?: StringFilter<"Unavailability"> | string
+    unitId?: StringNullableFilter<"Unavailability"> | string | null
+    startDate?: DateTimeFilter<"Unavailability"> | Date | string
+    endDate?: DateTimeFilter<"Unavailability"> | Date | string
+    allDay?: BoolFilter<"Unavailability"> | boolean
+    startMin?: IntNullableFilter<"Unavailability"> | number | null
+    endMin?: IntNullableFilter<"Unavailability"> | number | null
+    reason?: StringNullableFilter<"Unavailability"> | string | null
+    createdAt?: DateTimeFilter<"Unavailability"> | Date | string
+    barber?: XOR<BarberScalarRelationFilter, BarberWhereInput>
+    unit?: XOR<UnitNullableScalarRelationFilter, UnitWhereInput> | null
+  }, "id">
+
+  export type UnavailabilityOrderByWithAggregationInput = {
+    id?: SortOrder
+    barberId?: SortOrder
+    unitId?: SortOrderInput | SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    allDay?: SortOrder
+    startMin?: SortOrderInput | SortOrder
+    endMin?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: UnavailabilityCountOrderByAggregateInput
+    _avg?: UnavailabilityAvgOrderByAggregateInput
+    _max?: UnavailabilityMaxOrderByAggregateInput
+    _min?: UnavailabilityMinOrderByAggregateInput
+    _sum?: UnavailabilitySumOrderByAggregateInput
+  }
+
+  export type UnavailabilityScalarWhereWithAggregatesInput = {
+    AND?: UnavailabilityScalarWhereWithAggregatesInput | UnavailabilityScalarWhereWithAggregatesInput[]
+    OR?: UnavailabilityScalarWhereWithAggregatesInput[]
+    NOT?: UnavailabilityScalarWhereWithAggregatesInput | UnavailabilityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Unavailability"> | string
+    barberId?: StringWithAggregatesFilter<"Unavailability"> | string
+    unitId?: StringNullableWithAggregatesFilter<"Unavailability"> | string | null
+    startDate?: DateTimeWithAggregatesFilter<"Unavailability"> | Date | string
+    endDate?: DateTimeWithAggregatesFilter<"Unavailability"> | Date | string
+    allDay?: BoolWithAggregatesFilter<"Unavailability"> | boolean
+    startMin?: IntNullableWithAggregatesFilter<"Unavailability"> | number | null
+    endMin?: IntNullableWithAggregatesFilter<"Unavailability"> | number | null
+    reason?: StringNullableWithAggregatesFilter<"Unavailability"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Unavailability"> | Date | string
   }
 
   export type ClientWhereInput = {
@@ -13512,6 +16415,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13534,6 +16439,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13556,6 +16463,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13578,6 +16487,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13600,6 +16511,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13616,6 +16529,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13632,6 +16547,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13647,6 +16564,8 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutUnitsInput
     barberUnits?: BarberUnitCreateNestedManyWithoutUnitInput
     bookings?: BookingCreateNestedManyWithoutUnitInput
+    workShifts?: WorkShiftCreateNestedManyWithoutUnitInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutUnitInput
   }
 
   export type UnitUncheckedCreateInput = {
@@ -13659,6 +16578,8 @@ export namespace Prisma {
     active?: boolean
     barberUnits?: BarberUnitUncheckedCreateNestedManyWithoutUnitInput
     bookings?: BookingUncheckedCreateNestedManyWithoutUnitInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutUnitInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutUnitInput
   }
 
   export type UnitUpdateInput = {
@@ -13671,6 +16592,8 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutUnitsNestedInput
     barberUnits?: BarberUnitUpdateManyWithoutUnitNestedInput
     bookings?: BookingUpdateManyWithoutUnitNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutUnitNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutUnitNestedInput
   }
 
   export type UnitUncheckedUpdateInput = {
@@ -13683,6 +16606,8 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     barberUnits?: BarberUnitUncheckedUpdateManyWithoutUnitNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutUnitNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutUnitNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutUnitNestedInput
   }
 
   export type UnitCreateManyInput = {
@@ -13812,6 +16737,8 @@ export namespace Prisma {
     units?: BarberUnitCreateNestedManyWithoutBarberInput
     bookings?: BookingCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
   }
 
   export type BarberUncheckedCreateInput = {
@@ -13825,6 +16752,8 @@ export namespace Prisma {
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
     bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
   }
 
   export type BarberUpdateInput = {
@@ -13838,6 +16767,8 @@ export namespace Prisma {
     units?: BarberUnitUpdateManyWithoutBarberNestedInput
     bookings?: BookingUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateInput = {
@@ -13851,6 +16782,8 @@ export namespace Prisma {
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
   }
 
   export type BarberCreateManyInput = {
@@ -13982,6 +16915,156 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type WorkShiftCreateInput = {
+    id?: string
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+    barber: BarberCreateNestedOneWithoutWorkShiftsInput
+    unit: UnitCreateNestedOneWithoutWorkShiftsInput
+  }
+
+  export type WorkShiftUncheckedCreateInput = {
+    id?: string
+    barberId: string
+    unitId: string
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+  }
+
+  export type WorkShiftUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    startMin?: IntFieldUpdateOperationsInput | number
+    endMin?: IntFieldUpdateOperationsInput | number
+    barber?: BarberUpdateOneRequiredWithoutWorkShiftsNestedInput
+    unit?: UnitUpdateOneRequiredWithoutWorkShiftsNestedInput
+  }
+
+  export type WorkShiftUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    barberId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    startMin?: IntFieldUpdateOperationsInput | number
+    endMin?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WorkShiftCreateManyInput = {
+    id?: string
+    barberId: string
+    unitId: string
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+  }
+
+  export type WorkShiftUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    startMin?: IntFieldUpdateOperationsInput | number
+    endMin?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WorkShiftUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    barberId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    startMin?: IntFieldUpdateOperationsInput | number
+    endMin?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UnavailabilityCreateInput = {
+    id?: string
+    startDate: Date | string
+    endDate: Date | string
+    allDay?: boolean
+    startMin?: number | null
+    endMin?: number | null
+    reason?: string | null
+    createdAt?: Date | string
+    barber: BarberCreateNestedOneWithoutUnavailabilitiesInput
+    unit?: UnitCreateNestedOneWithoutUnavailabilitiesInput
+  }
+
+  export type UnavailabilityUncheckedCreateInput = {
+    id?: string
+    barberId: string
+    unitId?: string | null
+    startDate: Date | string
+    endDate: Date | string
+    allDay?: boolean
+    startMin?: number | null
+    endMin?: number | null
+    reason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UnavailabilityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    startMin?: NullableIntFieldUpdateOperationsInput | number | null
+    endMin?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    barber?: BarberUpdateOneRequiredWithoutUnavailabilitiesNestedInput
+    unit?: UnitUpdateOneWithoutUnavailabilitiesNestedInput
+  }
+
+  export type UnavailabilityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    barberId?: StringFieldUpdateOperationsInput | string
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    startMin?: NullableIntFieldUpdateOperationsInput | number | null
+    endMin?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UnavailabilityCreateManyInput = {
+    id?: string
+    barberId: string
+    unitId?: string | null
+    startDate: Date | string
+    endDate: Date | string
+    allDay?: boolean
+    startMin?: number | null
+    endMin?: number | null
+    reason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UnavailabilityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    startMin?: NullableIntFieldUpdateOperationsInput | number | null
+    endMin?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UnavailabilityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    barberId?: StringFieldUpdateOperationsInput | string
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    startMin?: NullableIntFieldUpdateOperationsInput | number | null
+    endMin?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClientCreateInput = {
@@ -14352,6 +17435,17 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type EnumTenantStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TenantStatus | EnumTenantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
@@ -14430,9 +17524,15 @@ export namespace Prisma {
     colorPrimary?: SortOrder
     colorAccent?: SortOrder
     openingHours?: SortOrder
+    timezone?: SortOrder
+    leadTimeMin?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TenantAvgOrderByAggregateInput = {
+    leadTimeMin?: SortOrder
   }
 
   export type TenantMaxOrderByAggregateInput = {
@@ -14444,6 +17544,8 @@ export namespace Prisma {
     logo?: SortOrder
     colorPrimary?: SortOrder
     colorAccent?: SortOrder
+    timezone?: SortOrder
+    leadTimeMin?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14458,9 +17560,15 @@ export namespace Prisma {
     logo?: SortOrder
     colorPrimary?: SortOrder
     colorAccent?: SortOrder
+    timezone?: SortOrder
+    leadTimeMin?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TenantSumOrderByAggregateInput = {
+    leadTimeMin?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -14489,6 +17597,22 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type EnumTenantStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.TenantStatus | EnumTenantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
@@ -14515,7 +17639,27 @@ export namespace Prisma {
     none?: BarberUnitWhereInput
   }
 
+  export type WorkShiftListRelationFilter = {
+    every?: WorkShiftWhereInput
+    some?: WorkShiftWhereInput
+    none?: WorkShiftWhereInput
+  }
+
+  export type UnavailabilityListRelationFilter = {
+    every?: UnavailabilityWhereInput
+    some?: UnavailabilityWhereInput
+    none?: UnavailabilityWhereInput
+  }
+
   export type BarberUnitOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkShiftOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UnavailabilityOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14576,17 +17720,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type ServiceCountOrderByAggregateInput = {
@@ -14661,22 +17794,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type BarberBlockListRelationFilter = {
@@ -14834,6 +17951,126 @@ export namespace Prisma {
     reason?: SortOrder
   }
 
+  export type WorkShiftCountOrderByAggregateInput = {
+    id?: SortOrder
+    barberId?: SortOrder
+    unitId?: SortOrder
+    dayOfWeek?: SortOrder
+    startMin?: SortOrder
+    endMin?: SortOrder
+  }
+
+  export type WorkShiftAvgOrderByAggregateInput = {
+    dayOfWeek?: SortOrder
+    startMin?: SortOrder
+    endMin?: SortOrder
+  }
+
+  export type WorkShiftMaxOrderByAggregateInput = {
+    id?: SortOrder
+    barberId?: SortOrder
+    unitId?: SortOrder
+    dayOfWeek?: SortOrder
+    startMin?: SortOrder
+    endMin?: SortOrder
+  }
+
+  export type WorkShiftMinOrderByAggregateInput = {
+    id?: SortOrder
+    barberId?: SortOrder
+    unitId?: SortOrder
+    dayOfWeek?: SortOrder
+    startMin?: SortOrder
+    endMin?: SortOrder
+  }
+
+  export type WorkShiftSumOrderByAggregateInput = {
+    dayOfWeek?: SortOrder
+    startMin?: SortOrder
+    endMin?: SortOrder
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type UnitNullableScalarRelationFilter = {
+    is?: UnitWhereInput | null
+    isNot?: UnitWhereInput | null
+  }
+
+  export type UnavailabilityCountOrderByAggregateInput = {
+    id?: SortOrder
+    barberId?: SortOrder
+    unitId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    allDay?: SortOrder
+    startMin?: SortOrder
+    endMin?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UnavailabilityAvgOrderByAggregateInput = {
+    startMin?: SortOrder
+    endMin?: SortOrder
+  }
+
+  export type UnavailabilityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    barberId?: SortOrder
+    unitId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    allDay?: SortOrder
+    startMin?: SortOrder
+    endMin?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UnavailabilityMinOrderByAggregateInput = {
+    id?: SortOrder
+    barberId?: SortOrder
+    unitId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    allDay?: SortOrder
+    startMin?: SortOrder
+    endMin?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UnavailabilitySumOrderByAggregateInput = {
+    startMin?: SortOrder
+    endMin?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -14917,11 +18154,6 @@ export namespace Prisma {
     in?: $Enums.BookingOrigin[] | ListEnumBookingOriginFieldRefInput<$PrismaModel>
     notIn?: $Enums.BookingOrigin[] | ListEnumBookingOriginFieldRefInput<$PrismaModel>
     not?: NestedEnumBookingOriginFilter<$PrismaModel> | $Enums.BookingOrigin
-  }
-
-  export type UnitNullableScalarRelationFilter = {
-    is?: UnitWhereInput | null
-    isNot?: UnitWhereInput | null
   }
 
   export type ClientScalarRelationFilter = {
@@ -15131,6 +18363,14 @@ export namespace Prisma {
     connect?: UnitWhereUniqueInput | UnitWhereUniqueInput[]
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type EnumTenantStatusFieldUpdateOperationsInput = {
     set?: $Enums.TenantStatus
   }
@@ -15323,6 +18563,20 @@ export namespace Prisma {
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
+  export type WorkShiftCreateNestedManyWithoutUnitInput = {
+    create?: XOR<WorkShiftCreateWithoutUnitInput, WorkShiftUncheckedCreateWithoutUnitInput> | WorkShiftCreateWithoutUnitInput[] | WorkShiftUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: WorkShiftCreateOrConnectWithoutUnitInput | WorkShiftCreateOrConnectWithoutUnitInput[]
+    createMany?: WorkShiftCreateManyUnitInputEnvelope
+    connect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+  }
+
+  export type UnavailabilityCreateNestedManyWithoutUnitInput = {
+    create?: XOR<UnavailabilityCreateWithoutUnitInput, UnavailabilityUncheckedCreateWithoutUnitInput> | UnavailabilityCreateWithoutUnitInput[] | UnavailabilityUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: UnavailabilityCreateOrConnectWithoutUnitInput | UnavailabilityCreateOrConnectWithoutUnitInput[]
+    createMany?: UnavailabilityCreateManyUnitInputEnvelope
+    connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+  }
+
   export type BarberUnitUncheckedCreateNestedManyWithoutUnitInput = {
     create?: XOR<BarberUnitCreateWithoutUnitInput, BarberUnitUncheckedCreateWithoutUnitInput> | BarberUnitCreateWithoutUnitInput[] | BarberUnitUncheckedCreateWithoutUnitInput[]
     connectOrCreate?: BarberUnitCreateOrConnectWithoutUnitInput | BarberUnitCreateOrConnectWithoutUnitInput[]
@@ -15335,6 +18589,20 @@ export namespace Prisma {
     connectOrCreate?: BookingCreateOrConnectWithoutUnitInput | BookingCreateOrConnectWithoutUnitInput[]
     createMany?: BookingCreateManyUnitInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type WorkShiftUncheckedCreateNestedManyWithoutUnitInput = {
+    create?: XOR<WorkShiftCreateWithoutUnitInput, WorkShiftUncheckedCreateWithoutUnitInput> | WorkShiftCreateWithoutUnitInput[] | WorkShiftUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: WorkShiftCreateOrConnectWithoutUnitInput | WorkShiftCreateOrConnectWithoutUnitInput[]
+    createMany?: WorkShiftCreateManyUnitInputEnvelope
+    connect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+  }
+
+  export type UnavailabilityUncheckedCreateNestedManyWithoutUnitInput = {
+    create?: XOR<UnavailabilityCreateWithoutUnitInput, UnavailabilityUncheckedCreateWithoutUnitInput> | UnavailabilityCreateWithoutUnitInput[] | UnavailabilityUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: UnavailabilityCreateOrConnectWithoutUnitInput | UnavailabilityCreateOrConnectWithoutUnitInput[]
+    createMany?: UnavailabilityCreateManyUnitInputEnvelope
+    connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -15377,6 +18645,34 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
+  export type WorkShiftUpdateManyWithoutUnitNestedInput = {
+    create?: XOR<WorkShiftCreateWithoutUnitInput, WorkShiftUncheckedCreateWithoutUnitInput> | WorkShiftCreateWithoutUnitInput[] | WorkShiftUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: WorkShiftCreateOrConnectWithoutUnitInput | WorkShiftCreateOrConnectWithoutUnitInput[]
+    upsert?: WorkShiftUpsertWithWhereUniqueWithoutUnitInput | WorkShiftUpsertWithWhereUniqueWithoutUnitInput[]
+    createMany?: WorkShiftCreateManyUnitInputEnvelope
+    set?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    disconnect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    delete?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    connect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    update?: WorkShiftUpdateWithWhereUniqueWithoutUnitInput | WorkShiftUpdateWithWhereUniqueWithoutUnitInput[]
+    updateMany?: WorkShiftUpdateManyWithWhereWithoutUnitInput | WorkShiftUpdateManyWithWhereWithoutUnitInput[]
+    deleteMany?: WorkShiftScalarWhereInput | WorkShiftScalarWhereInput[]
+  }
+
+  export type UnavailabilityUpdateManyWithoutUnitNestedInput = {
+    create?: XOR<UnavailabilityCreateWithoutUnitInput, UnavailabilityUncheckedCreateWithoutUnitInput> | UnavailabilityCreateWithoutUnitInput[] | UnavailabilityUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: UnavailabilityCreateOrConnectWithoutUnitInput | UnavailabilityCreateOrConnectWithoutUnitInput[]
+    upsert?: UnavailabilityUpsertWithWhereUniqueWithoutUnitInput | UnavailabilityUpsertWithWhereUniqueWithoutUnitInput[]
+    createMany?: UnavailabilityCreateManyUnitInputEnvelope
+    set?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    disconnect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    delete?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    update?: UnavailabilityUpdateWithWhereUniqueWithoutUnitInput | UnavailabilityUpdateWithWhereUniqueWithoutUnitInput[]
+    updateMany?: UnavailabilityUpdateManyWithWhereWithoutUnitInput | UnavailabilityUpdateManyWithWhereWithoutUnitInput[]
+    deleteMany?: UnavailabilityScalarWhereInput | UnavailabilityScalarWhereInput[]
+  }
+
   export type BarberUnitUncheckedUpdateManyWithoutUnitNestedInput = {
     create?: XOR<BarberUnitCreateWithoutUnitInput, BarberUnitUncheckedCreateWithoutUnitInput> | BarberUnitCreateWithoutUnitInput[] | BarberUnitUncheckedCreateWithoutUnitInput[]
     connectOrCreate?: BarberUnitCreateOrConnectWithoutUnitInput | BarberUnitCreateOrConnectWithoutUnitInput[]
@@ -15405,6 +18701,34 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
+  export type WorkShiftUncheckedUpdateManyWithoutUnitNestedInput = {
+    create?: XOR<WorkShiftCreateWithoutUnitInput, WorkShiftUncheckedCreateWithoutUnitInput> | WorkShiftCreateWithoutUnitInput[] | WorkShiftUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: WorkShiftCreateOrConnectWithoutUnitInput | WorkShiftCreateOrConnectWithoutUnitInput[]
+    upsert?: WorkShiftUpsertWithWhereUniqueWithoutUnitInput | WorkShiftUpsertWithWhereUniqueWithoutUnitInput[]
+    createMany?: WorkShiftCreateManyUnitInputEnvelope
+    set?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    disconnect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    delete?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    connect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    update?: WorkShiftUpdateWithWhereUniqueWithoutUnitInput | WorkShiftUpdateWithWhereUniqueWithoutUnitInput[]
+    updateMany?: WorkShiftUpdateManyWithWhereWithoutUnitInput | WorkShiftUpdateManyWithWhereWithoutUnitInput[]
+    deleteMany?: WorkShiftScalarWhereInput | WorkShiftScalarWhereInput[]
+  }
+
+  export type UnavailabilityUncheckedUpdateManyWithoutUnitNestedInput = {
+    create?: XOR<UnavailabilityCreateWithoutUnitInput, UnavailabilityUncheckedCreateWithoutUnitInput> | UnavailabilityCreateWithoutUnitInput[] | UnavailabilityUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: UnavailabilityCreateOrConnectWithoutUnitInput | UnavailabilityCreateOrConnectWithoutUnitInput[]
+    upsert?: UnavailabilityUpsertWithWhereUniqueWithoutUnitInput | UnavailabilityUpsertWithWhereUniqueWithoutUnitInput[]
+    createMany?: UnavailabilityCreateManyUnitInputEnvelope
+    set?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    disconnect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    delete?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    update?: UnavailabilityUpdateWithWhereUniqueWithoutUnitInput | UnavailabilityUpdateWithWhereUniqueWithoutUnitInput[]
+    updateMany?: UnavailabilityUpdateManyWithWhereWithoutUnitInput | UnavailabilityUpdateManyWithWhereWithoutUnitInput[]
+    deleteMany?: UnavailabilityScalarWhereInput | UnavailabilityScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutServicesInput = {
     create?: XOR<TenantCreateWithoutServicesInput, TenantUncheckedCreateWithoutServicesInput>
     connectOrCreate?: TenantCreateOrConnectWithoutServicesInput
@@ -15430,14 +18754,6 @@ export namespace Prisma {
   }
 
   export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
@@ -15508,6 +18824,20 @@ export namespace Prisma {
     connect?: BarberBlockWhereUniqueInput | BarberBlockWhereUniqueInput[]
   }
 
+  export type WorkShiftCreateNestedManyWithoutBarberInput = {
+    create?: XOR<WorkShiftCreateWithoutBarberInput, WorkShiftUncheckedCreateWithoutBarberInput> | WorkShiftCreateWithoutBarberInput[] | WorkShiftUncheckedCreateWithoutBarberInput[]
+    connectOrCreate?: WorkShiftCreateOrConnectWithoutBarberInput | WorkShiftCreateOrConnectWithoutBarberInput[]
+    createMany?: WorkShiftCreateManyBarberInputEnvelope
+    connect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+  }
+
+  export type UnavailabilityCreateNestedManyWithoutBarberInput = {
+    create?: XOR<UnavailabilityCreateWithoutBarberInput, UnavailabilityUncheckedCreateWithoutBarberInput> | UnavailabilityCreateWithoutBarberInput[] | UnavailabilityUncheckedCreateWithoutBarberInput[]
+    connectOrCreate?: UnavailabilityCreateOrConnectWithoutBarberInput | UnavailabilityCreateOrConnectWithoutBarberInput[]
+    createMany?: UnavailabilityCreateManyBarberInputEnvelope
+    connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+  }
+
   export type BarberUnitUncheckedCreateNestedManyWithoutBarberInput = {
     create?: XOR<BarberUnitCreateWithoutBarberInput, BarberUnitUncheckedCreateWithoutBarberInput> | BarberUnitCreateWithoutBarberInput[] | BarberUnitUncheckedCreateWithoutBarberInput[]
     connectOrCreate?: BarberUnitCreateOrConnectWithoutBarberInput | BarberUnitCreateOrConnectWithoutBarberInput[]
@@ -15527,6 +18857,20 @@ export namespace Prisma {
     connectOrCreate?: BarberBlockCreateOrConnectWithoutBarberInput | BarberBlockCreateOrConnectWithoutBarberInput[]
     createMany?: BarberBlockCreateManyBarberInputEnvelope
     connect?: BarberBlockWhereUniqueInput | BarberBlockWhereUniqueInput[]
+  }
+
+  export type WorkShiftUncheckedCreateNestedManyWithoutBarberInput = {
+    create?: XOR<WorkShiftCreateWithoutBarberInput, WorkShiftUncheckedCreateWithoutBarberInput> | WorkShiftCreateWithoutBarberInput[] | WorkShiftUncheckedCreateWithoutBarberInput[]
+    connectOrCreate?: WorkShiftCreateOrConnectWithoutBarberInput | WorkShiftCreateOrConnectWithoutBarberInput[]
+    createMany?: WorkShiftCreateManyBarberInputEnvelope
+    connect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+  }
+
+  export type UnavailabilityUncheckedCreateNestedManyWithoutBarberInput = {
+    create?: XOR<UnavailabilityCreateWithoutBarberInput, UnavailabilityUncheckedCreateWithoutBarberInput> | UnavailabilityCreateWithoutBarberInput[] | UnavailabilityUncheckedCreateWithoutBarberInput[]
+    connectOrCreate?: UnavailabilityCreateOrConnectWithoutBarberInput | UnavailabilityCreateOrConnectWithoutBarberInput[]
+    createMany?: UnavailabilityCreateManyBarberInputEnvelope
+    connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutBarbersNestedInput = {
@@ -15579,6 +18923,34 @@ export namespace Prisma {
     deleteMany?: BarberBlockScalarWhereInput | BarberBlockScalarWhereInput[]
   }
 
+  export type WorkShiftUpdateManyWithoutBarberNestedInput = {
+    create?: XOR<WorkShiftCreateWithoutBarberInput, WorkShiftUncheckedCreateWithoutBarberInput> | WorkShiftCreateWithoutBarberInput[] | WorkShiftUncheckedCreateWithoutBarberInput[]
+    connectOrCreate?: WorkShiftCreateOrConnectWithoutBarberInput | WorkShiftCreateOrConnectWithoutBarberInput[]
+    upsert?: WorkShiftUpsertWithWhereUniqueWithoutBarberInput | WorkShiftUpsertWithWhereUniqueWithoutBarberInput[]
+    createMany?: WorkShiftCreateManyBarberInputEnvelope
+    set?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    disconnect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    delete?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    connect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    update?: WorkShiftUpdateWithWhereUniqueWithoutBarberInput | WorkShiftUpdateWithWhereUniqueWithoutBarberInput[]
+    updateMany?: WorkShiftUpdateManyWithWhereWithoutBarberInput | WorkShiftUpdateManyWithWhereWithoutBarberInput[]
+    deleteMany?: WorkShiftScalarWhereInput | WorkShiftScalarWhereInput[]
+  }
+
+  export type UnavailabilityUpdateManyWithoutBarberNestedInput = {
+    create?: XOR<UnavailabilityCreateWithoutBarberInput, UnavailabilityUncheckedCreateWithoutBarberInput> | UnavailabilityCreateWithoutBarberInput[] | UnavailabilityUncheckedCreateWithoutBarberInput[]
+    connectOrCreate?: UnavailabilityCreateOrConnectWithoutBarberInput | UnavailabilityCreateOrConnectWithoutBarberInput[]
+    upsert?: UnavailabilityUpsertWithWhereUniqueWithoutBarberInput | UnavailabilityUpsertWithWhereUniqueWithoutBarberInput[]
+    createMany?: UnavailabilityCreateManyBarberInputEnvelope
+    set?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    disconnect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    delete?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    update?: UnavailabilityUpdateWithWhereUniqueWithoutBarberInput | UnavailabilityUpdateWithWhereUniqueWithoutBarberInput[]
+    updateMany?: UnavailabilityUpdateManyWithWhereWithoutBarberInput | UnavailabilityUpdateManyWithWhereWithoutBarberInput[]
+    deleteMany?: UnavailabilityScalarWhereInput | UnavailabilityScalarWhereInput[]
+  }
+
   export type BarberUnitUncheckedUpdateManyWithoutBarberNestedInput = {
     create?: XOR<BarberUnitCreateWithoutBarberInput, BarberUnitUncheckedCreateWithoutBarberInput> | BarberUnitCreateWithoutBarberInput[] | BarberUnitUncheckedCreateWithoutBarberInput[]
     connectOrCreate?: BarberUnitCreateOrConnectWithoutBarberInput | BarberUnitCreateOrConnectWithoutBarberInput[]
@@ -15621,6 +18993,34 @@ export namespace Prisma {
     deleteMany?: BarberBlockScalarWhereInput | BarberBlockScalarWhereInput[]
   }
 
+  export type WorkShiftUncheckedUpdateManyWithoutBarberNestedInput = {
+    create?: XOR<WorkShiftCreateWithoutBarberInput, WorkShiftUncheckedCreateWithoutBarberInput> | WorkShiftCreateWithoutBarberInput[] | WorkShiftUncheckedCreateWithoutBarberInput[]
+    connectOrCreate?: WorkShiftCreateOrConnectWithoutBarberInput | WorkShiftCreateOrConnectWithoutBarberInput[]
+    upsert?: WorkShiftUpsertWithWhereUniqueWithoutBarberInput | WorkShiftUpsertWithWhereUniqueWithoutBarberInput[]
+    createMany?: WorkShiftCreateManyBarberInputEnvelope
+    set?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    disconnect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    delete?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    connect?: WorkShiftWhereUniqueInput | WorkShiftWhereUniqueInput[]
+    update?: WorkShiftUpdateWithWhereUniqueWithoutBarberInput | WorkShiftUpdateWithWhereUniqueWithoutBarberInput[]
+    updateMany?: WorkShiftUpdateManyWithWhereWithoutBarberInput | WorkShiftUpdateManyWithWhereWithoutBarberInput[]
+    deleteMany?: WorkShiftScalarWhereInput | WorkShiftScalarWhereInput[]
+  }
+
+  export type UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput = {
+    create?: XOR<UnavailabilityCreateWithoutBarberInput, UnavailabilityUncheckedCreateWithoutBarberInput> | UnavailabilityCreateWithoutBarberInput[] | UnavailabilityUncheckedCreateWithoutBarberInput[]
+    connectOrCreate?: UnavailabilityCreateOrConnectWithoutBarberInput | UnavailabilityCreateOrConnectWithoutBarberInput[]
+    upsert?: UnavailabilityUpsertWithWhereUniqueWithoutBarberInput | UnavailabilityUpsertWithWhereUniqueWithoutBarberInput[]
+    createMany?: UnavailabilityCreateManyBarberInputEnvelope
+    set?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    disconnect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    delete?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
+    update?: UnavailabilityUpdateWithWhereUniqueWithoutBarberInput | UnavailabilityUpdateWithWhereUniqueWithoutBarberInput[]
+    updateMany?: UnavailabilityUpdateManyWithWhereWithoutBarberInput | UnavailabilityUpdateManyWithWhereWithoutBarberInput[]
+    deleteMany?: UnavailabilityScalarWhereInput | UnavailabilityScalarWhereInput[]
+  }
+
   export type BarberCreateNestedOneWithoutUnitsInput = {
     create?: XOR<BarberCreateWithoutUnitsInput, BarberUncheckedCreateWithoutUnitsInput>
     connectOrCreate?: BarberCreateOrConnectWithoutUnitsInput
@@ -15661,6 +19061,72 @@ export namespace Prisma {
     upsert?: BarberUpsertWithoutBlocksInput
     connect?: BarberWhereUniqueInput
     update?: XOR<XOR<BarberUpdateToOneWithWhereWithoutBlocksInput, BarberUpdateWithoutBlocksInput>, BarberUncheckedUpdateWithoutBlocksInput>
+  }
+
+  export type BarberCreateNestedOneWithoutWorkShiftsInput = {
+    create?: XOR<BarberCreateWithoutWorkShiftsInput, BarberUncheckedCreateWithoutWorkShiftsInput>
+    connectOrCreate?: BarberCreateOrConnectWithoutWorkShiftsInput
+    connect?: BarberWhereUniqueInput
+  }
+
+  export type UnitCreateNestedOneWithoutWorkShiftsInput = {
+    create?: XOR<UnitCreateWithoutWorkShiftsInput, UnitUncheckedCreateWithoutWorkShiftsInput>
+    connectOrCreate?: UnitCreateOrConnectWithoutWorkShiftsInput
+    connect?: UnitWhereUniqueInput
+  }
+
+  export type BarberUpdateOneRequiredWithoutWorkShiftsNestedInput = {
+    create?: XOR<BarberCreateWithoutWorkShiftsInput, BarberUncheckedCreateWithoutWorkShiftsInput>
+    connectOrCreate?: BarberCreateOrConnectWithoutWorkShiftsInput
+    upsert?: BarberUpsertWithoutWorkShiftsInput
+    connect?: BarberWhereUniqueInput
+    update?: XOR<XOR<BarberUpdateToOneWithWhereWithoutWorkShiftsInput, BarberUpdateWithoutWorkShiftsInput>, BarberUncheckedUpdateWithoutWorkShiftsInput>
+  }
+
+  export type UnitUpdateOneRequiredWithoutWorkShiftsNestedInput = {
+    create?: XOR<UnitCreateWithoutWorkShiftsInput, UnitUncheckedCreateWithoutWorkShiftsInput>
+    connectOrCreate?: UnitCreateOrConnectWithoutWorkShiftsInput
+    upsert?: UnitUpsertWithoutWorkShiftsInput
+    connect?: UnitWhereUniqueInput
+    update?: XOR<XOR<UnitUpdateToOneWithWhereWithoutWorkShiftsInput, UnitUpdateWithoutWorkShiftsInput>, UnitUncheckedUpdateWithoutWorkShiftsInput>
+  }
+
+  export type BarberCreateNestedOneWithoutUnavailabilitiesInput = {
+    create?: XOR<BarberCreateWithoutUnavailabilitiesInput, BarberUncheckedCreateWithoutUnavailabilitiesInput>
+    connectOrCreate?: BarberCreateOrConnectWithoutUnavailabilitiesInput
+    connect?: BarberWhereUniqueInput
+  }
+
+  export type UnitCreateNestedOneWithoutUnavailabilitiesInput = {
+    create?: XOR<UnitCreateWithoutUnavailabilitiesInput, UnitUncheckedCreateWithoutUnavailabilitiesInput>
+    connectOrCreate?: UnitCreateOrConnectWithoutUnavailabilitiesInput
+    connect?: UnitWhereUniqueInput
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type BarberUpdateOneRequiredWithoutUnavailabilitiesNestedInput = {
+    create?: XOR<BarberCreateWithoutUnavailabilitiesInput, BarberUncheckedCreateWithoutUnavailabilitiesInput>
+    connectOrCreate?: BarberCreateOrConnectWithoutUnavailabilitiesInput
+    upsert?: BarberUpsertWithoutUnavailabilitiesInput
+    connect?: BarberWhereUniqueInput
+    update?: XOR<XOR<BarberUpdateToOneWithWhereWithoutUnavailabilitiesInput, BarberUpdateWithoutUnavailabilitiesInput>, BarberUncheckedUpdateWithoutUnavailabilitiesInput>
+  }
+
+  export type UnitUpdateOneWithoutUnavailabilitiesNestedInput = {
+    create?: XOR<UnitCreateWithoutUnavailabilitiesInput, UnitUncheckedCreateWithoutUnavailabilitiesInput>
+    connectOrCreate?: UnitCreateOrConnectWithoutUnavailabilitiesInput
+    upsert?: UnitUpsertWithoutUnavailabilitiesInput
+    disconnect?: UnitWhereInput | boolean
+    delete?: UnitWhereInput | boolean
+    connect?: UnitWhereUniqueInput
+    update?: XOR<XOR<UnitUpdateToOneWithWhereWithoutUnavailabilitiesInput, UnitUpdateWithoutUnavailabilitiesInput>, UnitUncheckedUpdateWithoutUnavailabilitiesInput>
   }
 
   export type TenantCreateNestedOneWithoutClientsInput = {
@@ -15959,6 +19425,33 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumTenantStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.TenantStatus | EnumTenantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
@@ -15989,17 +19482,6 @@ export namespace Prisma {
     not?: NestedEnumServiceCategoryFilter<$PrismaModel> | $Enums.ServiceCategory
   }
 
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type NestedEnumServiceCategoryWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ServiceCategory | EnumServiceCategoryFieldRefInput<$PrismaModel>
     in?: $Enums.ServiceCategory[] | ListEnumServiceCategoryFieldRefInput<$PrismaModel>
@@ -16025,22 +19507,6 @@ export namespace Prisma {
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
   }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -16063,6 +19529,33 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -16135,6 +19628,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16156,6 +19651,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16193,6 +19690,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16214,6 +19713,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16298,6 +19799,8 @@ export namespace Prisma {
     units?: BarberUnitCreateNestedManyWithoutBarberInput
     bookings?: BookingCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
   }
 
   export type BarberUncheckedCreateWithoutTenantInput = {
@@ -16310,6 +19813,8 @@ export namespace Prisma {
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
     bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
   }
 
   export type BarberCreateOrConnectWithoutTenantInput = {
@@ -16405,6 +19910,8 @@ export namespace Prisma {
     active?: boolean
     barberUnits?: BarberUnitCreateNestedManyWithoutUnitInput
     bookings?: BookingCreateNestedManyWithoutUnitInput
+    workShifts?: WorkShiftCreateNestedManyWithoutUnitInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutUnitInput
   }
 
   export type UnitUncheckedCreateWithoutTenantInput = {
@@ -16416,6 +19923,8 @@ export namespace Prisma {
     active?: boolean
     barberUnits?: BarberUnitUncheckedCreateNestedManyWithoutUnitInput
     bookings?: BookingUncheckedCreateNestedManyWithoutUnitInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutUnitInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutUnitInput
   }
 
   export type UnitCreateOrConnectWithoutTenantInput = {
@@ -16624,6 +20133,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16645,6 +20156,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16724,6 +20237,66 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WorkShiftCreateWithoutUnitInput = {
+    id?: string
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+    barber: BarberCreateNestedOneWithoutWorkShiftsInput
+  }
+
+  export type WorkShiftUncheckedCreateWithoutUnitInput = {
+    id?: string
+    barberId: string
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+  }
+
+  export type WorkShiftCreateOrConnectWithoutUnitInput = {
+    where: WorkShiftWhereUniqueInput
+    create: XOR<WorkShiftCreateWithoutUnitInput, WorkShiftUncheckedCreateWithoutUnitInput>
+  }
+
+  export type WorkShiftCreateManyUnitInputEnvelope = {
+    data: WorkShiftCreateManyUnitInput | WorkShiftCreateManyUnitInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UnavailabilityCreateWithoutUnitInput = {
+    id?: string
+    startDate: Date | string
+    endDate: Date | string
+    allDay?: boolean
+    startMin?: number | null
+    endMin?: number | null
+    reason?: string | null
+    createdAt?: Date | string
+    barber: BarberCreateNestedOneWithoutUnavailabilitiesInput
+  }
+
+  export type UnavailabilityUncheckedCreateWithoutUnitInput = {
+    id?: string
+    barberId: string
+    startDate: Date | string
+    endDate: Date | string
+    allDay?: boolean
+    startMin?: number | null
+    endMin?: number | null
+    reason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UnavailabilityCreateOrConnectWithoutUnitInput = {
+    where: UnavailabilityWhereUniqueInput
+    create: XOR<UnavailabilityCreateWithoutUnitInput, UnavailabilityUncheckedCreateWithoutUnitInput>
+  }
+
+  export type UnavailabilityCreateManyUnitInputEnvelope = {
+    data: UnavailabilityCreateManyUnitInput | UnavailabilityCreateManyUnitInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutUnitsInput = {
     update: XOR<TenantUpdateWithoutUnitsInput, TenantUncheckedUpdateWithoutUnitsInput>
     create: XOR<TenantCreateWithoutUnitsInput, TenantUncheckedCreateWithoutUnitsInput>
@@ -16746,6 +20319,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16767,6 +20342,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16819,6 +20396,66 @@ export namespace Prisma {
     data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutUnitInput>
   }
 
+  export type WorkShiftUpsertWithWhereUniqueWithoutUnitInput = {
+    where: WorkShiftWhereUniqueInput
+    update: XOR<WorkShiftUpdateWithoutUnitInput, WorkShiftUncheckedUpdateWithoutUnitInput>
+    create: XOR<WorkShiftCreateWithoutUnitInput, WorkShiftUncheckedCreateWithoutUnitInput>
+  }
+
+  export type WorkShiftUpdateWithWhereUniqueWithoutUnitInput = {
+    where: WorkShiftWhereUniqueInput
+    data: XOR<WorkShiftUpdateWithoutUnitInput, WorkShiftUncheckedUpdateWithoutUnitInput>
+  }
+
+  export type WorkShiftUpdateManyWithWhereWithoutUnitInput = {
+    where: WorkShiftScalarWhereInput
+    data: XOR<WorkShiftUpdateManyMutationInput, WorkShiftUncheckedUpdateManyWithoutUnitInput>
+  }
+
+  export type WorkShiftScalarWhereInput = {
+    AND?: WorkShiftScalarWhereInput | WorkShiftScalarWhereInput[]
+    OR?: WorkShiftScalarWhereInput[]
+    NOT?: WorkShiftScalarWhereInput | WorkShiftScalarWhereInput[]
+    id?: StringFilter<"WorkShift"> | string
+    barberId?: StringFilter<"WorkShift"> | string
+    unitId?: StringFilter<"WorkShift"> | string
+    dayOfWeek?: IntFilter<"WorkShift"> | number
+    startMin?: IntFilter<"WorkShift"> | number
+    endMin?: IntFilter<"WorkShift"> | number
+  }
+
+  export type UnavailabilityUpsertWithWhereUniqueWithoutUnitInput = {
+    where: UnavailabilityWhereUniqueInput
+    update: XOR<UnavailabilityUpdateWithoutUnitInput, UnavailabilityUncheckedUpdateWithoutUnitInput>
+    create: XOR<UnavailabilityCreateWithoutUnitInput, UnavailabilityUncheckedCreateWithoutUnitInput>
+  }
+
+  export type UnavailabilityUpdateWithWhereUniqueWithoutUnitInput = {
+    where: UnavailabilityWhereUniqueInput
+    data: XOR<UnavailabilityUpdateWithoutUnitInput, UnavailabilityUncheckedUpdateWithoutUnitInput>
+  }
+
+  export type UnavailabilityUpdateManyWithWhereWithoutUnitInput = {
+    where: UnavailabilityScalarWhereInput
+    data: XOR<UnavailabilityUpdateManyMutationInput, UnavailabilityUncheckedUpdateManyWithoutUnitInput>
+  }
+
+  export type UnavailabilityScalarWhereInput = {
+    AND?: UnavailabilityScalarWhereInput | UnavailabilityScalarWhereInput[]
+    OR?: UnavailabilityScalarWhereInput[]
+    NOT?: UnavailabilityScalarWhereInput | UnavailabilityScalarWhereInput[]
+    id?: StringFilter<"Unavailability"> | string
+    barberId?: StringFilter<"Unavailability"> | string
+    unitId?: StringNullableFilter<"Unavailability"> | string | null
+    startDate?: DateTimeFilter<"Unavailability"> | Date | string
+    endDate?: DateTimeFilter<"Unavailability"> | Date | string
+    allDay?: BoolFilter<"Unavailability"> | boolean
+    startMin?: IntNullableFilter<"Unavailability"> | number | null
+    endMin?: IntNullableFilter<"Unavailability"> | number | null
+    reason?: StringNullableFilter<"Unavailability"> | string | null
+    createdAt?: DateTimeFilter<"Unavailability"> | Date | string
+  }
+
   export type TenantCreateWithoutServicesInput = {
     id?: string
     name: string
@@ -16830,6 +20467,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16851,6 +20490,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16930,6 +20571,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16951,6 +20594,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16988,6 +20633,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17009,6 +20656,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17112,6 +20761,66 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WorkShiftCreateWithoutBarberInput = {
+    id?: string
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+    unit: UnitCreateNestedOneWithoutWorkShiftsInput
+  }
+
+  export type WorkShiftUncheckedCreateWithoutBarberInput = {
+    id?: string
+    unitId: string
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+  }
+
+  export type WorkShiftCreateOrConnectWithoutBarberInput = {
+    where: WorkShiftWhereUniqueInput
+    create: XOR<WorkShiftCreateWithoutBarberInput, WorkShiftUncheckedCreateWithoutBarberInput>
+  }
+
+  export type WorkShiftCreateManyBarberInputEnvelope = {
+    data: WorkShiftCreateManyBarberInput | WorkShiftCreateManyBarberInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UnavailabilityCreateWithoutBarberInput = {
+    id?: string
+    startDate: Date | string
+    endDate: Date | string
+    allDay?: boolean
+    startMin?: number | null
+    endMin?: number | null
+    reason?: string | null
+    createdAt?: Date | string
+    unit?: UnitCreateNestedOneWithoutUnavailabilitiesInput
+  }
+
+  export type UnavailabilityUncheckedCreateWithoutBarberInput = {
+    id?: string
+    unitId?: string | null
+    startDate: Date | string
+    endDate: Date | string
+    allDay?: boolean
+    startMin?: number | null
+    endMin?: number | null
+    reason?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UnavailabilityCreateOrConnectWithoutBarberInput = {
+    where: UnavailabilityWhereUniqueInput
+    create: XOR<UnavailabilityCreateWithoutBarberInput, UnavailabilityUncheckedCreateWithoutBarberInput>
+  }
+
+  export type UnavailabilityCreateManyBarberInputEnvelope = {
+    data: UnavailabilityCreateManyBarberInput | UnavailabilityCreateManyBarberInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutBarbersInput = {
     update: XOR<TenantUpdateWithoutBarbersInput, TenantUncheckedUpdateWithoutBarbersInput>
     create: XOR<TenantCreateWithoutBarbersInput, TenantUncheckedCreateWithoutBarbersInput>
@@ -17134,6 +20843,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17155,6 +20866,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17224,6 +20937,38 @@ export namespace Prisma {
     reason?: StringNullableFilter<"BarberBlock"> | string | null
   }
 
+  export type WorkShiftUpsertWithWhereUniqueWithoutBarberInput = {
+    where: WorkShiftWhereUniqueInput
+    update: XOR<WorkShiftUpdateWithoutBarberInput, WorkShiftUncheckedUpdateWithoutBarberInput>
+    create: XOR<WorkShiftCreateWithoutBarberInput, WorkShiftUncheckedCreateWithoutBarberInput>
+  }
+
+  export type WorkShiftUpdateWithWhereUniqueWithoutBarberInput = {
+    where: WorkShiftWhereUniqueInput
+    data: XOR<WorkShiftUpdateWithoutBarberInput, WorkShiftUncheckedUpdateWithoutBarberInput>
+  }
+
+  export type WorkShiftUpdateManyWithWhereWithoutBarberInput = {
+    where: WorkShiftScalarWhereInput
+    data: XOR<WorkShiftUpdateManyMutationInput, WorkShiftUncheckedUpdateManyWithoutBarberInput>
+  }
+
+  export type UnavailabilityUpsertWithWhereUniqueWithoutBarberInput = {
+    where: UnavailabilityWhereUniqueInput
+    update: XOR<UnavailabilityUpdateWithoutBarberInput, UnavailabilityUncheckedUpdateWithoutBarberInput>
+    create: XOR<UnavailabilityCreateWithoutBarberInput, UnavailabilityUncheckedCreateWithoutBarberInput>
+  }
+
+  export type UnavailabilityUpdateWithWhereUniqueWithoutBarberInput = {
+    where: UnavailabilityWhereUniqueInput
+    data: XOR<UnavailabilityUpdateWithoutBarberInput, UnavailabilityUncheckedUpdateWithoutBarberInput>
+  }
+
+  export type UnavailabilityUpdateManyWithWhereWithoutBarberInput = {
+    where: UnavailabilityScalarWhereInput
+    data: XOR<UnavailabilityUpdateManyMutationInput, UnavailabilityUncheckedUpdateManyWithoutBarberInput>
+  }
+
   export type BarberCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -17234,6 +20979,8 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutBarbersInput
     bookings?: BookingCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
   }
 
   export type BarberUncheckedCreateWithoutUnitsInput = {
@@ -17246,6 +20993,8 @@ export namespace Prisma {
     active?: boolean
     bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
   }
 
   export type BarberCreateOrConnectWithoutUnitsInput = {
@@ -17262,6 +21011,8 @@ export namespace Prisma {
     active?: boolean
     tenant: TenantCreateNestedOneWithoutUnitsInput
     bookings?: BookingCreateNestedManyWithoutUnitInput
+    workShifts?: WorkShiftCreateNestedManyWithoutUnitInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutUnitInput
   }
 
   export type UnitUncheckedCreateWithoutBarberUnitsInput = {
@@ -17273,6 +21024,8 @@ export namespace Prisma {
     phone?: string | null
     active?: boolean
     bookings?: BookingUncheckedCreateNestedManyWithoutUnitInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutUnitInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutUnitInput
   }
 
   export type UnitCreateOrConnectWithoutBarberUnitsInput = {
@@ -17301,6 +21054,8 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
     bookings?: BookingUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateWithoutUnitsInput = {
@@ -17313,6 +21068,8 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
   }
 
   export type UnitUpsertWithoutBarberUnitsInput = {
@@ -17335,6 +21092,8 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutUnitsNestedInput
     bookings?: BookingUpdateManyWithoutUnitNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutUnitNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutUnitNestedInput
   }
 
   export type UnitUncheckedUpdateWithoutBarberUnitsInput = {
@@ -17346,6 +21105,8 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUncheckedUpdateManyWithoutUnitNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutUnitNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutUnitNestedInput
   }
 
   export type BarberCreateWithoutBlocksInput = {
@@ -17358,6 +21119,8 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutBarbersInput
     units?: BarberUnitCreateNestedManyWithoutBarberInput
     bookings?: BookingCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
   }
 
   export type BarberUncheckedCreateWithoutBlocksInput = {
@@ -17370,6 +21133,8 @@ export namespace Prisma {
     active?: boolean
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
     bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
   }
 
   export type BarberCreateOrConnectWithoutBlocksInput = {
@@ -17398,6 +21163,8 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
     units?: BarberUnitUpdateManyWithoutBarberNestedInput
     bookings?: BookingUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateWithoutBlocksInput = {
@@ -17410,6 +21177,288 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
+  }
+
+  export type BarberCreateWithoutWorkShiftsInput = {
+    id?: string
+    name: string
+    nickname?: string | null
+    photoUrl?: string | null
+    commissionPct?: number
+    active?: boolean
+    tenant: TenantCreateNestedOneWithoutBarbersInput
+    units?: BarberUnitCreateNestedManyWithoutBarberInput
+    bookings?: BookingCreateNestedManyWithoutBarberInput
+    blocks?: BarberBlockCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
+  }
+
+  export type BarberUncheckedCreateWithoutWorkShiftsInput = {
+    id?: string
+    tenantId: string
+    name: string
+    nickname?: string | null
+    photoUrl?: string | null
+    commissionPct?: number
+    active?: boolean
+    units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
+    blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
+  }
+
+  export type BarberCreateOrConnectWithoutWorkShiftsInput = {
+    where: BarberWhereUniqueInput
+    create: XOR<BarberCreateWithoutWorkShiftsInput, BarberUncheckedCreateWithoutWorkShiftsInput>
+  }
+
+  export type UnitCreateWithoutWorkShiftsInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: NullableJsonNullValueInput | InputJsonValue
+    phone?: string | null
+    active?: boolean
+    tenant: TenantCreateNestedOneWithoutUnitsInput
+    barberUnits?: BarberUnitCreateNestedManyWithoutUnitInput
+    bookings?: BookingCreateNestedManyWithoutUnitInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutUnitInput
+  }
+
+  export type UnitUncheckedCreateWithoutWorkShiftsInput = {
+    id?: string
+    tenantId: string
+    name: string
+    slug: string
+    address?: NullableJsonNullValueInput | InputJsonValue
+    phone?: string | null
+    active?: boolean
+    barberUnits?: BarberUnitUncheckedCreateNestedManyWithoutUnitInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutUnitInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutUnitInput
+  }
+
+  export type UnitCreateOrConnectWithoutWorkShiftsInput = {
+    where: UnitWhereUniqueInput
+    create: XOR<UnitCreateWithoutWorkShiftsInput, UnitUncheckedCreateWithoutWorkShiftsInput>
+  }
+
+  export type BarberUpsertWithoutWorkShiftsInput = {
+    update: XOR<BarberUpdateWithoutWorkShiftsInput, BarberUncheckedUpdateWithoutWorkShiftsInput>
+    create: XOR<BarberCreateWithoutWorkShiftsInput, BarberUncheckedCreateWithoutWorkShiftsInput>
+    where?: BarberWhereInput
+  }
+
+  export type BarberUpdateToOneWithWhereWithoutWorkShiftsInput = {
+    where?: BarberWhereInput
+    data: XOR<BarberUpdateWithoutWorkShiftsInput, BarberUncheckedUpdateWithoutWorkShiftsInput>
+  }
+
+  export type BarberUpdateWithoutWorkShiftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    commissionPct?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
+    units?: BarberUnitUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUpdateManyWithoutBarberNestedInput
+    blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
+  }
+
+  export type BarberUncheckedUpdateWithoutWorkShiftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    commissionPct?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
+    blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
+  }
+
+  export type UnitUpsertWithoutWorkShiftsInput = {
+    update: XOR<UnitUpdateWithoutWorkShiftsInput, UnitUncheckedUpdateWithoutWorkShiftsInput>
+    create: XOR<UnitCreateWithoutWorkShiftsInput, UnitUncheckedCreateWithoutWorkShiftsInput>
+    where?: UnitWhereInput
+  }
+
+  export type UnitUpdateToOneWithWhereWithoutWorkShiftsInput = {
+    where?: UnitWhereInput
+    data: XOR<UnitUpdateWithoutWorkShiftsInput, UnitUncheckedUpdateWithoutWorkShiftsInput>
+  }
+
+  export type UnitUpdateWithoutWorkShiftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableJsonNullValueInput | InputJsonValue
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    tenant?: TenantUpdateOneRequiredWithoutUnitsNestedInput
+    barberUnits?: BarberUnitUpdateManyWithoutUnitNestedInput
+    bookings?: BookingUpdateManyWithoutUnitNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutUnitNestedInput
+  }
+
+  export type UnitUncheckedUpdateWithoutWorkShiftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableJsonNullValueInput | InputJsonValue
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    barberUnits?: BarberUnitUncheckedUpdateManyWithoutUnitNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutUnitNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutUnitNestedInput
+  }
+
+  export type BarberCreateWithoutUnavailabilitiesInput = {
+    id?: string
+    name: string
+    nickname?: string | null
+    photoUrl?: string | null
+    commissionPct?: number
+    active?: boolean
+    tenant: TenantCreateNestedOneWithoutBarbersInput
+    units?: BarberUnitCreateNestedManyWithoutBarberInput
+    bookings?: BookingCreateNestedManyWithoutBarberInput
+    blocks?: BarberBlockCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
+  }
+
+  export type BarberUncheckedCreateWithoutUnavailabilitiesInput = {
+    id?: string
+    tenantId: string
+    name: string
+    nickname?: string | null
+    photoUrl?: string | null
+    commissionPct?: number
+    active?: boolean
+    units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
+    blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
+  }
+
+  export type BarberCreateOrConnectWithoutUnavailabilitiesInput = {
+    where: BarberWhereUniqueInput
+    create: XOR<BarberCreateWithoutUnavailabilitiesInput, BarberUncheckedCreateWithoutUnavailabilitiesInput>
+  }
+
+  export type UnitCreateWithoutUnavailabilitiesInput = {
+    id?: string
+    name: string
+    slug: string
+    address?: NullableJsonNullValueInput | InputJsonValue
+    phone?: string | null
+    active?: boolean
+    tenant: TenantCreateNestedOneWithoutUnitsInput
+    barberUnits?: BarberUnitCreateNestedManyWithoutUnitInput
+    bookings?: BookingCreateNestedManyWithoutUnitInput
+    workShifts?: WorkShiftCreateNestedManyWithoutUnitInput
+  }
+
+  export type UnitUncheckedCreateWithoutUnavailabilitiesInput = {
+    id?: string
+    tenantId: string
+    name: string
+    slug: string
+    address?: NullableJsonNullValueInput | InputJsonValue
+    phone?: string | null
+    active?: boolean
+    barberUnits?: BarberUnitUncheckedCreateNestedManyWithoutUnitInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutUnitInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutUnitInput
+  }
+
+  export type UnitCreateOrConnectWithoutUnavailabilitiesInput = {
+    where: UnitWhereUniqueInput
+    create: XOR<UnitCreateWithoutUnavailabilitiesInput, UnitUncheckedCreateWithoutUnavailabilitiesInput>
+  }
+
+  export type BarberUpsertWithoutUnavailabilitiesInput = {
+    update: XOR<BarberUpdateWithoutUnavailabilitiesInput, BarberUncheckedUpdateWithoutUnavailabilitiesInput>
+    create: XOR<BarberCreateWithoutUnavailabilitiesInput, BarberUncheckedCreateWithoutUnavailabilitiesInput>
+    where?: BarberWhereInput
+  }
+
+  export type BarberUpdateToOneWithWhereWithoutUnavailabilitiesInput = {
+    where?: BarberWhereInput
+    data: XOR<BarberUpdateWithoutUnavailabilitiesInput, BarberUncheckedUpdateWithoutUnavailabilitiesInput>
+  }
+
+  export type BarberUpdateWithoutUnavailabilitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    commissionPct?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
+    units?: BarberUnitUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUpdateManyWithoutBarberNestedInput
+    blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
+  }
+
+  export type BarberUncheckedUpdateWithoutUnavailabilitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    commissionPct?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
+    blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
+  }
+
+  export type UnitUpsertWithoutUnavailabilitiesInput = {
+    update: XOR<UnitUpdateWithoutUnavailabilitiesInput, UnitUncheckedUpdateWithoutUnavailabilitiesInput>
+    create: XOR<UnitCreateWithoutUnavailabilitiesInput, UnitUncheckedCreateWithoutUnavailabilitiesInput>
+    where?: UnitWhereInput
+  }
+
+  export type UnitUpdateToOneWithWhereWithoutUnavailabilitiesInput = {
+    where?: UnitWhereInput
+    data: XOR<UnitUpdateWithoutUnavailabilitiesInput, UnitUncheckedUpdateWithoutUnavailabilitiesInput>
+  }
+
+  export type UnitUpdateWithoutUnavailabilitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableJsonNullValueInput | InputJsonValue
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    tenant?: TenantUpdateOneRequiredWithoutUnitsNestedInput
+    barberUnits?: BarberUnitUpdateManyWithoutUnitNestedInput
+    bookings?: BookingUpdateManyWithoutUnitNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutUnitNestedInput
+  }
+
+  export type UnitUncheckedUpdateWithoutUnavailabilitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    address?: NullableJsonNullValueInput | InputJsonValue
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    barberUnits?: BarberUnitUncheckedUpdateManyWithoutUnitNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutUnitNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutUnitNestedInput
   }
 
   export type TenantCreateWithoutClientsInput = {
@@ -17423,6 +21472,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17444,6 +21495,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17523,6 +21576,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17544,6 +21599,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17581,6 +21638,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17602,6 +21661,8 @@ export namespace Prisma {
     colorPrimary?: string
     colorAccent?: string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: string
+    leadTimeMin?: number
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17626,6 +21687,8 @@ export namespace Prisma {
     active?: boolean
     tenant: TenantCreateNestedOneWithoutUnitsInput
     barberUnits?: BarberUnitCreateNestedManyWithoutUnitInput
+    workShifts?: WorkShiftCreateNestedManyWithoutUnitInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutUnitInput
   }
 
   export type UnitUncheckedCreateWithoutBookingsInput = {
@@ -17637,6 +21700,8 @@ export namespace Prisma {
     phone?: string | null
     active?: boolean
     barberUnits?: BarberUnitUncheckedCreateNestedManyWithoutUnitInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutUnitInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutUnitInput
   }
 
   export type UnitCreateOrConnectWithoutBookingsInput = {
@@ -17654,6 +21719,8 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutBarbersInput
     units?: BarberUnitCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityCreateNestedManyWithoutBarberInput
   }
 
   export type BarberUncheckedCreateWithoutBookingsInput = {
@@ -17666,6 +21733,8 @@ export namespace Prisma {
     active?: boolean
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
     blocks?: BarberBlockUncheckedCreateNestedManyWithoutBarberInput
+    workShifts?: WorkShiftUncheckedCreateNestedManyWithoutBarberInput
+    unavailabilities?: UnavailabilityUncheckedCreateNestedManyWithoutBarberInput
   }
 
   export type BarberCreateOrConnectWithoutBookingsInput = {
@@ -17751,6 +21820,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17772,6 +21843,8 @@ export namespace Prisma {
     colorPrimary?: StringFieldUpdateOperationsInput | string
     colorAccent?: StringFieldUpdateOperationsInput | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    timezone?: StringFieldUpdateOperationsInput | string
+    leadTimeMin?: IntFieldUpdateOperationsInput | number
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17802,6 +21875,8 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutUnitsNestedInput
     barberUnits?: BarberUnitUpdateManyWithoutUnitNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutUnitNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutUnitNestedInput
   }
 
   export type UnitUncheckedUpdateWithoutBookingsInput = {
@@ -17813,6 +21888,8 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     barberUnits?: BarberUnitUncheckedUpdateManyWithoutUnitNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutUnitNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutUnitNestedInput
   }
 
   export type BarberUpsertWithoutBookingsInput = {
@@ -17836,6 +21913,8 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
     units?: BarberUnitUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateWithoutBookingsInput = {
@@ -17848,6 +21927,8 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
   }
 
   export type ClientUpsertWithoutBookingsInput = {
@@ -18058,6 +22139,8 @@ export namespace Prisma {
     units?: BarberUnitUpdateManyWithoutBarberNestedInput
     bookings?: BookingUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateWithoutTenantInput = {
@@ -18070,6 +22153,8 @@ export namespace Prisma {
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
     blocks?: BarberBlockUncheckedUpdateManyWithoutBarberNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutBarberNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutBarberNestedInput
   }
 
   export type BarberUncheckedUpdateManyWithoutTenantInput = {
@@ -18170,6 +22255,8 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     barberUnits?: BarberUnitUpdateManyWithoutUnitNestedInput
     bookings?: BookingUpdateManyWithoutUnitNestedInput
+    workShifts?: WorkShiftUpdateManyWithoutUnitNestedInput
+    unavailabilities?: UnavailabilityUpdateManyWithoutUnitNestedInput
   }
 
   export type UnitUncheckedUpdateWithoutTenantInput = {
@@ -18181,6 +22268,8 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     barberUnits?: BarberUnitUncheckedUpdateManyWithoutUnitNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutUnitNestedInput
+    workShifts?: WorkShiftUncheckedUpdateManyWithoutUnitNestedInput
+    unavailabilities?: UnavailabilityUncheckedUpdateManyWithoutUnitNestedInput
   }
 
   export type UnitUncheckedUpdateManyWithoutTenantInput = {
@@ -18212,6 +22301,26 @@ export namespace Prisma {
     campaignRef?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type WorkShiftCreateManyUnitInput = {
+    id?: string
+    barberId: string
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+  }
+
+  export type UnavailabilityCreateManyUnitInput = {
+    id?: string
+    barberId: string
+    startDate: Date | string
+    endDate: Date | string
+    allDay?: boolean
+    startMin?: number | null
+    endMin?: number | null
+    reason?: string | null
+    createdAt?: Date | string
   }
 
   export type BarberUnitUpdateWithoutUnitInput = {
@@ -18278,6 +22387,66 @@ export namespace Prisma {
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkShiftUpdateWithoutUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    startMin?: IntFieldUpdateOperationsInput | number
+    endMin?: IntFieldUpdateOperationsInput | number
+    barber?: BarberUpdateOneRequiredWithoutWorkShiftsNestedInput
+  }
+
+  export type WorkShiftUncheckedUpdateWithoutUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    barberId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    startMin?: IntFieldUpdateOperationsInput | number
+    endMin?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WorkShiftUncheckedUpdateManyWithoutUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    barberId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    startMin?: IntFieldUpdateOperationsInput | number
+    endMin?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UnavailabilityUpdateWithoutUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    startMin?: NullableIntFieldUpdateOperationsInput | number | null
+    endMin?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    barber?: BarberUpdateOneRequiredWithoutUnavailabilitiesNestedInput
+  }
+
+  export type UnavailabilityUncheckedUpdateWithoutUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    barberId?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    startMin?: NullableIntFieldUpdateOperationsInput | number | null
+    endMin?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UnavailabilityUncheckedUpdateManyWithoutUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    barberId?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    startMin?: NullableIntFieldUpdateOperationsInput | number | null
+    endMin?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingCreateManyServiceInput = {
@@ -18373,6 +22542,26 @@ export namespace Prisma {
     reason?: string | null
   }
 
+  export type WorkShiftCreateManyBarberInput = {
+    id?: string
+    unitId: string
+    dayOfWeek: number
+    startMin: number
+    endMin: number
+  }
+
+  export type UnavailabilityCreateManyBarberInput = {
+    id?: string
+    unitId?: string | null
+    startDate: Date | string
+    endDate: Date | string
+    allDay?: boolean
+    startMin?: number | null
+    endMin?: number | null
+    reason?: string | null
+    createdAt?: Date | string
+  }
+
   export type BarberUnitUpdateWithoutBarberInput = {
     id?: StringFieldUpdateOperationsInput | string
     schedule?: JsonNullValueInput | InputJsonValue
@@ -18458,6 +22647,66 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type WorkShiftUpdateWithoutBarberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    startMin?: IntFieldUpdateOperationsInput | number
+    endMin?: IntFieldUpdateOperationsInput | number
+    unit?: UnitUpdateOneRequiredWithoutWorkShiftsNestedInput
+  }
+
+  export type WorkShiftUncheckedUpdateWithoutBarberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    startMin?: IntFieldUpdateOperationsInput | number
+    endMin?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WorkShiftUncheckedUpdateManyWithoutBarberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    startMin?: IntFieldUpdateOperationsInput | number
+    endMin?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UnavailabilityUpdateWithoutBarberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    startMin?: NullableIntFieldUpdateOperationsInput | number | null
+    endMin?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unit?: UnitUpdateOneWithoutUnavailabilitiesNestedInput
+  }
+
+  export type UnavailabilityUncheckedUpdateWithoutBarberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    startMin?: NullableIntFieldUpdateOperationsInput | number | null
+    endMin?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UnavailabilityUncheckedUpdateManyWithoutBarberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    startMin?: NullableIntFieldUpdateOperationsInput | number | null
+    endMin?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingCreateManyClientInput = {
