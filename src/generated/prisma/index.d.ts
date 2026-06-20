@@ -144,6 +144,15 @@ export const PaymentMode: {
 
 export type PaymentMode = (typeof PaymentMode)[keyof typeof PaymentMode]
 
+
+export const BookingMode: {
+  PAYMENT_REQUIRED: 'PAYMENT_REQUIRED',
+  PAYMENT_OPTIONAL: 'PAYMENT_OPTIONAL',
+  BOOK_ONLY: 'BOOK_ONLY'
+};
+
+export type BookingMode = (typeof BookingMode)[keyof typeof BookingMode]
+
 }
 
 export type Role = $Enums.Role
@@ -173,6 +182,10 @@ export const PaymentStatus: typeof $Enums.PaymentStatus
 export type PaymentMode = $Enums.PaymentMode
 
 export const PaymentMode: typeof $Enums.PaymentMode
+
+export type BookingMode = $Enums.BookingMode
+
+export const BookingMode: typeof $Enums.BookingMode
 
 /**
  * ##  Prisma Client ʲˢ
@@ -3268,10 +3281,14 @@ export namespace Prisma {
 
   export type TenantAvgAggregateOutputType = {
     leadTimeMin: number | null
+    descontoSinalPct: number | null
+    descontoTotalPct: number | null
   }
 
   export type TenantSumAggregateOutputType = {
     leadTimeMin: number | null
+    descontoSinalPct: number | null
+    descontoTotalPct: number | null
   }
 
   export type TenantMinAggregateOutputType = {
@@ -3288,6 +3305,10 @@ export namespace Prisma {
     asaasApiKey: string | null
     asaasSandbox: boolean | null
     asaasWebhookToken: string | null
+    bookingMode: $Enums.BookingMode | null
+    incentivoAtivo: boolean | null
+    descontoSinalPct: number | null
+    descontoTotalPct: number | null
     googleReviewUrl: string | null
     status: $Enums.TenantStatus | null
     createdAt: Date | null
@@ -3308,6 +3329,10 @@ export namespace Prisma {
     asaasApiKey: string | null
     asaasSandbox: boolean | null
     asaasWebhookToken: string | null
+    bookingMode: $Enums.BookingMode | null
+    incentivoAtivo: boolean | null
+    descontoSinalPct: number | null
+    descontoTotalPct: number | null
     googleReviewUrl: string | null
     status: $Enums.TenantStatus | null
     createdAt: Date | null
@@ -3330,6 +3355,10 @@ export namespace Prisma {
     asaasApiKey: number
     asaasSandbox: number
     asaasWebhookToken: number
+    bookingMode: number
+    incentivoAtivo: number
+    descontoSinalPct: number
+    descontoTotalPct: number
     googleReviewUrl: number
     status: number
     createdAt: number
@@ -3340,10 +3369,14 @@ export namespace Prisma {
 
   export type TenantAvgAggregateInputType = {
     leadTimeMin?: true
+    descontoSinalPct?: true
+    descontoTotalPct?: true
   }
 
   export type TenantSumAggregateInputType = {
     leadTimeMin?: true
+    descontoSinalPct?: true
+    descontoTotalPct?: true
   }
 
   export type TenantMinAggregateInputType = {
@@ -3360,6 +3393,10 @@ export namespace Prisma {
     asaasApiKey?: true
     asaasSandbox?: true
     asaasWebhookToken?: true
+    bookingMode?: true
+    incentivoAtivo?: true
+    descontoSinalPct?: true
+    descontoTotalPct?: true
     googleReviewUrl?: true
     status?: true
     createdAt?: true
@@ -3380,6 +3417,10 @@ export namespace Prisma {
     asaasApiKey?: true
     asaasSandbox?: true
     asaasWebhookToken?: true
+    bookingMode?: true
+    incentivoAtivo?: true
+    descontoSinalPct?: true
+    descontoTotalPct?: true
     googleReviewUrl?: true
     status?: true
     createdAt?: true
@@ -3402,6 +3443,10 @@ export namespace Prisma {
     asaasApiKey?: true
     asaasSandbox?: true
     asaasWebhookToken?: true
+    bookingMode?: true
+    incentivoAtivo?: true
+    descontoSinalPct?: true
+    descontoTotalPct?: true
     googleReviewUrl?: true
     status?: true
     createdAt?: true
@@ -3511,6 +3556,10 @@ export namespace Prisma {
     asaasApiKey: string | null
     asaasSandbox: boolean
     asaasWebhookToken: string | null
+    bookingMode: $Enums.BookingMode
+    incentivoAtivo: boolean
+    descontoSinalPct: number
+    descontoTotalPct: number
     googleReviewUrl: string | null
     status: $Enums.TenantStatus
     createdAt: Date
@@ -3552,6 +3601,10 @@ export namespace Prisma {
     asaasApiKey?: boolean
     asaasSandbox?: boolean
     asaasWebhookToken?: boolean
+    bookingMode?: boolean
+    incentivoAtivo?: boolean
+    descontoSinalPct?: boolean
+    descontoTotalPct?: boolean
     googleReviewUrl?: boolean
     status?: boolean
     createdAt?: boolean
@@ -3581,6 +3634,10 @@ export namespace Prisma {
     asaasApiKey?: boolean
     asaasSandbox?: boolean
     asaasWebhookToken?: boolean
+    bookingMode?: boolean
+    incentivoAtivo?: boolean
+    descontoSinalPct?: boolean
+    descontoTotalPct?: boolean
     googleReviewUrl?: boolean
     status?: boolean
     createdAt?: boolean
@@ -3603,6 +3660,10 @@ export namespace Prisma {
     asaasApiKey?: boolean
     asaasSandbox?: boolean
     asaasWebhookToken?: boolean
+    bookingMode?: boolean
+    incentivoAtivo?: boolean
+    descontoSinalPct?: boolean
+    descontoTotalPct?: boolean
     googleReviewUrl?: boolean
     status?: boolean
     createdAt?: boolean
@@ -3625,13 +3686,17 @@ export namespace Prisma {
     asaasApiKey?: boolean
     asaasSandbox?: boolean
     asaasWebhookToken?: boolean
+    bookingMode?: boolean
+    incentivoAtivo?: boolean
+    descontoSinalPct?: boolean
+    descontoTotalPct?: boolean
     googleReviewUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "phone" | "email" | "address" | "logo" | "colorPrimary" | "colorAccent" | "openingHours" | "timezone" | "leadTimeMin" | "asaasApiKey" | "asaasSandbox" | "asaasWebhookToken" | "googleReviewUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "phone" | "email" | "address" | "logo" | "colorPrimary" | "colorAccent" | "openingHours" | "timezone" | "leadTimeMin" | "asaasApiKey" | "asaasSandbox" | "asaasWebhookToken" | "bookingMode" | "incentivoAtivo" | "descontoSinalPct" | "descontoTotalPct" | "googleReviewUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
   export type TenantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Tenant$usersArgs<ExtArgs>
     services?: boolean | Tenant$servicesArgs<ExtArgs>
@@ -3670,6 +3735,10 @@ export namespace Prisma {
       asaasApiKey: string | null
       asaasSandbox: boolean
       asaasWebhookToken: string | null
+      bookingMode: $Enums.BookingMode
+      incentivoAtivo: boolean
+      descontoSinalPct: number
+      descontoTotalPct: number
       googleReviewUrl: string | null
       status: $Enums.TenantStatus
       createdAt: Date
@@ -4118,6 +4187,10 @@ export namespace Prisma {
     readonly asaasApiKey: FieldRef<"Tenant", 'String'>
     readonly asaasSandbox: FieldRef<"Tenant", 'Boolean'>
     readonly asaasWebhookToken: FieldRef<"Tenant", 'String'>
+    readonly bookingMode: FieldRef<"Tenant", 'BookingMode'>
+    readonly incentivoAtivo: FieldRef<"Tenant", 'Boolean'>
+    readonly descontoSinalPct: FieldRef<"Tenant", 'Int'>
+    readonly descontoTotalPct: FieldRef<"Tenant", 'Int'>
     readonly googleReviewUrl: FieldRef<"Tenant", 'String'>
     readonly status: FieldRef<"Tenant", 'TenantStatus'>
     readonly createdAt: FieldRef<"Tenant", 'DateTime'>
@@ -13900,12 +13973,14 @@ export namespace Prisma {
   export type BookingAvgAggregateOutputType = {
     durationMin: number | null
     price: number | null
+    chargeAmount: number | null
     paidAmount: number | null
   }
 
   export type BookingSumAggregateOutputType = {
     durationMin: number | null
     price: number | null
+    chargeAmount: number | null
     paidAmount: number | null
   }
 
@@ -13926,6 +14001,7 @@ export namespace Prisma {
     paymentMode: $Enums.PaymentMode | null
     asaasPaymentId: string | null
     pixCopiaECola: string | null
+    chargeAmount: number | null
     paidAmount: number | null
     pixExpiresAt: Date | null
     createdAt: Date | null
@@ -13949,6 +14025,7 @@ export namespace Prisma {
     paymentMode: $Enums.PaymentMode | null
     asaasPaymentId: string | null
     pixCopiaECola: string | null
+    chargeAmount: number | null
     paidAmount: number | null
     pixExpiresAt: Date | null
     createdAt: Date | null
@@ -13972,6 +14049,7 @@ export namespace Prisma {
     paymentMode: number
     asaasPaymentId: number
     pixCopiaECola: number
+    chargeAmount: number
     paidAmount: number
     pixExpiresAt: number
     createdAt: number
@@ -13983,12 +14061,14 @@ export namespace Prisma {
   export type BookingAvgAggregateInputType = {
     durationMin?: true
     price?: true
+    chargeAmount?: true
     paidAmount?: true
   }
 
   export type BookingSumAggregateInputType = {
     durationMin?: true
     price?: true
+    chargeAmount?: true
     paidAmount?: true
   }
 
@@ -14009,6 +14089,7 @@ export namespace Prisma {
     paymentMode?: true
     asaasPaymentId?: true
     pixCopiaECola?: true
+    chargeAmount?: true
     paidAmount?: true
     pixExpiresAt?: true
     createdAt?: true
@@ -14032,6 +14113,7 @@ export namespace Prisma {
     paymentMode?: true
     asaasPaymentId?: true
     pixCopiaECola?: true
+    chargeAmount?: true
     paidAmount?: true
     pixExpiresAt?: true
     createdAt?: true
@@ -14055,6 +14137,7 @@ export namespace Prisma {
     paymentMode?: true
     asaasPaymentId?: true
     pixCopiaECola?: true
+    chargeAmount?: true
     paidAmount?: true
     pixExpiresAt?: true
     createdAt?: true
@@ -14165,6 +14248,7 @@ export namespace Prisma {
     paymentMode: $Enums.PaymentMode | null
     asaasPaymentId: string | null
     pixCopiaECola: string | null
+    chargeAmount: number | null
     paidAmount: number | null
     pixExpiresAt: Date | null
     createdAt: Date
@@ -14207,6 +14291,7 @@ export namespace Prisma {
     paymentMode?: boolean
     asaasPaymentId?: boolean
     pixCopiaECola?: boolean
+    chargeAmount?: boolean
     paidAmount?: boolean
     pixExpiresAt?: boolean
     createdAt?: boolean
@@ -14235,6 +14320,7 @@ export namespace Prisma {
     paymentMode?: boolean
     asaasPaymentId?: boolean
     pixCopiaECola?: boolean
+    chargeAmount?: boolean
     paidAmount?: boolean
     pixExpiresAt?: boolean
     createdAt?: boolean
@@ -14263,6 +14349,7 @@ export namespace Prisma {
     paymentMode?: boolean
     asaasPaymentId?: boolean
     pixCopiaECola?: boolean
+    chargeAmount?: boolean
     paidAmount?: boolean
     pixExpiresAt?: boolean
     createdAt?: boolean
@@ -14291,13 +14378,14 @@ export namespace Prisma {
     paymentMode?: boolean
     asaasPaymentId?: boolean
     pixCopiaECola?: boolean
+    chargeAmount?: boolean
     paidAmount?: boolean
     pixExpiresAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "unitId" | "barberId" | "clientId" | "serviceId" | "dateTime" | "durationMin" | "price" | "status" | "origin" | "campaignRef" | "paymentStatus" | "paymentMode" | "asaasPaymentId" | "pixCopiaECola" | "paidAmount" | "pixExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "unitId" | "barberId" | "clientId" | "serviceId" | "dateTime" | "durationMin" | "price" | "status" | "origin" | "campaignRef" | "paymentStatus" | "paymentMode" | "asaasPaymentId" | "pixCopiaECola" | "chargeAmount" | "paidAmount" | "pixExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     unit?: boolean | Booking$unitArgs<ExtArgs>
@@ -14346,6 +14434,7 @@ export namespace Prisma {
       paymentMode: $Enums.PaymentMode | null
       asaasPaymentId: string | null
       pixCopiaECola: string | null
+      chargeAmount: number | null
       paidAmount: number | null
       pixExpiresAt: Date | null
       createdAt: Date
@@ -14794,6 +14883,7 @@ export namespace Prisma {
     readonly paymentMode: FieldRef<"Booking", 'PaymentMode'>
     readonly asaasPaymentId: FieldRef<"Booking", 'String'>
     readonly pixCopiaECola: FieldRef<"Booking", 'String'>
+    readonly chargeAmount: FieldRef<"Booking", 'Float'>
     readonly paidAmount: FieldRef<"Booking", 'Float'>
     readonly pixExpiresAt: FieldRef<"Booking", 'DateTime'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
@@ -15275,6 +15365,10 @@ export namespace Prisma {
     asaasApiKey: 'asaasApiKey',
     asaasSandbox: 'asaasSandbox',
     asaasWebhookToken: 'asaasWebhookToken',
+    bookingMode: 'bookingMode',
+    incentivoAtivo: 'incentivoAtivo',
+    descontoSinalPct: 'descontoSinalPct',
+    descontoTotalPct: 'descontoTotalPct',
     googleReviewUrl: 'googleReviewUrl',
     status: 'status',
     createdAt: 'createdAt',
@@ -15405,6 +15499,7 @@ export namespace Prisma {
     paymentMode: 'paymentMode',
     asaasPaymentId: 'asaasPaymentId',
     pixCopiaECola: 'pixCopiaECola',
+    chargeAmount: 'chargeAmount',
     paidAmount: 'paidAmount',
     pixExpiresAt: 'pixExpiresAt',
     createdAt: 'createdAt',
@@ -15541,6 +15636,20 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'BookingMode'
+   */
+  export type EnumBookingModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'BookingMode[]'
+   */
+  export type ListEnumBookingModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingMode[]'>
     
 
 
@@ -15734,6 +15843,10 @@ export namespace Prisma {
     asaasApiKey?: StringNullableFilter<"Tenant"> | string | null
     asaasSandbox?: BoolFilter<"Tenant"> | boolean
     asaasWebhookToken?: StringNullableFilter<"Tenant"> | string | null
+    bookingMode?: EnumBookingModeFilter<"Tenant"> | $Enums.BookingMode
+    incentivoAtivo?: BoolFilter<"Tenant"> | boolean
+    descontoSinalPct?: IntFilter<"Tenant"> | number
+    descontoTotalPct?: IntFilter<"Tenant"> | number
     googleReviewUrl?: StringNullableFilter<"Tenant"> | string | null
     status?: EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -15762,6 +15875,10 @@ export namespace Prisma {
     asaasApiKey?: SortOrderInput | SortOrder
     asaasSandbox?: SortOrder
     asaasWebhookToken?: SortOrderInput | SortOrder
+    bookingMode?: SortOrder
+    incentivoAtivo?: SortOrder
+    descontoSinalPct?: SortOrder
+    descontoTotalPct?: SortOrder
     googleReviewUrl?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -15793,6 +15910,10 @@ export namespace Prisma {
     asaasApiKey?: StringNullableFilter<"Tenant"> | string | null
     asaasSandbox?: BoolFilter<"Tenant"> | boolean
     asaasWebhookToken?: StringNullableFilter<"Tenant"> | string | null
+    bookingMode?: EnumBookingModeFilter<"Tenant"> | $Enums.BookingMode
+    incentivoAtivo?: BoolFilter<"Tenant"> | boolean
+    descontoSinalPct?: IntFilter<"Tenant"> | number
+    descontoTotalPct?: IntFilter<"Tenant"> | number
     googleReviewUrl?: StringNullableFilter<"Tenant"> | string | null
     status?: EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -15821,6 +15942,10 @@ export namespace Prisma {
     asaasApiKey?: SortOrderInput | SortOrder
     asaasSandbox?: SortOrder
     asaasWebhookToken?: SortOrderInput | SortOrder
+    bookingMode?: SortOrder
+    incentivoAtivo?: SortOrder
+    descontoSinalPct?: SortOrder
+    descontoTotalPct?: SortOrder
     googleReviewUrl?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -15851,6 +15976,10 @@ export namespace Prisma {
     asaasApiKey?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
     asaasSandbox?: BoolWithAggregatesFilter<"Tenant"> | boolean
     asaasWebhookToken?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
+    bookingMode?: EnumBookingModeWithAggregatesFilter<"Tenant"> | $Enums.BookingMode
+    incentivoAtivo?: BoolWithAggregatesFilter<"Tenant"> | boolean
+    descontoSinalPct?: IntWithAggregatesFilter<"Tenant"> | number
+    descontoTotalPct?: IntWithAggregatesFilter<"Tenant"> | number
     googleReviewUrl?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
     status?: EnumTenantStatusWithAggregatesFilter<"Tenant"> | $Enums.TenantStatus
     createdAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
@@ -16452,6 +16581,7 @@ export namespace Prisma {
     paymentMode?: EnumPaymentModeNullableFilter<"Booking"> | $Enums.PaymentMode | null
     asaasPaymentId?: StringNullableFilter<"Booking"> | string | null
     pixCopiaECola?: StringNullableFilter<"Booking"> | string | null
+    chargeAmount?: FloatNullableFilter<"Booking"> | number | null
     paidAmount?: FloatNullableFilter<"Booking"> | number | null
     pixExpiresAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
@@ -16480,6 +16610,7 @@ export namespace Prisma {
     paymentMode?: SortOrderInput | SortOrder
     asaasPaymentId?: SortOrderInput | SortOrder
     pixCopiaECola?: SortOrderInput | SortOrder
+    chargeAmount?: SortOrderInput | SortOrder
     paidAmount?: SortOrderInput | SortOrder
     pixExpiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -16511,6 +16642,7 @@ export namespace Prisma {
     paymentStatus?: EnumPaymentStatusFilter<"Booking"> | $Enums.PaymentStatus
     paymentMode?: EnumPaymentModeNullableFilter<"Booking"> | $Enums.PaymentMode | null
     pixCopiaECola?: StringNullableFilter<"Booking"> | string | null
+    chargeAmount?: FloatNullableFilter<"Booking"> | number | null
     paidAmount?: FloatNullableFilter<"Booking"> | number | null
     pixExpiresAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
@@ -16539,6 +16671,7 @@ export namespace Prisma {
     paymentMode?: SortOrderInput | SortOrder
     asaasPaymentId?: SortOrderInput | SortOrder
     pixCopiaECola?: SortOrderInput | SortOrder
+    chargeAmount?: SortOrderInput | SortOrder
     paidAmount?: SortOrderInput | SortOrder
     pixExpiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -16570,6 +16703,7 @@ export namespace Prisma {
     paymentMode?: EnumPaymentModeNullableWithAggregatesFilter<"Booking"> | $Enums.PaymentMode | null
     asaasPaymentId?: StringNullableWithAggregatesFilter<"Booking"> | string | null
     pixCopiaECola?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    chargeAmount?: FloatNullableWithAggregatesFilter<"Booking"> | number | null
     paidAmount?: FloatNullableWithAggregatesFilter<"Booking"> | number | null
     pixExpiresAt?: DateTimeNullableWithAggregatesFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
@@ -16668,6 +16802,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -16696,6 +16834,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -16724,6 +16866,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16752,6 +16898,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16780,6 +16930,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -16802,6 +16956,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16824,6 +16982,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17435,6 +17597,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -17463,6 +17626,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -17481,6 +17645,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17509,6 +17674,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17532,6 +17698,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -17550,6 +17717,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17573,6 +17741,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17769,6 +17938,13 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type EnumBookingModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingMode | EnumBookingModeFieldRefInput<$PrismaModel>
+    in?: $Enums.BookingMode[] | ListEnumBookingModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BookingMode[] | ListEnumBookingModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBookingModeFilter<$PrismaModel> | $Enums.BookingMode
+  }
+
   export type EnumTenantStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TenantStatus | EnumTenantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
@@ -17852,6 +18028,10 @@ export namespace Prisma {
     asaasApiKey?: SortOrder
     asaasSandbox?: SortOrder
     asaasWebhookToken?: SortOrder
+    bookingMode?: SortOrder
+    incentivoAtivo?: SortOrder
+    descontoSinalPct?: SortOrder
+    descontoTotalPct?: SortOrder
     googleReviewUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -17860,6 +18040,8 @@ export namespace Prisma {
 
   export type TenantAvgOrderByAggregateInput = {
     leadTimeMin?: SortOrder
+    descontoSinalPct?: SortOrder
+    descontoTotalPct?: SortOrder
   }
 
   export type TenantMaxOrderByAggregateInput = {
@@ -17876,6 +18058,10 @@ export namespace Prisma {
     asaasApiKey?: SortOrder
     asaasSandbox?: SortOrder
     asaasWebhookToken?: SortOrder
+    bookingMode?: SortOrder
+    incentivoAtivo?: SortOrder
+    descontoSinalPct?: SortOrder
+    descontoTotalPct?: SortOrder
     googleReviewUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -17896,6 +18082,10 @@ export namespace Prisma {
     asaasApiKey?: SortOrder
     asaasSandbox?: SortOrder
     asaasWebhookToken?: SortOrder
+    bookingMode?: SortOrder
+    incentivoAtivo?: SortOrder
+    descontoSinalPct?: SortOrder
+    descontoTotalPct?: SortOrder
     googleReviewUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -17904,6 +18094,8 @@ export namespace Prisma {
 
   export type TenantSumOrderByAggregateInput = {
     leadTimeMin?: SortOrder
+    descontoSinalPct?: SortOrder
+    descontoTotalPct?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -17954,6 +18146,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type EnumBookingModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingMode | EnumBookingModeFieldRefInput<$PrismaModel>
+    in?: $Enums.BookingMode[] | ListEnumBookingModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BookingMode[] | ListEnumBookingModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBookingModeWithAggregatesFilter<$PrismaModel> | $Enums.BookingMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBookingModeFilter<$PrismaModel>
+    _max?: NestedEnumBookingModeFilter<$PrismaModel>
   }
 
   export type EnumTenantStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -18538,6 +18740,7 @@ export namespace Prisma {
     paymentMode?: SortOrder
     asaasPaymentId?: SortOrder
     pixCopiaECola?: SortOrder
+    chargeAmount?: SortOrder
     paidAmount?: SortOrder
     pixExpiresAt?: SortOrder
     createdAt?: SortOrder
@@ -18547,6 +18750,7 @@ export namespace Prisma {
   export type BookingAvgOrderByAggregateInput = {
     durationMin?: SortOrder
     price?: SortOrder
+    chargeAmount?: SortOrder
     paidAmount?: SortOrder
   }
 
@@ -18567,6 +18771,7 @@ export namespace Prisma {
     paymentMode?: SortOrder
     asaasPaymentId?: SortOrder
     pixCopiaECola?: SortOrder
+    chargeAmount?: SortOrder
     paidAmount?: SortOrder
     pixExpiresAt?: SortOrder
     createdAt?: SortOrder
@@ -18590,6 +18795,7 @@ export namespace Prisma {
     paymentMode?: SortOrder
     asaasPaymentId?: SortOrder
     pixCopiaECola?: SortOrder
+    chargeAmount?: SortOrder
     paidAmount?: SortOrder
     pixExpiresAt?: SortOrder
     createdAt?: SortOrder
@@ -18599,6 +18805,7 @@ export namespace Prisma {
   export type BookingSumOrderByAggregateInput = {
     durationMin?: SortOrder
     price?: SortOrder
+    chargeAmount?: SortOrder
     paidAmount?: SortOrder
   }
 
@@ -18784,6 +18991,10 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type EnumBookingModeFieldUpdateOperationsInput = {
+    set?: $Enums.BookingMode
   }
 
   export type EnumTenantStatusFieldUpdateOperationsInput = {
@@ -19827,6 +20038,13 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedEnumBookingModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingMode | EnumBookingModeFieldRefInput<$PrismaModel>
+    in?: $Enums.BookingMode[] | ListEnumBookingModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BookingMode[] | ListEnumBookingModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBookingModeFilter<$PrismaModel> | $Enums.BookingMode
+  }
+
   export type NestedEnumTenantStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TenantStatus | EnumTenantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
@@ -19890,6 +20108,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBookingModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingMode | EnumBookingModeFieldRefInput<$PrismaModel>
+    in?: $Enums.BookingMode[] | ListEnumBookingModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BookingMode[] | ListEnumBookingModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBookingModeWithAggregatesFilter<$PrismaModel> | $Enums.BookingMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBookingModeFilter<$PrismaModel>
+    _max?: NestedEnumBookingModeFilter<$PrismaModel>
   }
 
   export type NestedEnumTenantStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -20110,6 +20338,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -20137,6 +20369,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -20180,6 +20416,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20207,6 +20447,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20332,6 +20576,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -20358,6 +20603,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -20568,6 +20814,7 @@ export namespace Prisma {
     paymentMode?: EnumPaymentModeNullableFilter<"Booking"> | $Enums.PaymentMode | null
     asaasPaymentId?: StringNullableFilter<"Booking"> | string | null
     pixCopiaECola?: StringNullableFilter<"Booking"> | string | null
+    chargeAmount?: FloatNullableFilter<"Booking"> | number | null
     paidAmount?: FloatNullableFilter<"Booking"> | number | null
     pixExpiresAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
@@ -20649,6 +20896,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -20676,6 +20927,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -20726,6 +20981,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -20752,6 +21008,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -20855,6 +21112,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20882,6 +21143,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21011,6 +21276,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -21038,6 +21307,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -21066,6 +21339,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -21092,6 +21366,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -21135,6 +21410,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21162,6 +21441,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21205,6 +21488,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -21232,6 +21519,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -21282,6 +21573,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -21308,6 +21600,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -21435,6 +21728,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21462,6 +21759,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22072,6 +22373,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -22099,6 +22404,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -22127,6 +22436,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -22153,6 +22463,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -22196,6 +22507,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22223,6 +22538,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22266,6 +22585,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -22293,6 +22616,10 @@ export namespace Prisma {
     asaasApiKey?: string | null
     asaasSandbox?: boolean
     asaasWebhookToken?: string | null
+    bookingMode?: $Enums.BookingMode
+    incentivoAtivo?: boolean
+    descontoSinalPct?: number
+    descontoTotalPct?: number
     googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
@@ -22456,6 +22783,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22483,6 +22814,10 @@ export namespace Prisma {
     asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
     asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
     asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingMode?: EnumBookingModeFieldUpdateOperationsInput | $Enums.BookingMode
+    incentivoAtivo?: BoolFieldUpdateOperationsInput | boolean
+    descontoSinalPct?: IntFieldUpdateOperationsInput | number
+    descontoTotalPct?: IntFieldUpdateOperationsInput | number
     googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22684,6 +23019,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -22823,6 +23159,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22849,6 +23186,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22871,6 +23209,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22966,6 +23305,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -23022,6 +23362,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23048,6 +23389,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23070,6 +23412,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23152,6 +23495,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -23170,6 +23514,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23196,6 +23541,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23218,6 +23564,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23246,6 +23593,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -23309,6 +23657,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23335,6 +23684,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23357,6 +23707,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23460,6 +23811,7 @@ export namespace Prisma {
     paymentMode?: $Enums.PaymentMode | null
     asaasPaymentId?: string | null
     pixCopiaECola?: string | null
+    chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
     createdAt?: Date | string
@@ -23478,6 +23830,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23504,6 +23857,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23526,6 +23880,7 @@ export namespace Prisma {
     paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

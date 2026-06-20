@@ -33,6 +33,7 @@ export async function GET(request: NextRequest) {
       id: true,
       price: true,
       paymentMode: true,
+      chargeAmount: true,
       asaasPaymentId: true,
       tenant: { select: { asaasApiKey: true, asaasSandbox: true } },
     },
@@ -56,7 +57,8 @@ export async function GET(request: NextRequest) {
       status = await getPaymentStatus(ctx, b.asaasPaymentId)
 
       if (isPaidStatus(status)) {
-        if (await markBookingPaid(b.id, chargeValue(b.price, b.paymentMode))) rescued++
+        const paidValue = b.chargeAmount ?? chargeValue(b.price, b.paymentMode)
+        if (await markBookingPaid(b.id, paidValue)) rescued++
         continue
       }
       if (status === null) {

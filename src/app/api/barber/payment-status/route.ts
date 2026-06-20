@@ -27,6 +27,7 @@ export async function GET(request: NextRequest) {
       paymentStatus: true,
       price: true,
       paymentMode: true,
+      chargeAmount: true,
       asaasPaymentId: true,
       pixExpiresAt: true,
       tenant: { select: { asaasApiKey: true, asaasSandbox: true } },
@@ -47,7 +48,8 @@ export async function GET(request: NextRequest) {
       const ctx = { apiKey: decrypt(booking.tenant.asaasApiKey), sandbox: booking.tenant.asaasSandbox }
       const st = await getPaymentStatus(ctx, booking.asaasPaymentId)
       if (isPaidStatus(st)) {
-        await markBookingPaid(booking.id, chargeValue(booking.price, booking.paymentMode))
+        const paidValue = booking.chargeAmount ?? chargeValue(booking.price, booking.paymentMode)
+        await markBookingPaid(booking.id, paidValue)
         return NextResponse.json({ status: 'PAID' })
       }
     } catch {

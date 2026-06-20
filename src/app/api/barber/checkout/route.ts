@@ -9,7 +9,7 @@ import {
   cancelPayment,
   type AsaasCtx,
 } from '@/lib/asaas'
-import { chargeValue, expireBooking } from '@/lib/payments'
+import { computeCharge, expireBooking } from '@/lib/payments'
 import { getAvailableSlots, instantFromLocal } from '@/lib/slots'
 import { rateLimit, clientIp } from '@/lib/rate-limit'
 
@@ -65,12 +65,31 @@ export async function POST(request: NextRequest) {
 
     const phoneDigits = String(clientPhone).replace(/\D/g, '')
     const cpfDigits = String(clientCpf || '').replace(/\D/g, '')
-    const paymentEnabled = !!tenant.asaasApiKey
-    const mode = paymentMode === 'SINAL' ? 'SINAL' : 'TOTAL'
-    const value = chargeValue(service.price, paymentEnabled ? mode : null)
+    const hasAsaas = !!tenant.asaasApiKey
 
-    // validacoes de pagamento ANTES de reservar, pra nao criar lixo
-    if (paymentEnabled) {
+    // modo pedido vs politica da barbearia. Sem Asaas a barbearia e sempre
+    // "so agendar", entao qualquer pedido de pagamento e recusado.
+    const reqMode: 'SINAL' | 'TOTAL' | 'NONE' =
+      paymentMode === 'SINAL' ? 'SINAL' : paymentMode === 'TOTAL' ? 'TOTAL' : 'NONE'
+    const policy = hasAsaas ? tenant.bookingMode : 'BOOK_ONLY'
+
+    if (reqMode === 'NONE') {
+      if (policy === 'PAYMENT_REQUIRED') {
+        return NextResponse.json({ error: 'Esta barbearia exige pagamento para agendar.' }, { status: 400 })
+      }
+    } else if (!hasAsaas || policy === 'BOOK_ONLY') {
+      return NextResponse.json({ error: 'Pagamento indisponivel para esta barbearia.' }, { status: 400 })
+    }
+    const willCharge = reqMode !== 'NONE'
+
+    // valor do PIX (com incentivo/desconto) + validacoes ANTES de reservar
+    let value = 0
+    if (willCharge) {
+      value = computeCharge(service.price, reqMode, {
+        incentivoAtivo: tenant.incentivoAtivo,
+        descontoSinalPct: tenant.descontoSinalPct,
+        descontoTotalPct: tenant.descontoTotalPct,
+      }).value
       if (cpfDigits.length !== 11) {
         return NextResponse.json({ error: 'Informe um CPF valido para o pagamento.' }, { status: 400 })
       }
@@ -160,12 +179,13 @@ export async function POST(request: NextRequest) {
             dateTime: dateObj,
             durationMin: service.durationMin,
             price: service.price,
-            status: paymentEnabled ? 'PENDING' : 'CONFIRMED',
-            paymentStatus: paymentEnabled ? 'PENDING' : 'NONE',
-            paymentMode: paymentEnabled ? mode : null,
+            status: willCharge ? 'PENDING' : 'CONFIRMED',
+            paymentStatus: willCharge ? 'PENDING' : 'NONE',
+            paymentMode: willCharge ? reqMode : null,
+            chargeAmount: willCharge ? value : null,
             // prazo ja na criacao: se a Asaas (fora da txn) nunca completar, o
             // cron ainda expira a reserva (sem isso vira ghost permanente)
-            pixExpiresAt: paymentEnabled ? addMinutes(new Date(), PIX_WINDOW_MIN) : null,
+            pixExpiresAt: willCharge ? addMinutes(new Date(), PIX_WINDOW_MIN) : null,
           },
           select: { id: true },
         })
@@ -180,8 +200,8 @@ export async function POST(request: NextRequest) {
       throw e
     }
 
-    // ---- sem pagamento configurado: agendamento direto ----
-    if (!paymentEnabled) {
+    // ---- sem cobranca (so agendar): agendamento direto ----
+    if (!willCharge) {
       return NextResponse.json({ paid: false, bookingId: booking.id }, { status: 201 })
     }
 
@@ -214,7 +234,7 @@ export async function POST(request: NextRequest) {
           bookingId: booking.id,
           paymentId: payment.id,
           value,
-          mode,
+          mode: reqMode,
           qrCodeUrl: qr.qrCodeUrl,
           copiaECola: qr.copiaECola,
           expiresAt: addMinutes(new Date(), PIX_WINDOW_MIN).toISOString(),

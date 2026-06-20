@@ -5,6 +5,10 @@ import { prisma } from '@/lib/db'
 import { getSession } from '@/lib/auth'
 import { encrypt } from '@/lib/encryption'
 import { revalidatePath } from 'next/cache'
+import type { BookingMode } from '@/generated/prisma'
+
+const BOOKING_MODES: BookingMode[] = ['PAYMENT_REQUIRED', 'PAYMENT_OPTIONAL', 'BOOK_ONLY']
+const clampPct = (p: number) => Math.max(0, Math.min(90, Math.floor(Number(p) || 0)))
 
 /** Estado da config de pagamento do dono (sem expor a chave). */
 export async function getConfigPagamento(): Promise<{
@@ -26,6 +30,70 @@ export async function getConfigPagamento(): Promise<{
     // o token so importa pro dono montar a URL do webhook; exibido so a ele
     webhookToken: t?.asaasApiKey ? t?.asaasWebhookToken ?? null : null,
   }
+}
+
+/** Politica de agendamento + sistema de incentivo (descontos pra pagar adiantado). */
+export async function getConfigAgendamento(): Promise<{
+  hasKey: boolean
+  bookingMode: BookingMode
+  incentivoAtivo: boolean
+  descontoSinalPct: number
+  descontoTotalPct: number
+}> {
+  const s = await getSession()
+  const fallback = {
+    hasKey: false,
+    bookingMode: 'PAYMENT_REQUIRED' as BookingMode,
+    incentivoAtivo: false,
+    descontoSinalPct: 0,
+    descontoTotalPct: 0,
+  }
+  if (!s?.tenantId) return fallback
+  const t = await prisma.tenant.findUnique({
+    where: { id: s.tenantId },
+    select: {
+      asaasApiKey: true,
+      bookingMode: true,
+      incentivoAtivo: true,
+      descontoSinalPct: true,
+      descontoTotalPct: true,
+    },
+  })
+  if (!t) return fallback
+  return {
+    hasKey: !!t.asaasApiKey,
+    bookingMode: t.bookingMode,
+    incentivoAtivo: t.incentivoAtivo,
+    descontoSinalPct: t.descontoSinalPct,
+    descontoTotalPct: t.descontoTotalPct,
+  }
+}
+
+/** Salva a politica de agendamento e o sistema de incentivo. */
+export async function salvarConfigAgendamento(input: {
+  bookingMode: string
+  incentivoAtivo: boolean
+  descontoSinalPct: number
+  descontoTotalPct: number
+}): Promise<{ success: true } | { error: string }> {
+  const s = await getSession()
+  if (!s?.tenantId) return { error: 'Nao autorizado' }
+
+  const mode = BOOKING_MODES.includes(input.bookingMode as BookingMode)
+    ? (input.bookingMode as BookingMode)
+    : 'PAYMENT_REQUIRED'
+
+  await prisma.tenant.update({
+    where: { id: s.tenantId },
+    data: {
+      bookingMode: mode,
+      incentivoAtivo: !!input.incentivoAtivo,
+      descontoSinalPct: clampPct(input.descontoSinalPct),
+      descontoTotalPct: clampPct(input.descontoTotalPct),
+    },
+  })
+  revalidatePath('/painel/pagamentos')
+  return { success: true }
 }
 
 /** Salva o link de avaliacao no Google (usado na pagina de obrigado). */

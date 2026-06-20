@@ -148,6 +148,10 @@ exports.Prisma.TenantScalarFieldEnum = {
   asaasApiKey: 'asaasApiKey',
   asaasSandbox: 'asaasSandbox',
   asaasWebhookToken: 'asaasWebhookToken',
+  bookingMode: 'bookingMode',
+  incentivoAtivo: 'incentivoAtivo',
+  descontoSinalPct: 'descontoSinalPct',
+  descontoTotalPct: 'descontoTotalPct',
   googleReviewUrl: 'googleReviewUrl',
   status: 'status',
   createdAt: 'createdAt',
@@ -251,6 +255,7 @@ exports.Prisma.BookingScalarFieldEnum = {
   paymentMode: 'paymentMode',
   asaasPaymentId: 'asaasPaymentId',
   pixCopiaECola: 'pixCopiaECola',
+  chargeAmount: 'chargeAmount',
   paidAmount: 'paidAmount',
   pixExpiresAt: 'pixExpiresAt',
   createdAt: 'createdAt',
@@ -289,6 +294,12 @@ exports.Prisma.JsonNullValueFilter = {
 exports.Role = exports.$Enums.Role = {
   MASTER: 'MASTER',
   TENANT: 'TENANT'
+};
+
+exports.BookingMode = exports.$Enums.BookingMode = {
+  PAYMENT_REQUIRED: 'PAYMENT_REQUIRED',
+  PAYMENT_OPTIONAL: 'PAYMENT_OPTIONAL',
+  BOOK_ONLY: 'BOOK_ONLY'
 };
 
 exports.TenantStatus = exports.$Enums.TenantStatus = {

@@ -21,6 +21,10 @@ export async function GET(
       openingHours: true,
       asaasApiKey: true,
       googleReviewUrl: true,
+      bookingMode: true,
+      incentivoAtivo: true,
+      descontoSinalPct: true,
+      descontoTotalPct: true,
     },
   })
 
@@ -28,7 +32,13 @@ export async function GET(
     return NextResponse.json({ error: 'Barbearia nao encontrada.' }, { status: 404 })
   }
 
-  // a chave nunca vaza pro cliente: expoe so o booleano de pagamento ativo
-  const { asaasApiKey, ...rest } = tenant
-  return NextResponse.json({ ...rest, paymentEnabled: !!asaasApiKey })
+  // a chave nunca vaza pro cliente: expoe so o booleano de pagamento ativo.
+  // sem Asaas, a politica efetiva e sempre "so agendar".
+  const { asaasApiKey, bookingMode, ...rest } = tenant
+  const paymentEnabled = !!asaasApiKey
+  return NextResponse.json({
+    ...rest,
+    paymentEnabled,
+    bookingMode: paymentEnabled ? bookingMode : 'BOOK_ONLY',
+  })
 }

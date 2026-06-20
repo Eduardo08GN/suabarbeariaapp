@@ -1,7 +1,8 @@
 export const dynamic = 'force-dynamic'
 
-import { getConfigPagamento, getRecebimentos } from '@/actions/pagamentos'
+import { getConfigPagamento, getRecebimentos, getConfigAgendamento } from '@/actions/pagamentos'
 import { PagamentosForm } from './pagamentos-form'
+import { AgendamentoForm } from './agendamento-form'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Wallet } from 'lucide-react'
@@ -10,7 +11,11 @@ const brl = (n: number) =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n)
 
 export default async function PagamentosPage() {
-  const [initial, recebimentos] = await Promise.all([getConfigPagamento(), getRecebimentos()])
+  const [initial, recebimentos, agendamento] = await Promise.all([
+    getConfigPagamento(),
+    getRecebimentos(),
+    getConfigAgendamento(),
+  ])
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -20,6 +25,8 @@ export default async function PagamentosPage() {
       </p>
 
       <PagamentosForm initial={initial} />
+
+      <AgendamentoForm initial={agendamento} />
 
       {/* Recebimentos */}
       <div className="mt-6 rounded-xl border border-[#E4E4E7] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">

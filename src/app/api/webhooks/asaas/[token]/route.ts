@@ -42,12 +42,12 @@ export async function POST(
   // (senao o dinheiro entraria sem casar com nenhum agendamento, em silencio).
   let booking = await prisma.booking.findFirst({
     where: { asaasPaymentId: paymentId, tenantId: tenant.id },
-    select: { id: true, price: true, paymentMode: true, asaasPaymentId: true },
+    select: { id: true, price: true, paymentMode: true, asaasPaymentId: true, chargeAmount: true },
   })
   if (!booking && externalRef) {
     booking = await prisma.booking.findFirst({
       where: { id: externalRef, tenantId: tenant.id },
-      select: { id: true, price: true, paymentMode: true, asaasPaymentId: true },
+      select: { id: true, price: true, paymentMode: true, asaasPaymentId: true, chargeAmount: true },
     })
     // backfill do id que nunca chegou a ser gravado
     if (booking && !booking.asaasPaymentId) {
@@ -58,7 +58,8 @@ export async function POST(
 
   const isPaid = (event && PAID_EVENTS.includes(event)) || isPaidStatus(body?.payment?.status)
   if (isPaid) {
-    const applied = await markBookingPaid(booking.id, chargeValue(booking.price, booking.paymentMode))
+    const paidValue = booking.chargeAmount ?? chargeValue(booking.price, booking.paymentMode)
+    const applied = await markBookingPaid(booking.id, paidValue)
     if (!applied) {
       // re-le o estado atual (pode ter virado EXPIRED no mesmo instante pelo cron)
       const fresh = await prisma.booking.findUnique({

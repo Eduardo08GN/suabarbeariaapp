@@ -44,6 +44,14 @@ model Tenant {
   asaasApiKey       String?
   asaasSandbox      Boolean  @default(false)
   asaasWebhookToken String?  // gerado forte (randomBytes) ao ativar pagamento; ver salvarConfigPagamento
+  // politica de agendamento: exige pagar pra marcar, deixa opcional, ou so agenda.
+  // So tem efeito quando ha apiKey; sem Asaas a barbearia e sempre "so agendar".
+  bookingMode    BookingMode @default(PAYMENT_REQUIRED)
+  // sistema de incentivo: desconto pra quem paga adiantado (tag % off nos botoes).
+  // O desconto incide sobre o TOTAL; no sinal, paga 50% do total ja descontado.
+  incentivoAtivo  Boolean @default(false)
+  descontoSinalPct Int    @default(0) // 0..90
+  descontoTotalPct Int    @default(0) // 0..90
   // avaliacao no Google (mecanismo da pagina de obrigado)
   googleReviewUrl   String?
   status       TenantStatus @default(ACTIVE)
@@ -224,6 +232,7 @@ model Booking {
   paymentMode    PaymentMode?
   asaasPaymentId String?       @unique
   pixCopiaECola  String?
+  chargeAmount   Float?        // valor do PIX (ja com desconto); fonte da verdade p/ paidAmount
   paidAmount     Float?
   pixExpiresAt   DateTime?
   createdAt   DateTime      @default(now())
@@ -261,4 +270,10 @@ enum PaymentStatus {
 enum PaymentMode {
   SINAL // 50 por cento, restante no balcao
   TOTAL // 100 por cento
+}
+
+enum BookingMode {
+  PAYMENT_REQUIRED // so agenda pagando (sinal ou total)
+  PAYMENT_OPTIONAL // pode pagar adiantado OU so agendar
+  BOOK_ONLY        // so agenda, sem cobranca
 }
