@@ -23,9 +23,15 @@ export function rateLimit(key: string, max: number, windowMs: number): boolean {
   return true
 }
 
-/** IP do cliente a partir dos headers de proxy (Coolify/Traefik). */
+/** IP do cliente a partir dos headers de proxy (Coolify/Traefik). Le o ULTIMO
+    hop do X-Forwarded-For (o que o proxy de confianca anexou), nao o primeiro,
+    que e controlado pelo cliente e seria trivial de forjar. O teto por cliente
+    (telefone) e a defesa autoritativa; este IP e defesa em profundidade. */
 export function clientIp(req: Request): string {
   const xff = req.headers.get('x-forwarded-for')
-  if (xff) return xff.split(',')[0].trim()
+  if (xff) {
+    const hops = xff.split(',').map((s) => s.trim()).filter(Boolean)
+    if (hops.length) return hops[hops.length - 1]
+  }
   return req.headers.get('x-real-ip') || 'unknown'
 }

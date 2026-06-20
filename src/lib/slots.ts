@@ -79,6 +79,9 @@ export function localMidnightUtc(dateStr: string, tz: string): Date {
 // no fuso do tenant). setHours no fuso do processo (UTC em prod) desalinharia.
 export function instantFromLocal(dateStr: string, time: string, tz: string): Date {
   const [h, m] = time.split(':').map(Number)
+  const [y, mo, d] = dateStr.split('-').map(Number)
+  // entrada malformada -> Invalid Date (o chamador trata) em vez de Intl lancar
+  if ([y, mo, d, h, m].some((n) => Number.isNaN(n))) return new Date(NaN)
   return new Date(localMidnightUtc(dateStr, tz).getTime() + (h * 60 + m) * MS_MIN)
 }
 // dia da semana 0..6 (TZ-invariante) de 'YYYY-MM-DD'

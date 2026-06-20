@@ -36,6 +36,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Dados incompletos.' }, { status: 400 })
     }
     const timeNorm = String(time).slice(0, 5)
+    // valida o formato igual a rota de slots (evita rollover de data tipo 2026-13-40)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date)) || !/^\d{2}:\d{2}$/.test(timeNorm)) {
+      return NextResponse.json({ error: 'Data ou horario invalidos.' }, { status: 400 })
+    }
 
     const tenant = await prisma.tenant.findUnique({ where: { slug: tenantSlug } })
     if (!tenant) return NextResponse.json({ error: 'Barbearia nao encontrada.' }, { status: 404 })

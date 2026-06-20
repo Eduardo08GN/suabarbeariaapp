@@ -25,7 +25,7 @@ export async function POST(
   })
   if (!tenant) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
-  let body: { event?: string; payment?: { id?: string; status?: string } }
+  let body: { event?: string; payment?: { id?: string; status?: string; externalReference?: string } }
   try {
     body = await request.json()
   } catch {
@@ -34,24 +34,44 @@ export async function POST(
 
   const event = body?.event
   const paymentId = body?.payment?.id
-  // 200 sem efeito: sem id nao ha o que casar, e nao queremos que a Asaas reenfileire
+  const externalRef = body?.payment?.externalReference // = booking.id no checkout
   if (!paymentId) return NextResponse.json({ received: true })
 
-  const booking = await prisma.booking.findFirst({
+  // 1) casa pelo id da cobranca; 2) fallback pelo externalReference (booking.id),
+  // que cobre o caso raro de crash entre criar a cobranca e gravar o asaasPaymentId
+  // (senao o dinheiro entraria sem casar com nenhum agendamento, em silencio).
+  let booking = await prisma.booking.findFirst({
     where: { asaasPaymentId: paymentId, tenantId: tenant.id },
-    select: { id: true, price: true, paymentMode: true, paymentStatus: true },
+    select: { id: true, price: true, paymentMode: true, asaasPaymentId: true },
   })
+  if (!booking && externalRef) {
+    booking = await prisma.booking.findFirst({
+      where: { id: externalRef, tenantId: tenant.id },
+      select: { id: true, price: true, paymentMode: true, asaasPaymentId: true },
+    })
+    // backfill do id que nunca chegou a ser gravado
+    if (booking && !booking.asaasPaymentId) {
+      await prisma.booking.update({ where: { id: booking.id }, data: { asaasPaymentId: paymentId } })
+    }
+  }
   if (!booking) return NextResponse.json({ received: true }) // pagamento de outra origem
 
   const isPaid = (event && PAID_EVENTS.includes(event)) || isPaidStatus(body?.payment?.status)
   if (isPaid) {
     const applied = await markBookingPaid(booking.id, chargeValue(booking.price, booking.paymentMode))
-    if (!applied && booking.paymentStatus === 'EXPIRED') {
-      // pagamento caiu DEPOIS do horario ter sido liberado: dinheiro entrou sem
-      // vaga. Nao silenciar — exige estorno manual na conta da barbearia.
-      console.error(
-        `[asaas-webhook] PAGAMENTO APOS EXPIRACAO booking=${booking.id} payment=${paymentId} tenant=${tenant.id}. Estorno manual necessario.`
-      )
+    if (!applied) {
+      // re-le o estado atual (pode ter virado EXPIRED no mesmo instante pelo cron)
+      const fresh = await prisma.booking.findUnique({
+        where: { id: booking.id },
+        select: { paymentStatus: true },
+      })
+      if (fresh?.paymentStatus === 'EXPIRED') {
+        // pagamento caiu DEPOIS do horario ter sido liberado: dinheiro entrou sem
+        // vaga. Nao silenciar — exige estorno manual na conta da barbearia.
+        console.error(
+          `[asaas-webhook] PAGAMENTO APOS EXPIRACAO booking=${booking.id} payment=${paymentId} tenant=${tenant.id}. Estorno manual necessario.`
+        )
+      }
     }
     return NextResponse.json({ received: true, applied })
   }
