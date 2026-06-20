@@ -15,6 +15,7 @@ import {
   Menu,
   X,
 } from 'lucide-react'
+import { NotificationSound } from '@/components/painel/notification-sound'
 
 const navItems = [
   { href: '/painel', label: 'Painel', icon: LayoutDashboard },
@@ -43,6 +44,7 @@ export default function PainelLayout({ children }: { children: React.ReactNode }
 
   return (
     <div className="min-h-dvh bg-[#FAFAFA]">
+      <NotificationSound />
       {/* === MOBILE HEADER (< lg) === */}
       <div className="flex h-14 shrink-0 items-center justify-between border-b border-[#E4E4E7] bg-white px-4 lg:hidden">
         <div className="flex items-center gap-2">

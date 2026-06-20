@@ -25,7 +25,14 @@ self.addEventListener('push', (event) => {
     data: { url: data.url || '/' },
     vibrate: [80, 40, 80],
   }
-  event.waitUntil(self.registration.showNotification(title, options))
+  event.waitUntil(
+    (async () => {
+      await self.registration.showNotification(title, options)
+      // avisa as abas abertas (painel no balcao) pra tocar o som de caixa
+      const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+      for (const c of wins) c.postMessage({ type: 'new-booking', tag: data.tag })
+    })()
+  )
 })
 
 // clique abre/foca a tela alvo

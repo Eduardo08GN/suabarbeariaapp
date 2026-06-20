@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Bell, BellOff, Check, Loader2 } from 'lucide-react'
+import { Bell, BellOff, Check, Loader2, Volume2, VolumeX } from 'lucide-react'
+import { isSoundOn, setSoundOn } from '@/lib/sound-pref'
 
 const VAPID_PUBLIC = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || ''
 
@@ -18,9 +19,11 @@ type State = 'checking' | 'unsupported' | 'denied' | 'off' | 'on' | 'loading'
 
 export function NotificationToggle() {
   const [state, setState] = useState<State>('checking')
+  const [soundOn, setSound] = useState(true)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
+    setSound(isSoundOn())
     if (!('serviceWorker' in navigator) || !('PushManager' in window) || !VAPID_PUBLIC) {
       setState('unsupported')
       return
@@ -34,6 +37,20 @@ export function NotificationToggle() {
       .then((sub) => setState(sub ? 'on' : 'off'))
       .catch(() => setState('off'))
   }, [])
+
+  function toggleSound() {
+    const next = !soundOn
+    setSound(next)
+    setSoundOn(next)
+    // toca uma previa quando liga (e desbloqueia o audio)
+    if (next) {
+      try {
+        void new Audio('/chaching.mp3').play()
+      } catch {
+        // autoplay pode recusar
+      }
+    }
+  }
 
   async function enable() {
     setState('loading')
@@ -53,7 +70,17 @@ export function NotificationToggle() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subscription: sub.toJSON() }),
       })
-      setState(res.ok ? 'on' : 'off')
+      if (res.ok) {
+        setState('on')
+        // confirma com o som de caixa (e desbloqueia o audio pra sessao)
+        try {
+          await new Audio('/chaching.mp3').play()
+        } catch {
+          // autoplay pode recusar; o gesto de clicar ja prepara as proximas
+        }
+      } else {
+        setState('off')
+      }
     } catch {
       setState('off')
     }
@@ -93,6 +120,33 @@ export function NotificationToggle() {
           </button>
         )}
       </div>
+
+      {state === 'on' && (
+        <div className="mt-4 flex items-center justify-between border-t border-[#F4F4F5] pt-4">
+          <div className="flex items-center gap-2">
+            <span className="text-[#71717A]">
+              {soundOn ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+            </span>
+            <span className="text-sm text-[#09090B]">Som de caixa registradora</span>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={soundOn}
+            aria-label={soundOn ? 'Desativar som' : 'Ativar som'}
+            onClick={toggleSound}
+            className={`relative h-6 w-11 shrink-0 cursor-pointer rounded-full transition-colors ${
+              soundOn ? 'bg-[#18181B]' : 'bg-[#D4D4D8]'
+            }`}
+          >
+            <span
+              className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
+                soundOn ? 'left-[1.375rem]' : 'left-0.5'
+              }`}
+            />
+          </button>
+        </div>
+      )}
     </div>
   )
 }
