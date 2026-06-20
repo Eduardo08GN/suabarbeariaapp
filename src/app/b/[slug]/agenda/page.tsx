@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter, useSearchParams, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { format, addDays } from 'date-fns'
@@ -26,6 +26,21 @@ export default function AgendaPage() {
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
   const [slots, setSlots] = useState<TimeSlot[]>([])
   const [loading, setLoading] = useState(false)
+
+  // Carrossel de datas: o card selecionado desliza pro centro, revelando os
+  // dias vizinhos dos dois lados (senao o ultimo card visivel trava o acesso
+  // aos dias seguintes). Scroll nativo suave, sem mexer no scroll vertical.
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const dateRefs = useRef<(HTMLButtonElement | null)[]>([])
+
+  const centerDate = useCallback((index: number, smooth = true) => {
+    const container = scrollRef.current
+    const card = dateRefs.current[index]
+    if (!container || !card) return
+    const left =
+      card.offsetLeft - container.clientWidth / 2 + card.clientWidth / 2
+    container.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' })
+  }, [])
 
   // Generate next 14 days
   const dates = Array.from({ length: 14 }, (_, i) => {
@@ -64,9 +79,10 @@ export default function AgendaPage() {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleDateSelect = (date: string) => {
+  const handleDateSelect = (date: string, index: number) => {
     setSelectedDate(date)
     fetchSlots(date)
+    centerDate(index)
   }
 
   const handleContinue = () => {
@@ -99,11 +115,17 @@ export default function AgendaPage() {
             <CalendarDays className="w-4 h-4 text-(--text-secondary)" />
             <h3 className="text-sm font-semibold text-(--text)">Data</h3>
           </div>
-          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 snap-x snap-mandatory">
-            {dates.map((date) => (
+          <div
+            ref={scrollRef}
+            className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 snap-x snap-mandatory scroll-px-4"
+          >
+            {dates.map((date, i) => (
               <button
                 key={date.value}
-                onClick={() => handleDateSelect(date.value)}
+                ref={(el) => {
+                  dateRefs.current[i] = el
+                }}
+                onClick={() => handleDateSelect(date.value, i)}
                 className={cn(
                   'flex flex-col items-center gap-0.5 min-w-[56px] min-h-[72px] py-2.5 px-2 rounded-xl border text-center transition-all shrink-0 snap-start',
                   date.value === selectedDate
