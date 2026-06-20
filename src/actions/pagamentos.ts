@@ -21,21 +21,23 @@ export async function getConfigPagamento(): Promise<{ hasKey: boolean; sandbox: 
     um token de webhook por barbearia. A chave nunca volta pro cliente. */
 export async function salvarConfigPagamento(input: {
   apiKey: string
-  sandbox: boolean
 }): Promise<{ success: true } | { error: string }> {
   const s = await getSession()
   if (!s?.tenantId) return { error: 'Nao autorizado' }
 
-  const data: {
-    asaasSandbox: boolean
-    asaasApiKey?: string
-    asaasWebhookToken?: string
-  } = { asaasSandbox: !!input.sandbox }
-
   const key = input.apiKey?.trim()
-  if (key) {
-    if (key.length < 20) return { error: 'A chave da Asaas parece invalida' }
-    data.asaasApiKey = encrypt(key)
+  if (!key) return { error: 'Informe a chave da Asaas' }
+  if (key.length < 20) return { error: 'A chave da Asaas parece invalida' }
+
+  const data: {
+    asaasApiKey: string
+    asaasSandbox: boolean
+    asaasWebhookToken?: string
+  } = {
+    asaasApiKey: encrypt(key),
+    // sandbox e detectado pela propria chave (homologacao = prefixo hmlg);
+    // o dono nao escolhe modo de teste.
+    asaasSandbox: /hmlg|sandbox/i.test(key),
   }
 
   // garante um token de webhook (a barbearia pode ter sido criada antes do campo)

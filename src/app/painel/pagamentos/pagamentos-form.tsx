@@ -4,20 +4,15 @@ import { useState, useTransition } from 'react'
 import { CreditCard, Check, Loader2 } from 'lucide-react'
 import { salvarConfigPagamento } from '@/actions/pagamentos'
 
-export function PagamentosForm({
-  initial,
-}: {
-  initial: { hasKey: boolean; sandbox: boolean }
-}) {
+export function PagamentosForm({ initial }: { initial: { hasKey: boolean } }) {
   const [apiKey, setApiKey] = useState('')
-  const [sandbox, setSandbox] = useState(initial.sandbox)
   const [pending, startTransition] = useTransition()
   const [status, setStatus] = useState<{ ok: boolean; msg: string } | null>(null)
 
   function salvar() {
     setStatus(null)
     startTransition(async () => {
-      const r = await salvarConfigPagamento({ apiKey, sandbox })
+      const r = await salvarConfigPagamento({ apiKey })
       if ('error' in r) {
         setStatus({ ok: false, msg: r.error })
       } else {
@@ -66,32 +61,6 @@ export function PagamentosForm({
         A chave fica guardada de forma cifrada. Voce a encontra no painel da
         Asaas, em Integracoes.
       </p>
-
-      <div className="mt-4 flex items-center justify-between gap-4">
-        <span>
-          <span className="block text-sm font-medium text-[#3F3F46]">
-            Modo de teste
-          </span>
-          <span className="block text-xs text-[#A1A1AA]">
-            Use uma chave de sandbox para testar sem cobrar de verdade.
-          </span>
-        </span>
-        <button
-          type="button"
-          role="switch"
-          aria-checked={sandbox}
-          onClick={() => setSandbox(!sandbox)}
-          className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
-            sandbox ? 'bg-[#18181B]' : 'bg-[#D4D4D8]'
-          }`}
-        >
-          <span
-            className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
-              sandbox ? 'translate-x-[22px]' : 'translate-x-0.5'
-            }`}
-          />
-        </button>
-      </div>
 
       <p className="mt-4 rounded-lg bg-[#FAFAFA] px-3.5 py-2.5 text-xs leading-relaxed text-[#71717A]">
         A plataforma retem uma taxa de 2 por cento sobre cada pagamento recebido.
