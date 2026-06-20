@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
 
-const PUBLIC_PATHS = ['/login', '/b/', '/api/barber/', '/api/auth/', '/api/webhooks/', '/api/cron/']
+const PUBLIC_PATHS = [
+  '/login',
+  '/b/',
+  '/api/barber/',
+  '/api/auth/',
+  '/api/webhooks/',
+  '/api/cron/',
+  '/sw.js',
+  '/manifest.webmanifest',
+]
 
 function isPublicPath(pathname: string): boolean {
   return PUBLIC_PATHS.some((p) => pathname.startsWith(p))

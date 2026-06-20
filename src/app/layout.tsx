@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import type { Metadata, Viewport } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
+import { SWRegister } from '@/components/shared/sw-register'
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -42,6 +43,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
       <body className="min-h-dvh flex flex-col font-sans antialiased">
+        <SWRegister />
         {children}
       </body>
     </html>

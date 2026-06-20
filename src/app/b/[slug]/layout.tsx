@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import type { Metadata, Viewport } from 'next'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { BookingSteps } from '@/components/booking/BookingSteps'
@@ -6,6 +7,39 @@ import { BookingSteps } from '@/components/booking/BookingSteps'
 interface TenantLayoutProps {
   children: React.ReactNode
   params: Promise<{ slug: string }>
+}
+
+// PWA white-label: cada barbearia tem nome/cor/manifest proprios. Aponta pro
+// manifest dinamico em /b/[slug]/manifest.webmanifest.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const tenant = await prisma.tenant.findUnique({
+    where: { slug },
+    select: { name: true, colorPrimary: true },
+  })
+  const name = tenant?.name ?? 'Agendamento'
+  return {
+    title: name,
+    manifest: `/b/${slug}/manifest.webmanifest`,
+    appleWebApp: { capable: true, statusBarStyle: 'default', title: name },
+  }
+}
+
+export async function generateViewport({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Viewport> {
+  const { slug } = await params
+  const tenant = await prisma.tenant.findUnique({
+    where: { slug },
+    select: { colorPrimary: true },
+  })
+  return { themeColor: tenant?.colorPrimary || '#18181B' }
 }
 
 export default async function TenantLayout({
