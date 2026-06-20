@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Bell, BellOff, Check, Loader2, Volume2, VolumeX } from 'lucide-react'
+import { Bell, BellOff, Check, Loader2, Volume2, VolumeX, Share } from 'lucide-react'
 import { isSoundOn, setSoundOn } from '@/lib/sound-pref'
 
 const VAPID_PUBLIC = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || ''
@@ -15,7 +15,7 @@ function urlBase64ToUint8Array(base64: string): Uint8Array {
   return arr
 }
 
-type State = 'checking' | 'unsupported' | 'denied' | 'off' | 'on' | 'loading'
+type State = 'checking' | 'unsupported' | 'ios-install' | 'denied' | 'off' | 'on' | 'loading'
 
 export function NotificationToggle() {
   const [state, setState] = useState<State>('checking')
@@ -25,7 +25,12 @@ export function NotificationToggle() {
     if (typeof window === 'undefined') return
     setSound(isSoundOn())
     if (!('serviceWorker' in navigator) || !('PushManager' in window) || !VAPID_PUBLIC) {
-      setState('unsupported')
+      // iOS no Safari (nao instalado): push so funciona via Tela de Inicio
+      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent)
+      const standalone =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        (navigator as Navigator & { standalone?: boolean }).standalone === true
+      setState(isIOS && !standalone ? 'ios-install' : 'unsupported')
       return
     }
     if (Notification.permission === 'denied') {
@@ -87,6 +92,25 @@ export function NotificationToggle() {
   }
 
   if (state === 'checking' || state === 'unsupported') return null
+
+  if (state === 'ios-install') {
+    return (
+      <div className="rounded-xl border border-[#E4E4E7] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+        <div className="flex items-center gap-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F4F4F5] text-[#18181B]">
+            <Share className="h-4 w-4" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-medium text-[#09090B]">Notificacoes de agendamento</p>
+            <p className="text-xs text-[#71717A]">
+              No iPhone, toque em Compartilhar e &quot;Adicionar a Tela de Inicio&quot;. Depois abra
+              pelo icone e ative as notificacoes por aqui.
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="rounded-xl border border-[#E4E4E7] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">

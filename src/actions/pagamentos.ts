@@ -6,7 +6,7 @@ import { getSession } from '@/lib/auth'
 import { encrypt } from '@/lib/encryption'
 import { revalidatePath } from 'next/cache'
 import type { BookingMode } from '@/generated/prisma'
-import { computeCharge } from '@/lib/payments'
+import { computeCharge } from '@/lib/pricing'
 import { ASAAS_PIX_MIN } from '@/lib/payment-constants'
 
 const BOOKING_MODES: BookingMode[] = ['PAYMENT_REQUIRED', 'PAYMENT_OPTIONAL', 'BOOK_ONLY']

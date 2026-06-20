@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { decrypt } from '@/lib/encryption'
 import { getPaymentStatus, isPaidStatus, cancelPayment } from '@/lib/asaas'
-import { markBookingPaid, expireBooking, chargeValue } from '@/lib/payments'
+import { markBookingPaid, expireBooking } from '@/lib/payments'
+import { chargeValue } from '@/lib/pricing'
 
 // Libera horarios reservados cujo PIX nao foi pago dentro da janela. Antes de
 // expirar, confere na Asaas: NUNCA expira quando a verdade do pagamento e

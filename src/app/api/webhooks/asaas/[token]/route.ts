@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { isPaidStatus } from '@/lib/asaas'
-import { markBookingPaid, chargeValue } from '@/lib/payments'
+import { markBookingPaid } from '@/lib/payments'
+import { chargeValue } from '@/lib/pricing'
 
 // Webhook da Asaas. A URL carrega o token por barbearia
 // (/api/webhooks/asaas/<token>), que identifica o tenant. Cada barbearia

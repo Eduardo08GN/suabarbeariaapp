@@ -1,12 +1,12 @@
 // Efeitos de pagamento que tocam o banco. O calculo PURO de preco vive em
 // lib/pricing.ts (client-safe); aqui ficam as transicoes de estado.
 
+import 'server-only'
 import { prisma } from '@/lib/db'
 import { notifyNewBooking } from '@/lib/push'
 
-// re-exporta as funcoes puras pra quem ja importava daqui nao quebrar
-export { chargeValue, computeCharge, computeOrder, clampPct, round2 } from '@/lib/pricing'
-export type { PriceCtx } from '@/lib/pricing'
+// As funcoes PURAS de preco vivem em @/lib/pricing (client-safe). Aqui ficam so
+// os efeitos de banco — server-only pra nao vazar prisma/web-push pro cliente.
 
 /** Confirma o pagamento de forma atomica e idempotente. Retorna true apenas
     na transicao real (PENDING->PAID); chamadas repetidas retornam false. */

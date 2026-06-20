@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { decrypt } from '@/lib/encryption'
 import { getPaymentStatus, isPaidStatus } from '@/lib/asaas'
-import { markBookingPaid, chargeValue } from '@/lib/payments'
+import { markBookingPaid } from '@/lib/payments'
+import { chargeValue } from '@/lib/pricing'
 import { rateLimit, clientIp } from '@/lib/rate-limit'
 
 // Polling do front enquanto o modal PIX esta aberto. O webhook e o caminho
