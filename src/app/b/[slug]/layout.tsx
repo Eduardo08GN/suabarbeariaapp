@@ -2,7 +2,6 @@ import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { BookingSteps } from '@/components/booking/BookingSteps'
-import { Scissors } from 'lucide-react'
 
 interface TenantLayoutProps {
   children: React.ReactNode
@@ -43,17 +42,11 @@ export default async function TenantLayout({
       {/* Top Bar */}
       <header className="sticky top-0 z-50 bg-(--bg-card) border-b border-(--border) backdrop-blur-sm">
         <div className="flex items-center gap-3 px-4 py-3 max-w-lg mx-auto w-full">
-          {tenant.logo ? (
-            <img
-              src={tenant.logo}
-              alt={tenant.name}
-              className="w-8 h-8 rounded-lg object-cover"
-            />
-          ) : (
-            <div className="w-8 h-8 rounded-lg bg-(--tenant-primary) flex items-center justify-center">
-              <Scissors className="w-4 h-4 text-white" />
-            </div>
-          )}
+          <img
+            src={tenant.logo || '/logo_barbearia.webp'}
+            alt={tenant.name}
+            className="w-8 h-8 rounded-lg object-cover"
+          />
           <h1 className="font-bold text-(--text) text-base truncate">
             {tenant.name}
           </h1>

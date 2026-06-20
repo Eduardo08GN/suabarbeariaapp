@@ -1,15 +1,31 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useSearchParams, useParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Check, Home, Share2 } from 'lucide-react'
+import { Check, Home, Share2, Star } from 'lucide-react'
 
 export default function SucessoPage() {
   const params = useParams()
   const searchParams = useSearchParams()
   const slug = params.slug as string
   const bookingId = searchParams.get('bookingId')
+
+  const [reviewUrl, setReviewUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    let active = true
+    fetch(`/api/barber/config/${slug}`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (active && d?.googleReviewUrl) setReviewUrl(d.googleReviewUrl)
+      })
+      .catch(() => {})
+    return () => {
+      active = false
+    }
+  }, [slug])
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -104,12 +120,49 @@ export default function SucessoPage() {
         Tudo certo! Estaremos esperando por voce. Ate breve!
       </motion.p>
 
+      {/* Avalie-nos no Google */}
+      {reviewUrl && (
+        <motion.div
+          className="w-full max-w-xs mb-6 rounded-2xl border border-(--border) bg-(--bg-card) p-5 text-center shadow-sm"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.85, type: 'spring', stiffness: 300, damping: 24 }}
+        >
+          <div className="mb-3 flex items-center justify-center gap-1">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <Star key={i} className="h-4 w-4 fill-(--warning) text-(--warning)" />
+            ))}
+          </div>
+          <p className="text-sm font-bold text-(--text)">Gostou do atendimento?</p>
+          <p className="mt-1 mb-4 text-xs text-(--text-secondary)">
+            Sua avaliacao no Google ajuda muito. Aponte a camera ou toque no botao.
+          </p>
+          <div className="mx-auto mb-4 w-fit rounded-xl border border-(--border) bg-white p-2.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&data=${encodeURIComponent(reviewUrl)}`}
+              alt="QR para avaliar no Google"
+              className="h-36 w-36"
+            />
+          </div>
+          <a
+            href={reviewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary flex w-full items-center justify-center gap-2"
+          >
+            <Star className="h-4 w-4" />
+            Avaliar no Google
+          </a>
+        </motion.div>
+      )}
+
       {/* Actions */}
       <motion.div
         className="w-full max-w-xs space-y-3"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, type: 'spring', stiffness: 300, damping: 24 }}
+        transition={{ delay: 0.9, type: 'spring', stiffness: 300, damping: 24 }}
       >
         <Link
           href={`/b/${slug}`}

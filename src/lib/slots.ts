@@ -68,10 +68,18 @@ function tzOffsetMin(instant: Date, tz: string): number {
   return Math.round((asUTC - instant.getTime()) / MS_MIN)
 }
 // instante UTC da meia-noite local de 'YYYY-MM-DD' no fuso
-function localMidnightUtc(dateStr: string, tz: string): Date {
+export function localMidnightUtc(dateStr: string, tz: string): Date {
   const [y, mo, d] = dateStr.split('-').map(Number)
   const off = tzOffsetMin(new Date(Date.UTC(y, mo - 1, d, 12)), tz) // meio-dia evita borda de DST
   return new Date(Date.UTC(y, mo - 1, d) - off * MS_MIN)
+}
+
+// instante UTC de 'YYYY-MM-DD' + 'HH:mm' no fuso do tenant. Usar isto pra gravar
+// Booking.dateTime mantem o checkout coerente com o motor de slots (que ancora
+// no fuso do tenant). setHours no fuso do processo (UTC em prod) desalinharia.
+export function instantFromLocal(dateStr: string, time: string, tz: string): Date {
+  const [h, m] = time.split(':').map(Number)
+  return new Date(localMidnightUtc(dateStr, tz).getTime() + (h * 60 + m) * MS_MIN)
 }
 // dia da semana 0..6 (TZ-invariante) de 'YYYY-MM-DD'
 function dowOf(dateStr: string): number {

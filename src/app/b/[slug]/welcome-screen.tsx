@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Scissors } from 'lucide-react'
 import { InstallAppButton } from '@/components/shared/install-app'
 
 interface WelcomeScreenProps {
@@ -50,20 +49,11 @@ export function WelcomeScreen({
           }}
           className="mb-8"
         >
-          {logo ? (
-            <img
-              src={logo}
-              alt={name}
-              className="w-32 h-32 rounded-3xl object-cover shadow-lg"
-            />
-          ) : (
-            <div
-              className="w-32 h-32 rounded-3xl flex items-center justify-center shadow-lg"
-              style={{ backgroundColor: colorPrimary }}
-            >
-              <Scissors className="w-14 h-14 text-white" />
-            </div>
-          )}
+          <img
+            src={logo || '/logo_barbearia.webp'}
+            alt={name}
+            className="w-32 h-32 rounded-3xl object-cover shadow-lg"
+          />
         </motion.div>
 
         {/* Name */}

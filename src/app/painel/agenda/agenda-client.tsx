@@ -13,6 +13,29 @@ type BookingItem = {
   barberName: string
   status: string
   durationMin: number
+  paymentStatus: string
+  paymentMode: string | null
+  paidAmount: number | null
+  price: number
+}
+
+const brl = (n: number) =>
+  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n)
+
+// Chip de pagamento: so aparece quando ha cobranca (paymentStatus != NONE).
+function paymentChip(b: BookingItem): { label: string; cls: string } | null {
+  if (b.paymentStatus === 'PAID') {
+    const val = b.paidAmount ?? (b.paymentMode === 'SINAL' ? b.price / 2 : b.price)
+    const prefix = b.paymentMode === 'SINAL' ? 'Sinal pago' : 'Pago'
+    return { label: `${prefix} ${brl(val)}`, cls: 'bg-emerald-50 text-emerald-700' }
+  }
+  if (b.paymentStatus === 'PENDING') {
+    return { label: 'Aguardando PIX', cls: 'bg-amber-50 text-amber-700' }
+  }
+  if (b.paymentStatus === 'EXPIRED') {
+    return { label: 'PIX expirado', cls: 'bg-zinc-100 text-zinc-600' }
+  }
+  return null
 }
 
 const statusConfig: Record<string, { label: string; bg: string; text: string }> = {
@@ -127,6 +150,16 @@ export function AgendaClient({
                   <p className="text-xs text-[#71717A] truncate">
                     {booking.serviceName} &middot; {booking.barberName} &middot; {booking.durationMin}min
                   </p>
+                  {(() => {
+                    const chip = paymentChip(booking)
+                    return chip ? (
+                      <span
+                        className={`mt-1.5 inline-block px-2 py-0.5 rounded text-[11px] font-medium ${chip.cls}`}
+                      >
+                        {chip.label}
+                      </span>
+                    ) : null
+                  })()}
                 </div>
 
                 {/* Status badge */}

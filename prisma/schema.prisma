@@ -43,7 +43,7 @@ model Tenant {
   // pagamento — Asaas por barbearia (apiKey cifrada; wallet da agencia e env)
   asaasApiKey       String?
   asaasSandbox      Boolean  @default(false)
-  asaasWebhookToken String?  @default(cuid())
+  asaasWebhookToken String?  // gerado forte (randomBytes) ao ativar pagamento; ver salvarConfigPagamento
   // avaliacao no Google (mecanismo da pagina de obrigado)
   googleReviewUrl   String?
   status       TenantStatus @default(ACTIVE)

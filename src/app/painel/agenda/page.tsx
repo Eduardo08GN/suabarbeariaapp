@@ -42,6 +42,10 @@ export default async function AgendaPage({
     barberName: b.barber.nickname || b.barber.name,
     status: b.status,
     durationMin: b.durationMin,
+    paymentStatus: b.paymentStatus,
+    paymentMode: b.paymentMode,
+    paidAmount: b.paidAmount,
+    price: b.price,
   }))
 
   const dateStr = format(selectedDate, "EEEE, dd 'de' MMMM", { locale: ptBR })

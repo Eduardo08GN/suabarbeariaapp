@@ -12,7 +12,12 @@ import {
   User,
   Loader2,
   AlertCircle,
+  Wallet,
 } from 'lucide-react'
+import { PaymentModal, type CheckoutData } from '@/components/booking/PaymentModal'
+
+const brl = (n: number) =>
+  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n)
 
 export default function ConfirmarPage() {
   const router = useRouter()
@@ -27,20 +32,27 @@ export default function ConfirmarPage() {
 
   const [clientName, setClientName] = useState('')
   const [clientPhone, setClientPhone] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [clientEmail, setClientEmail] = useState('')
+  const [clientCpf, setClientCpf] = useState('')
+  const [loadingMode, setLoadingMode] = useState<'SINAL' | 'TOTAL' | 'NONE' | null>(null)
   const [error, setError] = useState('')
-  const [serviceInfo, setServiceInfo] = useState<{ name: string; price: string } | null>(null)
+  const [paymentEnabled, setPaymentEnabled] = useState(false)
+  const [serviceInfo, setServiceInfo] = useState<{ name: string; price: number } | null>(null)
   const [barberInfo, setBarberInfo] = useState<{ name: string } | null>(null)
+  const [checkout, setCheckout] = useState<CheckoutData | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   useEffect(() => {
     const fetchInfo = async () => {
       try {
-        const [servicesRes, staffRes] = await Promise.all([
+        const [servicesRes, staffRes, configRes] = await Promise.all([
           fetch(`/api/barber/services/${slug}`),
           fetch(`/api/barber/staff/${slug}`),
+          fetch(`/api/barber/config/${slug}`),
         ])
         const servicesData = await servicesRes.json()
         const staffData = await staffRes.json()
+        const configData = await configRes.json()
 
         const service = servicesData.services?.find(
           (s: { id: string }) => s.id === serviceId
@@ -49,16 +61,9 @@ export default function ConfirmarPage() {
           (b: { id: string }) => b.id === barberId
         )
 
-        if (service) {
-          setServiceInfo({
-            name: service.name,
-            price: new Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-            }).format(Number(service.price)),
-          })
-        }
+        if (service) setServiceInfo({ name: service.name, price: Number(service.price) })
         if (barber) setBarberInfo({ name: barber.name })
+        setPaymentEnabled(!!configData?.paymentEnabled)
       } catch {
         // Silent fail
       }
@@ -75,26 +80,40 @@ export default function ConfirmarPage() {
   const formatPhoneInput = (value: string) => {
     const digits = value.replace(/\D/g, '').slice(0, 11)
     if (digits.length <= 2) return digits
-    if (digits.length <= 7)
-      return `(${digits.slice(0, 2)}) ${digits.slice(2)}`
+    if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`
     return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
   }
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setClientPhone(formatPhoneInput(e.target.value))
+  const formatCpfInput = (value: string) => {
+    const d = value.replace(/\D/g, '').slice(0, 11)
+    if (d.length <= 3) return d
+    if (d.length <= 6) return `${d.slice(0, 3)}.${d.slice(3)}`
+    if (d.length <= 9) return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6)}`
+    return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}`
   }
 
-  const handleSubmit = async () => {
-    if (!clientName.trim() || !clientPhone.trim()) {
-      setError('Preencha todos os campos')
+  const price = serviceInfo?.price ?? 0
+  const sinal = Math.round((price / 2) * 100) / 100
+
+  const baseValid = clientName.trim().length > 0 && clientPhone.replace(/\D/g, '').length >= 10
+  const cpfValid = clientCpf.replace(/\D/g, '').length === 11
+  const canPay = baseValid && cpfValid
+  const busy = loadingMode !== null
+
+  const submit = async (mode: 'SINAL' | 'TOTAL' | 'NONE') => {
+    setError('')
+    if (!baseValid) {
+      setError('Preencha nome e telefone.')
+      return
+    }
+    if (paymentEnabled && !cpfValid) {
+      setError('Informe um CPF valido para o pagamento.')
       return
     }
 
-    setLoading(true)
-    setError('')
-
+    setLoadingMode(mode)
     try {
-      const res = await fetch('/api/barber/book', {
+      const res = await fetch('/api/barber/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -105,23 +124,39 @@ export default function ConfirmarPage() {
           time,
           clientName: clientName.trim(),
           clientPhone: clientPhone.replace(/\D/g, ''),
+          clientEmail: clientEmail.trim() || undefined,
+          clientCpf: clientCpf.replace(/\D/g, ''),
+          paymentMode: mode === 'NONE' ? undefined : mode,
         }),
       })
-
       const data = await res.json()
-
       if (!res.ok) {
-        setError(data.error || 'Erro ao confirmar agendamento')
+        setError(data.error || 'Erro ao processar. Tente novamente.')
         return
       }
 
-      router.push(`/b/${slug}/sucesso?bookingId=${data.booking.id}`)
+      if (data.paid) {
+        setCheckout({
+          bookingId: data.bookingId,
+          value: data.value,
+          mode: data.mode,
+          qrCodeUrl: data.qrCodeUrl,
+          copiaECola: data.copiaECola,
+          expiresAt: data.expiresAt,
+        })
+        setModalOpen(true)
+      } else {
+        router.push(`/b/${slug}/sucesso?bookingId=${data.bookingId}`)
+      }
     } catch {
       setError('Erro de conexao. Tente novamente.')
     } finally {
-      setLoading(false)
+      setLoadingMode(null)
     }
   }
+
+  const inputCls =
+    'w-full px-4 py-3 rounded-xl border border-(--border) bg-(--bg-card) text-(--text) text-sm placeholder:text-(--text-secondary)/50 focus:outline-none focus:ring-2 focus:ring-(--tenant-primary)/20 focus:border-(--tenant-primary) transition-all min-h-[48px]'
 
   return (
     <motion.div
@@ -130,17 +165,17 @@ export default function ConfirmarPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 24 }}
     >
-      <div className="px-4 py-6 space-y-6 flex-1 pb-28">
+      <div className="px-4 py-6 space-y-6 flex-1 pb-40">
         <div>
-          <h2 className="text-xl font-bold text-(--text)">
-            Confirme seu agendamento
-          </h2>
+          <h2 className="text-xl font-bold text-(--text)">Confirme seu agendamento</h2>
           <p className="text-sm text-(--text-secondary) mt-1">
-            Revise os detalhes e informe seus dados
+            {paymentEnabled
+              ? 'Revise os detalhes, informe seus dados e finalize o pagamento'
+              : 'Revise os detalhes e informe seus dados'}
           </p>
         </div>
 
-        {/* Booking Summary */}
+        {/* Resumo */}
         <div className="card p-4 space-y-3">
           <div className="flex items-center gap-3">
             <Scissors className="w-4 h-4 text-(--tenant-primary) shrink-0" />
@@ -150,10 +185,8 @@ export default function ConfirmarPage() {
                 {serviceInfo?.name || 'Carregando...'}
               </p>
             </div>
-            {serviceInfo?.price && (
-              <span className="text-sm font-bold text-(--tenant-primary)">
-                {serviceInfo.price}
-              </span>
+            {serviceInfo && (
+              <span className="text-sm font-bold text-(--tenant-primary)">{brl(price)}</span>
             )}
           </div>
 
@@ -175,9 +208,7 @@ export default function ConfirmarPage() {
             <Calendar className="w-4 h-4 text-(--tenant-primary) shrink-0" />
             <div>
               <p className="text-xs text-(--text-secondary)">Data</p>
-              <p className="text-sm font-semibold text-(--text) capitalize">
-                {formattedDate}
-              </p>
+              <p className="text-sm font-semibold text-(--text) capitalize">{formattedDate}</p>
             </div>
           </div>
 
@@ -192,35 +223,63 @@ export default function ConfirmarPage() {
           </div>
         </div>
 
-        {/* Client Form */}
+        {/* Formulario */}
         <div className="space-y-4">
           <div>
-            <label className="text-sm font-medium text-(--text) mb-1.5 block">
-              Seu nome
-            </label>
+            <label className="text-sm font-medium text-(--text) mb-1.5 block">Seu nome</label>
             <input
               type="text"
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
               placeholder="Como podemos te chamar?"
-              className="w-full px-4 py-3 rounded-xl border border-(--border) bg-(--bg-card) text-(--text) text-sm placeholder:text-(--text-secondary)/50 focus:outline-none focus:ring-2 focus:ring-(--tenant-primary)/20 focus:border-(--tenant-primary) transition-all min-h-[48px]"
-              required
+              className={inputCls}
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-(--text) mb-1.5 block">
-              Seu telefone
-            </label>
+            <label className="text-sm font-medium text-(--text) mb-1.5 block">Seu telefone</label>
             <input
               type="tel"
+              inputMode="numeric"
               value={clientPhone}
-              onChange={handlePhoneChange}
+              onChange={(e) => setClientPhone(formatPhoneInput(e.target.value))}
               placeholder="(00) 00000-0000"
-              className="w-full px-4 py-3 rounded-xl border border-(--border) bg-(--bg-card) text-(--text) text-sm placeholder:text-(--text-secondary)/50 focus:outline-none focus:ring-2 focus:ring-(--tenant-primary)/20 focus:border-(--tenant-primary) transition-all min-h-[48px]"
-              required
+              className={inputCls}
             />
           </div>
+
+          {paymentEnabled && (
+            <>
+              <div>
+                <label className="text-sm font-medium text-(--text) mb-1.5 block">
+                  E-mail <span className="text-(--text-secondary) font-normal">(opcional)</span>
+                </label>
+                <input
+                  type="email"
+                  inputMode="email"
+                  value={clientEmail}
+                  onChange={(e) => setClientEmail(e.target.value)}
+                  placeholder="voce@email.com"
+                  className={inputCls}
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-(--text) mb-1.5 block">CPF</label>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={clientCpf}
+                  onChange={(e) => setClientCpf(formatCpfInput(e.target.value))}
+                  placeholder="000.000.000-00"
+                  className={inputCls}
+                />
+                <p className="mt-1 text-[11px] text-(--text-secondary)">
+                  Necessario para emitir a cobranca do PIX.
+                </p>
+              </div>
+            </>
+          )}
 
           {error && (
             <motion.div
@@ -235,25 +294,59 @@ export default function ConfirmarPage() {
         </div>
       </div>
 
-      {/* Fixed Bottom Bar */}
+      {/* Barra inferior fixa */}
       <div className="fixed inset-x-0 bottom-0 p-4 bg-white/95 backdrop-blur-sm border-t border-(--border) pb-[max(1rem,env(safe-area-inset-bottom))]">
         <div className="max-w-lg mx-auto">
-          <button
-            onClick={handleSubmit}
-            disabled={loading || !clientName.trim() || !clientPhone.trim()}
-            className="btn-primary w-full flex items-center justify-center gap-2 min-h-[48px]"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Confirmando...
-              </>
-            ) : (
-              'Confirmar Agendamento'
-            )}
-          </button>
+          {paymentEnabled ? (
+            <div className="space-y-2.5">
+              <button
+                onClick={() => submit('TOTAL')}
+                disabled={busy || !canPay}
+                className="btn-primary w-full flex items-center justify-center gap-2 min-h-[52px] text-base"
+              >
+                {loadingMode === 'TOTAL' ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Wallet className="w-4 h-4" />
+                )}
+                Pagar total {serviceInfo ? brl(price) : ''}
+              </button>
+              <button
+                onClick={() => submit('SINAL')}
+                disabled={busy || !canPay}
+                className="btn-outline w-full flex items-center justify-center gap-2 min-h-[48px]"
+              >
+                {loadingMode === 'SINAL' ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : null}
+                Pagar sinal de 50% {serviceInfo ? brl(sinal) : ''}
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => submit('NONE')}
+              disabled={busy || !baseValid}
+              className="btn-primary w-full flex items-center justify-center gap-2 min-h-[48px]"
+            >
+              {loadingMode === 'NONE' ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Confirmando...
+                </>
+              ) : (
+                'Confirmar Agendamento'
+              )}
+            </button>
+          )}
         </div>
       </div>
+
+      <PaymentModal
+        open={modalOpen}
+        data={checkout}
+        slug={slug}
+        onClose={() => setModalOpen(false)}
+      />
     </motion.div>
   )
 }

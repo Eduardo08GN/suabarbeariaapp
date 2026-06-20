@@ -19,6 +19,8 @@ export async function GET(
       phone: true,
       address: true,
       openingHours: true,
+      asaasApiKey: true,
+      googleReviewUrl: true,
     },
   })
 
@@ -26,5 +28,7 @@ export async function GET(
     return NextResponse.json({ error: 'Barbearia nao encontrada.' }, { status: 404 })
   }
 
-  return NextResponse.json(tenant)
+  // a chave nunca vaza pro cliente: expoe so o booleano de pagamento ativo
+  const { asaasApiKey, ...rest } = tenant
+  return NextResponse.json({ ...rest, paymentEnabled: !!asaasApiKey })
 }

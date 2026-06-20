@@ -7,14 +7,98 @@ import { encrypt } from '@/lib/encryption'
 import { revalidatePath } from 'next/cache'
 
 /** Estado da config de pagamento do dono (sem expor a chave). */
-export async function getConfigPagamento(): Promise<{ hasKey: boolean; sandbox: boolean }> {
+export async function getConfigPagamento(): Promise<{
+  hasKey: boolean
+  sandbox: boolean
+  googleReviewUrl: string | null
+  webhookToken: string | null
+}> {
   const s = await getSession()
-  if (!s?.tenantId) return { hasKey: false, sandbox: false }
+  if (!s?.tenantId) return { hasKey: false, sandbox: false, googleReviewUrl: null, webhookToken: null }
   const t = await prisma.tenant.findUnique({
     where: { id: s.tenantId },
-    select: { asaasApiKey: true, asaasSandbox: true },
+    select: { asaasApiKey: true, asaasSandbox: true, googleReviewUrl: true, asaasWebhookToken: true },
   })
-  return { hasKey: !!t?.asaasApiKey, sandbox: !!t?.asaasSandbox }
+  return {
+    hasKey: !!t?.asaasApiKey,
+    sandbox: !!t?.asaasSandbox,
+    googleReviewUrl: t?.googleReviewUrl ?? null,
+    // o token so importa pro dono montar a URL do webhook; exibido so a ele
+    webhookToken: t?.asaasApiKey ? t?.asaasWebhookToken ?? null : null,
+  }
+}
+
+/** Salva o link de avaliacao no Google (usado na pagina de obrigado). */
+export async function salvarGoogleReview(input: {
+  url: string
+}): Promise<{ success: true } | { error: string }> {
+  const s = await getSession()
+  if (!s?.tenantId) return { error: 'Nao autorizado' }
+  const url = input.url?.trim() || null
+  if (url && !/^https?:\/\//i.test(url)) {
+    return { error: 'Informe um link valido (comecando com https://)' }
+  }
+  await prisma.tenant.update({ where: { id: s.tenantId }, data: { googleReviewUrl: url } })
+  revalidatePath('/painel/pagamentos')
+  return { success: true }
+}
+
+/** Recebimentos (pagamentos confirmados) da barbearia, com totais. */
+export async function getRecebimentos(): Promise<{
+  items: Array<{
+    id: string
+    clientName: string
+    serviceName: string
+    mode: string | null
+    amount: number
+    paidAt: string
+    dateTime: string
+  }>
+  totalMonth: number
+  countMonth: number
+}> {
+  const s = await getSession()
+  if (!s?.tenantId) return { items: [], totalMonth: 0, countMonth: 0 }
+
+  const paid = await prisma.booking.findMany({
+    where: { tenantId: s.tenantId, paymentStatus: 'PAID' },
+    select: {
+      id: true,
+      paymentMode: true,
+      paidAmount: true,
+      price: true,
+      updatedAt: true,
+      dateTime: true,
+      client: { select: { name: true } },
+      service: { select: { name: true } },
+    },
+    orderBy: { updatedAt: 'desc' },
+    take: 60,
+  })
+
+  const now = new Date()
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+  let totalMonth = 0
+  let countMonth = 0
+
+  const items = paid.map((b) => {
+    const amount = b.paidAmount ?? (b.paymentMode === 'SINAL' ? b.price / 2 : b.price)
+    if (b.updatedAt >= monthStart) {
+      totalMonth += amount
+      countMonth += 1
+    }
+    return {
+      id: b.id,
+      clientName: b.client.name,
+      serviceName: b.service.name,
+      mode: b.paymentMode,
+      amount,
+      paidAt: b.updatedAt.toISOString(),
+      dateTime: b.dateTime.toISOString(),
+    }
+  })
+
+  return { items, totalMonth, countMonth }
 }
 
 /** Salva a config Asaas da barbearia: cifra a chave nova (se veio) e garante
@@ -40,12 +124,15 @@ export async function salvarConfigPagamento(input: {
     asaasSandbox: /hmlg|sandbox/i.test(key),
   }
 
-  // garante um token de webhook (a barbearia pode ter sido criada antes do campo)
+  // garante um token de webhook FORTE. Tokens fracos (cuid do default antigo, ou
+  // ausentes) sao rotacionados pra 48 chars hex aleatorios — o token e a unica
+  // barreira do webhook.
   const t = await prisma.tenant.findUnique({
     where: { id: s.tenantId },
     select: { asaasWebhookToken: true },
   })
-  if (!t?.asaasWebhookToken) data.asaasWebhookToken = crypto.randomBytes(24).toString('hex')
+  const strong = (tok: string | null | undefined) => !!tok && /^[a-f0-9]{48}$/.test(tok)
+  if (!strong(t?.asaasWebhookToken)) data.asaasWebhookToken = crypto.randomBytes(24).toString('hex')
 
   await prisma.tenant.update({ where: { id: s.tenantId }, data })
   revalidatePath('/painel/pagamentos')
