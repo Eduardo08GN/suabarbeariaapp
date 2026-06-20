@@ -16,6 +16,7 @@ import {
   CalendarCheck,
 } from 'lucide-react'
 import { PaymentModal, type CheckoutData } from '@/components/booking/PaymentModal'
+import { ASAAS_PIX_MIN } from '@/lib/payment-constants'
 
 const brl = (n: number) =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n)
@@ -113,7 +114,9 @@ export default function ConfirmarPage() {
 
   const price = serviceInfo?.price ?? 0
 
-  // valor exibido por modo, espelhando o computeCharge do servidor
+  // valor exibido por modo, espelhando o computeCharge do servidor. belowMin
+  // marca o que cairia abaixo do piso de PIX (o servidor recusaria) — nao
+  // oferecemos modo impagavel pra nao virar beco sem saida.
   const display = (mode: 'SINAL' | 'TOTAL') => {
     const full = round2(mode === 'SINAL' ? price / 2 : price)
     const pct = config.incentivoAtivo
@@ -121,11 +124,20 @@ export default function ConfirmarPage() {
       : 0
     const discounted = price * (1 - pct / 100)
     const value = round2(mode === 'SINAL' ? discounted / 2 : discounted)
-    return { full, value, pct }
+    return { full, value, pct, belowMin: value < ASAAS_PIX_MIN }
   }
 
   const canPay = config.paymentEnabled && config.bookingMode !== 'BOOK_ONLY'
   const showFree = config.bookingMode === 'BOOK_ONLY' || config.bookingMode === 'PAYMENT_OPTIONAL'
+
+  const t = display('TOTAL')
+  const s = display('SINAL')
+  const loaded = !!serviceInfo
+  const totalViable = canPay && loaded && !t.belowMin
+  const sinalViable = canPay && loaded && !s.belowMin
+  // travado: exige pagar mas nenhum modo alcanca o minimo do PIX (so com preco
+  // muito baixo + desconto agressivo; o painel ja avisa o dono nesse caso)
+  const lockedOut = canPay && loaded && !totalViable && !sinalViable && !showFree
 
   const baseValid = clientName.trim().length > 0 && clientPhone.replace(/\D/g, '').length >= 10
   const cpfValid = clientCpf.replace(/\D/g, '').length === 11
@@ -328,52 +340,43 @@ export default function ConfirmarPage() {
       {/* Barra inferior fixa */}
       <div className="fixed inset-x-0 bottom-0 p-4 bg-white/95 backdrop-blur-sm border-t border-(--border) pb-[max(1rem,env(safe-area-inset-bottom))]">
         <div className="max-w-lg mx-auto space-y-2.5">
-          {canPay && (
-            <>
-              {(() => {
-                const t = display('TOTAL')
-                return (
-                  <button
-                    onClick={() => submit('TOTAL')}
-                    disabled={busy || !baseValid || !cpfValid}
-                    className="btn-primary w-full flex items-center justify-center gap-2 min-h-[52px] text-base relative"
-                  >
-                    {loadingMode === 'TOTAL' ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      <Wallet className="w-4 h-4" />
-                    )}
-                    <span>Pagar total {serviceInfo ? brl(t.value) : ''}</span>
-                    {t.pct > 0 && (
-                      <>
-                        <span className="text-xs line-through text-white/55">{brl(t.full)}</span>
-                        <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-bold">
-                          {t.pct}% OFF
-                        </span>
-                      </>
-                    )}
-                  </button>
-                )
-              })()}
-              {(() => {
-                const s = display('SINAL')
-                return (
-                  <button
-                    onClick={() => submit('SINAL')}
-                    disabled={busy || !baseValid || !cpfValid}
-                    className="btn-outline w-full flex items-center justify-center gap-2 min-h-[48px]"
-                  >
-                    {loadingMode === 'SINAL' ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                    <span>Pagar sinal de 50% {serviceInfo ? brl(s.value) : ''}</span>
-                    {s.pct > 0 && (
-                      <span className="rounded-full bg-(--tenant-primary)/10 px-2 py-0.5 text-[11px] font-bold text-(--tenant-primary)">
-                        {s.pct}% OFF
-                      </span>
-                    )}
-                  </button>
-                )
-              })()}
-            </>
+          {totalViable && (
+            <button
+              onClick={() => submit('TOTAL')}
+              disabled={busy || !baseValid || !cpfValid}
+              className="btn-primary w-full flex items-center justify-center gap-2 min-h-[52px] text-base relative"
+            >
+              {loadingMode === 'TOTAL' ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Wallet className="w-4 h-4" />
+              )}
+              <span>Pagar total {brl(t.value)}</span>
+              {t.pct > 0 && (
+                <>
+                  <span className="text-xs line-through text-white/55">{brl(t.full)}</span>
+                  <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-bold">
+                    {t.pct}% OFF
+                  </span>
+                </>
+              )}
+            </button>
+          )}
+
+          {sinalViable && (
+            <button
+              onClick={() => submit('SINAL')}
+              disabled={busy || !baseValid || !cpfValid}
+              className="btn-outline w-full flex items-center justify-center gap-2 min-h-[48px]"
+            >
+              {loadingMode === 'SINAL' ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+              <span>Pagar sinal de 50% {brl(s.value)}</span>
+              {s.pct > 0 && (
+                <span className="rounded-full bg-(--tenant-primary)/10 px-2 py-0.5 text-[11px] font-bold text-(--tenant-primary)">
+                  {s.pct}% OFF
+                </span>
+              )}
+            </button>
           )}
 
           {showFree && (
@@ -381,7 +384,7 @@ export default function ConfirmarPage() {
               onClick={() => submit('NONE')}
               disabled={busy || !baseValid}
               className={`${
-                canPay ? 'btn-outline' : 'btn-primary'
+                totalViable || sinalViable ? 'btn-outline' : 'btn-primary'
               } w-full flex items-center justify-center gap-2 min-h-[48px]`}
             >
               {loadingMode === 'NONE' ? (
@@ -389,8 +392,15 @@ export default function ConfirmarPage() {
               ) : (
                 <CalendarCheck className="w-4 h-4" />
               )}
-              {canPay ? 'Agendar sem pagar agora' : 'Confirmar Agendamento'}
+              {totalViable || sinalViable ? 'Agendar sem pagar agora' : 'Confirmar Agendamento'}
             </button>
+          )}
+
+          {lockedOut && (
+            <p className="flex items-center justify-center gap-2 rounded-lg bg-(--bg-subtle) px-3 py-3 text-center text-xs text-(--text-secondary)">
+              <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+              Pagamento indisponivel para este valor. Fale com a barbearia.
+            </p>
           )}
         </div>
       </div>

@@ -6,6 +6,8 @@ import { getSession } from '@/lib/auth'
 import { encrypt } from '@/lib/encryption'
 import { revalidatePath } from 'next/cache'
 import type { BookingMode } from '@/generated/prisma'
+import { computeCharge } from '@/lib/payments'
+import { ASAAS_PIX_MIN } from '@/lib/payment-constants'
 
 const BOOKING_MODES: BookingMode[] = ['PAYMENT_REQUIRED', 'PAYMENT_OPTIONAL', 'BOOK_ONLY']
 const clampPct = (p: number) => Math.max(0, Math.min(90, Math.floor(Number(p) || 0)))
@@ -75,25 +77,48 @@ export async function salvarConfigAgendamento(input: {
   incentivoAtivo: boolean
   descontoSinalPct: number
   descontoTotalPct: number
-}): Promise<{ success: true } | { error: string }> {
+}): Promise<{ success: true; warnings: string[] } | { error: string }> {
   const s = await getSession()
   if (!s?.tenantId) return { error: 'Nao autorizado' }
 
   const mode = BOOKING_MODES.includes(input.bookingMode as BookingMode)
     ? (input.bookingMode as BookingMode)
     : 'PAYMENT_REQUIRED'
+  const incentivoAtivo = !!input.incentivoAtivo
+  const descontoSinalPct = clampPct(input.descontoSinalPct)
+  const descontoTotalPct = clampPct(input.descontoTotalPct)
 
   await prisma.tenant.update({
     where: { id: s.tenantId },
-    data: {
-      bookingMode: mode,
-      incentivoAtivo: !!input.incentivoAtivo,
-      descontoSinalPct: clampPct(input.descontoSinalPct),
-      descontoTotalPct: clampPct(input.descontoTotalPct),
-    },
+    data: { bookingMode: mode, incentivoAtivo, descontoSinalPct, descontoTotalPct },
   })
+
+  // avisa (sem bloquear) se a config derruba o PIX de algum servico abaixo do
+  // minimo — nesse caso aquele modo de pagamento nem aparece pro cliente.
+  const warnings: string[] = []
+  if (mode !== 'BOOK_ONLY') {
+    const services = await prisma.service.findMany({
+      where: { tenantId: s.tenantId, active: true },
+      select: { name: true, price: true },
+    })
+    const ctx = { incentivoAtivo, descontoSinalPct, descontoTotalPct }
+    const totalLow = services.filter((sv) => computeCharge(sv.price, 'TOTAL', ctx).value < ASAAS_PIX_MIN)
+    const sinalLow = services.filter((sv) => computeCharge(sv.price, 'SINAL', ctx).value < ASAAS_PIX_MIN)
+    const names = (arr: { name: string }[]) =>
+      arr.slice(0, 5).map((x) => x.name).join(', ') + (arr.length > 5 ? '...' : '')
+    if (totalLow.length) {
+      warnings.push(
+        `O PIX total fica abaixo de R$${ASAAS_PIX_MIN} (cliente nao consegue pagar) em: ${names(totalLow)}.`
+      )
+    } else if (sinalLow.length) {
+      warnings.push(
+        `No sinal, o PIX de alguns servicos fica abaixo de R$${ASAAS_PIX_MIN}; nesses so a opcao de pagar o total aparece: ${names(sinalLow)}.`
+      )
+    }
+  }
+
   revalidatePath('/painel/pagamentos')
-  return { success: true }
+  return { success: true, warnings }
 }
 
 /** Salva o link de avaliacao no Google (usado na pagina de obrigado). */

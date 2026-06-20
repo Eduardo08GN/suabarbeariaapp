@@ -12,9 +12,9 @@ import {
 import { computeCharge, expireBooking } from '@/lib/payments'
 import { getAvailableSlots, instantFromLocal } from '@/lib/slots'
 import { rateLimit, clientIp } from '@/lib/rate-limit'
+import { ASAAS_PIX_MIN } from '@/lib/payment-constants'
 
 const PIX_WINDOW_MIN = 30 // janela pra pagar o PIX antes do horario ser liberado
-const ASAAS_PIX_MIN = 5 // valor minimo de cobranca PIX na Asaas
 const MAX_ACTIVE_PER_CLIENT = 5 // teto de agendamentos futuros ativos por cliente
 const MAX_BOOKING_MIN = 240 // recuo da janela ao checar overlap (cobre o maior servico)
 const BUSY = ['PENDING', 'CONFIRMED', 'IN_PROGRESS'] as const

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { CalendarCog, Check, Loader2, Tag } from 'lucide-react'
+import { CalendarCog, Check, Loader2, Tag, AlertTriangle } from 'lucide-react'
 import { salvarConfigAgendamento } from '@/actions/pagamentos'
 
 type BookingMode = 'PAYMENT_REQUIRED' | 'PAYMENT_OPTIONAL' | 'BOOK_ONLY'
@@ -29,11 +29,13 @@ export function AgendamentoForm({ initial }: { initial: Initial }) {
   const [descSinal, setDescSinal] = useState(String(initial.descontoSinalPct))
   const [pending, startTransition] = useTransition()
   const [status, setStatus] = useState<{ ok: boolean; msg: string } | null>(null)
+  const [warnings, setWarnings] = useState<string[]>([])
 
   const incentivoUsavel = initial.hasKey && mode !== 'BOOK_ONLY'
 
   function salvar() {
     setStatus(null)
+    setWarnings([])
     startTransition(async () => {
       const r = await salvarConfigAgendamento({
         bookingMode: mode,
@@ -42,7 +44,10 @@ export function AgendamentoForm({ initial }: { initial: Initial }) {
         descontoTotalPct: clamp(Number(descTotal)),
       })
       if ('error' in r) setStatus({ ok: false, msg: r.error })
-      else setStatus({ ok: true, msg: 'Configuracao salva.' })
+      else {
+        setStatus({ ok: true, msg: 'Configuracao salva.' })
+        setWarnings(r.warnings)
+      }
     })
   }
 
@@ -176,6 +181,17 @@ export function AgendamentoForm({ initial }: { initial: Initial }) {
           </span>
         )}
       </div>
+
+      {warnings.length > 0 && (
+        <div className="mt-4 space-y-2 rounded-lg border border-[#FDE68A] bg-[#FFFBEB] p-3.5">
+          {warnings.map((w, i) => (
+            <p key={i} className="flex items-start gap-2 text-xs leading-relaxed text-[#92400E]">
+              <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+              {w}
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
