@@ -2,6 +2,7 @@
 // lib/pricing.ts (client-safe); aqui ficam as transicoes de estado.
 
 import { prisma } from '@/lib/db'
+import { notifyNewBooking } from '@/lib/push'
 
 // re-exporta as funcoes puras pra quem ja importava daqui nao quebrar
 export { chargeValue, computeCharge, computeOrder, clampPct, round2 } from '@/lib/pricing'
@@ -17,7 +18,12 @@ export async function markBookingPaid(
     where: { id: bookingId, paymentStatus: 'PENDING' },
     data: { paymentStatus: 'PAID', status: 'CONFIRMED', paidAmount },
   })
-  return r.count === 1
+  if (r.count === 1) {
+    // so na transicao real (idempotente): avisa o dono do pagamento confirmado
+    void notifyNewBooking(bookingId)
+    return true
+  }
+  return false
 }
 
 /** Expira a reserva nao paga e libera o horario (idempotente). */

@@ -10,6 +10,7 @@ import {
   type AsaasCtx,
 } from '@/lib/asaas'
 import { expireBooking } from '@/lib/payments'
+import { notifyNewBooking } from '@/lib/push'
 import { computeOrder } from '@/lib/pricing'
 import { getAvailableSlots, instantFromLocal } from '@/lib/slots'
 import { rateLimit, clientIp } from '@/lib/rate-limit'
@@ -257,6 +258,7 @@ export async function POST(request: NextRequest) {
 
     // ---- sem cobranca (so agendar): agendamento direto ----
     if (!willCharge) {
+      void notifyNewBooking(booking.id) // avisa o dono na hora
       return NextResponse.json({ paid: false, bookingId: booking.id }, { status: 201 })
     }
 

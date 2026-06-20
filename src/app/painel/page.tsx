@@ -7,6 +7,7 @@ import { formatCurrency } from '@/lib/utils'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { DashboardClient } from './dashboard-client'
+import { NotificationToggle } from '@/components/painel/notification-toggle'
 
 async function getTenantId() {
   const h = await headers()
@@ -55,5 +56,10 @@ export default async function PainelPage() {
     barberName: b.barber.nickname || b.barber.name,
   }))
 
-  return <DashboardClient stats={statCards} upcoming={upcomingData} />
+  return (
+    <div className="space-y-6">
+      <NotificationToggle />
+      <DashboardClient stats={statCards} upcoming={upcomingData} />
+    </div>
+  )
 }

@@ -132,6 +132,15 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PushSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  endpoint: 'endpoint',
+  p256dh: 'p256dh',
+  auth: 'auth',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.TenantScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -383,6 +392,7 @@ exports.BookingItemKind = exports.$Enums.BookingItemKind = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  PushSubscription: 'PushSubscription',
   Tenant: 'Tenant',
   Product: 'Product',
   Unit: 'Unit',
