@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/db'
 import { getSession } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
+import { r2Delete, r2KeyFromUrl } from '@/lib/r2'
 
 export interface ProdutoDTO {
   id: string
@@ -10,6 +11,7 @@ export interface ProdutoDTO {
   description: string | null
   price: number
   active: boolean
+  imageUrl: string | null
 }
 
 export async function listProdutos(): Promise<ProdutoDTO[]> {
@@ -18,7 +20,7 @@ export async function listProdutos(): Promise<ProdutoDTO[]> {
   return prisma.product.findMany({
     where: { tenantId: s.tenantId },
     orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
-    select: { id: true, name: true, description: true, price: true, active: true },
+    select: { id: true, name: true, description: true, price: true, active: true, imageUrl: true },
   })
 }
 
@@ -28,6 +30,7 @@ export async function salvarProduto(input: {
   price: number
   description?: string
   active?: boolean
+  imageUrl?: string | null
 }): Promise<{ success: true } | { error: string }> {
   const s = await getSession()
   if (!s?.tenantId) return { error: 'Nao autorizado' }
@@ -42,6 +45,7 @@ export async function salvarProduto(input: {
     price: Math.round(price * 100) / 100,
     description: input.description?.trim() || null,
     active: input.active ?? true,
+    imageUrl: input.imageUrl?.trim() || null,
   }
 
   if (input.id) {
@@ -80,7 +84,16 @@ export async function deletarProduto(id: string): Promise<{ success: true } | { 
   if (!s?.tenantId) return { error: 'Nao autorizado' }
   // BookingItem.productId vira null (snapshot de nome/preco preservado), entao
   // apagar um produto nao apaga o historico do que ja foi vendido.
+  const p = await prisma.product.findFirst({
+    where: { id, tenantId: s.tenantId },
+    select: { imageUrl: true },
+  })
   await prisma.product.deleteMany({ where: { id, tenantId: s.tenantId } })
+  // limpa a imagem no R2 (se for nossa) pra nao deixar lixo
+  if (p?.imageUrl) {
+    const key = r2KeyFromUrl(p.imageUrl)
+    if (key) await r2Delete(key).catch(() => {})
+  }
   revalidatePath('/painel/produtos')
   return { success: true }
 }

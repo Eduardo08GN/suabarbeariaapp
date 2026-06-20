@@ -28,7 +28,7 @@ export async function GET(
       products: {
         where: { active: true, isOrderBump: true },
         orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
-        select: { id: true, name: true, description: true, price: true },
+        select: { id: true, name: true, description: true, price: true, imageUrl: true },
       },
     },
   })

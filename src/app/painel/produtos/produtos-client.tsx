@@ -1,26 +1,41 @@
 'use client'
 
-import { useState, useTransition } from 'react'
-import { Plus, Pencil, Trash2, Check, Loader2, Package, X } from 'lucide-react'
+import { useState, useRef, useTransition } from 'react'
+import { Plus, Pencil, Trash2, Loader2, Package, X, ImageIcon, Camera } from 'lucide-react'
 import { salvarProduto, toggleProduto, deletarProduto, type ProdutoDTO } from '@/actions/produtos'
+import { ImageCropper } from '@/components/admin/ImageCropper'
 
 const brl = (n: number) =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n)
+
+function readAsDataUrl(file: File): Promise<string> {
+  return new Promise((res, rej) => {
+    const fr = new FileReader()
+    fr.onload = () => res(fr.result as string)
+    fr.onerror = () => rej(new Error('read'))
+    fr.readAsDataURL(file)
+  })
+}
 
 export function ProdutosClient({ initial }: { initial: ProdutoDTO[] }) {
   const [editId, setEditId] = useState<string | null>(null)
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [description, setDescription] = useState('')
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [cropSrc, setCropSrc] = useState<string | null>(null) // imagem crua no cropper
+  const [uploading, setUploading] = useState(false)
   const [pending, startTransition] = useTransition()
   const [busyRow, setBusyRow] = useState<string | null>(null)
   const [error, setError] = useState('')
+  const fileRef = useRef<HTMLInputElement>(null)
 
   function reset() {
     setEditId(null)
     setName('')
     setPrice('')
     setDescription('')
+    setImageUrl(null)
     setError('')
   }
 
@@ -29,7 +44,41 @@ export function ProdutosClient({ initial }: { initial: ProdutoDTO[] }) {
     setName(p.name)
     setPrice(String(p.price))
     setDescription(p.description ?? '')
+    setImageUrl(p.imageUrl)
     setError('')
+  }
+
+  async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = '' // permite re-selecionar o mesmo arquivo
+    if (!file) return
+    setError('')
+    try {
+      setCropSrc(await readAsDataUrl(file))
+    } catch {
+      setError('Nao foi possivel abrir a imagem.')
+    }
+  }
+
+  async function onCropped(blob: Blob) {
+    setUploading(true)
+    setError('')
+    try {
+      const fd = new FormData()
+      fd.append('file', blob, 'produto')
+      const res = await fetch('/api/painel/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (res.ok && data.url) {
+        setImageUrl(data.url)
+        setCropSrc(null)
+      } else {
+        setError(data.error || 'Falha ao enviar a imagem.')
+      }
+    } catch {
+      setError('Nao foi possivel enviar a imagem.')
+    } finally {
+      setUploading(false)
+    }
   }
 
   function salvar() {
@@ -40,6 +89,7 @@ export function ProdutosClient({ initial }: { initial: ProdutoDTO[] }) {
         name,
         price: Number(price.replace(',', '.')),
         description,
+        imageUrl,
       })
       if ('error' in r) setError(r.error)
       else reset()
@@ -73,34 +123,77 @@ export function ProdutosClient({ initial }: { initial: ProdutoDTO[] }) {
         <p className="mb-4 text-sm font-medium text-[#09090B]">
           {editId ? 'Editar produto' : 'Novo produto'}
         </p>
-        <div className="grid gap-3 sm:grid-cols-[1fr_140px]">
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Nome (ex.: Pomada modeladora)"
-            className={inputCls}
-          />
-          <input
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            inputMode="decimal"
-            placeholder="Preco (R$)"
-            className={inputCls}
-          />
+
+        <div className="flex gap-4">
+          {/* Foto (placeholder premium, quadrado e arredondado) */}
+          <div className="shrink-0">
+            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onPick} />
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              aria-label="Adicionar foto do produto"
+              className="group relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-[#F4F4F5] ring-1 ring-inset ring-[#E4E4E7] transition-all hover:ring-[#18181B]"
+            >
+              {uploading ? (
+                <Loader2 className="h-5 w-5 animate-spin text-[#A1A1AA]" />
+              ) : imageUrl ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={imageUrl} alt="" className="h-full w-full object-cover" />
+                  <span className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-all group-hover:bg-black/35 group-hover:opacity-100">
+                    <Camera className="h-5 w-5" />
+                  </span>
+                </>
+              ) : (
+                <div className="flex flex-col items-center gap-1 text-[#A1A1AA]">
+                  <ImageIcon className="h-6 w-6" />
+                  <span className="text-[10px] font-medium">Foto</span>
+                </div>
+              )}
+            </button>
+            {imageUrl && !uploading && (
+              <button
+                type="button"
+                onClick={() => setImageUrl(null)}
+                className="mt-1.5 block w-24 text-center text-[11px] text-[#71717A] transition-colors hover:text-red-600"
+              >
+                Remover
+              </button>
+            )}
+          </div>
+
+          {/* Campos */}
+          <div className="min-w-0 flex-1 space-y-3">
+            <div className="grid gap-3 sm:grid-cols-[1fr_130px]">
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Nome (ex.: Pomada modeladora)"
+                className={inputCls}
+              />
+              <input
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                inputMode="decimal"
+                placeholder="Preco (R$)"
+                className={inputCls}
+              />
+            </div>
+            <input
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Descricao curta (opcional)"
+              className={inputCls}
+            />
+          </div>
         </div>
-        <input
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Descricao curta (opcional)"
-          className={`${inputCls} mt-3`}
-        />
 
         {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
 
         <div className="mt-4 flex items-center gap-2">
           <button
             onClick={salvar}
-            disabled={pending}
+            disabled={pending || uploading}
             className="inline-flex items-center gap-2 rounded-lg bg-[#18181B] px-4 py-2.5 text-sm font-medium text-white transition-colors duration-150 hover:bg-[#27272A] disabled:opacity-50"
           >
             {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
@@ -133,15 +226,22 @@ export function ProdutosClient({ initial }: { initial: ProdutoDTO[] }) {
                 p.active ? '' : 'opacity-55'
               }`}
             >
+              {/* Thumb (placeholder premium quadrado arredondado) */}
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#F4F4F5] ring-1 ring-inset ring-[#E4E4E7]">
+                {p.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={p.imageUrl} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <ImageIcon className="h-5 w-5 text-[#A1A1AA]" />
+                )}
+              </div>
+
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-[#09090B]">{p.name}</p>
-                {p.description && (
-                  <p className="truncate text-xs text-[#71717A]">{p.description}</p>
-                )}
+                {p.description && <p className="truncate text-xs text-[#71717A]">{p.description}</p>}
               </div>
               <span className="shrink-0 text-sm font-semibold text-[#09090B]">{brl(p.price)}</span>
 
-              {/* Toggle ativo (sem borda no controle) */}
               <button
                 onClick={() => onToggle(p.id)}
                 disabled={busyRow === p.id}
@@ -181,6 +281,15 @@ export function ProdutosClient({ initial }: { initial: ProdutoDTO[] }) {
             </div>
           ))}
         </div>
+      )}
+
+      {cropSrc && (
+        <ImageCropper
+          src={cropSrc}
+          busy={uploading}
+          onCancel={() => setCropSrc(null)}
+          onConfirm={onCropped}
+        />
       )}
     </div>
   )

@@ -16,6 +16,7 @@ import {
   CalendarCheck,
   Plus,
   Check,
+  ImageIcon,
 } from 'lucide-react'
 import { PaymentModal, type CheckoutData } from '@/components/booking/PaymentModal'
 import { computeOrder } from '@/lib/pricing'
@@ -24,7 +25,13 @@ const brl = (n: number) =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n)
 
 type BookingMode = 'PAYMENT_REQUIRED' | 'PAYMENT_OPTIONAL' | 'BOOK_ONLY'
-interface ProductDTO { id: string; name: string; description: string | null; price: number }
+interface ProductDTO {
+  id: string
+  name: string
+  description: string | null
+  price: number
+  imageUrl: string | null
+}
 
 interface Config {
   paymentEnabled: boolean
@@ -288,12 +295,21 @@ export default function ConfirmarPage() {
                   <button
                     key={p.id}
                     onClick={() => toggleProduct(p.id)}
-                    className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition-colors ${
+                    className={`flex w-full items-center gap-3 rounded-xl border p-2.5 text-left transition-colors ${
                       on
                         ? 'border-(--tenant-primary) bg-(--tenant-primary)/5'
                         : 'border-(--border) bg-(--bg-card) active:bg-(--bg-subtle)'
                     }`}
                   >
+                    {/* thumb (placeholder premium quadrado arredondado) */}
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-(--bg-subtle)">
+                      {p.imageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={p.imageUrl} alt="" className="h-full w-full object-cover" />
+                      ) : (
+                        <ImageIcon className="h-5 w-5 text-(--text-secondary)" />
+                      )}
+                    </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium text-(--text) truncate">{p.name}</p>
                       {p.description && (
