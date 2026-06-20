@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { BookingSteps } from '@/components/booking/BookingSteps'
@@ -60,7 +61,13 @@ export default async function TenantLayout({
       </header>
 
       {/* Steps indicator */}
-      <BookingSteps />
+      <Suspense
+        fallback={
+          <div className="h-[3.6rem] border-b border-(--border) bg-(--bg-card)" />
+        }
+      >
+        <BookingSteps />
+      </Suspense>
 
       {/* Content */}
       <main className="flex-1 max-w-lg mx-auto w-full">

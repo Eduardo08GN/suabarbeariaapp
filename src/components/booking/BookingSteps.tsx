@@ -1,6 +1,7 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useParams, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 
 const steps = [
@@ -12,8 +13,7 @@ const steps = [
 
 const SPRING = { type: 'spring', stiffness: 130, damping: 24, mass: 0.7 } as const
 
-// Tailwind v4 nao interpreta `[--var]` como var(); usamos estilo inline com
-// var() + fallback pra garantir as cores do tenant.
+// Tailwind v4 nao interpreta `[--var]` como var(); estilo inline com var()+fallback.
 const C = {
   primary: 'var(--tenant-primary, #18181b)',
   accent: 'var(--tenant-accent, #d4a853)',
@@ -26,11 +26,15 @@ const C = {
 
 export function BookingSteps() {
   const pathname = usePathname()
+  const params = useParams()
+  const search = useSearchParams()
   const reduce = useReducedMotion()
 
   const currentIndex = steps.findIndex((s) => pathname.includes(`/${s.path}`))
   if (currentIndex === -1) return null
 
+  const slug = String(params?.slug ?? '')
+  const qs = search.toString()
   const progress = currentIndex / (steps.length - 1) // 0..1
 
   return (
@@ -39,7 +43,7 @@ export function BookingSteps() {
         <div className="relative">
           {/* linha de progresso (entre o centro do 1o e do ultimo passo) */}
           <div
-            className="absolute left-[12.5%] right-[12.5%] top-4 h-[2px] -translate-y-1/2 overflow-hidden rounded-full"
+            className="absolute left-[12.5%] right-[12.5%] top-4 h-[2px] -translate-y-1/2 rounded-full"
             style={{ background: C.subtle }}
           >
             <motion.div
@@ -51,20 +55,19 @@ export function BookingSteps() {
             />
           </div>
 
-          {/* passos numerados (numero sempre visivel) */}
+          {/* passos numerados — concluidos sao clicaveis (voltar) */}
           <div className="relative flex items-start justify-between">
             {steps.map((step, i) => {
               const reached = i <= currentIndex
               const active = i === currentIndex
+              const done = i < currentIndex // passo concluido: pode voltar
 
-              return (
-                <div
-                  key={step.path}
-                  className="flex flex-1 flex-col items-center gap-1.5"
-                >
+              const dot = (
+                <>
                   <motion.div
                     initial={false}
                     animate={{ scale: active ? 1.1 : 1 }}
+                    whileHover={done && !reduce ? { scale: 1.14 } : undefined}
                     transition={reduce ? { duration: 0 } : SPRING}
                     className="flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold transition-[background-color,border-color,color,box-shadow] duration-300"
                     style={
@@ -73,7 +76,6 @@ export function BookingSteps() {
                             backgroundColor: C.primary,
                             borderColor: 'transparent',
                             color: '#ffffff',
-                            // anel limpo no passo atual (offset via sombra dupla, sem blur)
                             boxShadow: active
                               ? `0 0 0 2px ${C.card}, 0 0 0 4px ${C.accent}`
                               : undefined,
@@ -87,7 +89,6 @@ export function BookingSteps() {
                   >
                     {i + 1}
                   </motion.div>
-
                   <span
                     className="text-[11px] leading-none transition-colors duration-300"
                     style={{
@@ -97,6 +98,23 @@ export function BookingSteps() {
                   >
                     {step.label}
                   </span>
+                </>
+              )
+
+              const cls = 'flex flex-1 flex-col items-center gap-1.5'
+
+              return done ? (
+                <Link
+                  key={step.path}
+                  href={`/b/${slug}/${step.path}${qs ? `?${qs}` : ''}`}
+                  aria-label={`Voltar para ${step.label}`}
+                  className={`${cls} cursor-pointer`}
+                >
+                  {dot}
+                </Link>
+              ) : (
+                <div key={step.path} className={cls}>
+                  {dot}
                 </div>
               )
             })}
