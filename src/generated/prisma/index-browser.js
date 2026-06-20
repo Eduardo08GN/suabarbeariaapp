@@ -145,6 +145,10 @@ exports.Prisma.TenantScalarFieldEnum = {
   openingHours: 'openingHours',
   timezone: 'timezone',
   leadTimeMin: 'leadTimeMin',
+  asaasApiKey: 'asaasApiKey',
+  asaasSandbox: 'asaasSandbox',
+  asaasWebhookToken: 'asaasWebhookToken',
+  googleReviewUrl: 'googleReviewUrl',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -243,6 +247,12 @@ exports.Prisma.BookingScalarFieldEnum = {
   status: 'status',
   origin: 'origin',
   campaignRef: 'campaignRef',
+  paymentStatus: 'paymentStatus',
+  paymentMode: 'paymentMode',
+  asaasPaymentId: 'asaasPaymentId',
+  pixCopiaECola: 'pixCopiaECola',
+  paidAmount: 'paidAmount',
+  pixExpiresAt: 'pixExpiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -313,6 +323,18 @@ exports.BookingOrigin = exports.$Enums.BookingOrigin = {
   WALK_IN: 'WALK_IN',
   PHONE: 'PHONE',
   INSTAGRAM: 'INSTAGRAM'
+};
+
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  NONE: 'NONE',
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.PaymentMode = exports.$Enums.PaymentMode = {
+  SINAL: 'SINAL',
+  TOTAL: 'TOTAL'
 };
 
 exports.Prisma.ModelName = {

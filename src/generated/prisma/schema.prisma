@@ -28,21 +28,27 @@ enum Role {
 }
 
 model Tenant {
-  id           String       @id @default(cuid())
-  name         String
-  slug         String       @unique
-  phone        String?
-  email        String?
-  address      Json?
-  logo         String?
-  colorPrimary String       @default("#18181B")
-  colorAccent  String       @default("#D4A853")
-  openingHours Json?
-  timezone     String       @default("America/Sao_Paulo")
-  leadTimeMin  Int          @default(30)
-  status       TenantStatus @default(ACTIVE)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id                String       @id @default(cuid())
+  name              String
+  slug              String       @unique
+  phone             String?
+  email             String?
+  address           Json?
+  logo              String?
+  colorPrimary      String       @default("#18181B")
+  colorAccent       String       @default("#D4A853")
+  openingHours      Json?
+  timezone          String       @default("America/Sao_Paulo")
+  leadTimeMin       Int          @default(30)
+  // pagamento — Asaas por barbearia (apiKey cifrada; wallet da agencia e env)
+  asaasApiKey       String?
+  asaasSandbox      Boolean      @default(false)
+  asaasWebhookToken String?      @default(cuid())
+  // avaliacao no Google (mecanismo da pagina de obrigado)
+  googleReviewUrl   String?
+  status            TenantStatus @default(ACTIVE)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
 
   users    User[]
   services Service[]
@@ -196,25 +202,32 @@ model Client {
 }
 
 model Booking {
-  id          String        @id @default(cuid())
-  tenantId    String
-  tenant      Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  unitId      String?
-  unit        Unit?         @relation(fields: [unitId], references: [id])
-  barberId    String
-  barber      Barber        @relation(fields: [barberId], references: [id])
-  clientId    String
-  client      Client        @relation(fields: [clientId], references: [id])
-  serviceId   String
-  service     Service       @relation(fields: [serviceId], references: [id])
-  dateTime    DateTime
-  durationMin Int
-  price       Float
-  status      BookingStatus @default(CONFIRMED)
-  origin      BookingOrigin @default(APP)
-  campaignRef String?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id             String        @id @default(cuid())
+  tenantId       String
+  tenant         Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  unitId         String?
+  unit           Unit?         @relation(fields: [unitId], references: [id])
+  barberId       String
+  barber         Barber        @relation(fields: [barberId], references: [id])
+  clientId       String
+  client         Client        @relation(fields: [clientId], references: [id])
+  serviceId      String
+  service        Service       @relation(fields: [serviceId], references: [id])
+  dateTime       DateTime
+  durationMin    Int
+  price          Float
+  status         BookingStatus @default(CONFIRMED)
+  origin         BookingOrigin @default(APP)
+  campaignRef    String?
+  // pagamento (PIX via Asaas). status do dinheiro e separado do status da agenda.
+  paymentStatus  PaymentStatus @default(NONE)
+  paymentMode    PaymentMode?
+  asaasPaymentId String?       @unique
+  pixCopiaECola  String?
+  paidAmount     Float?
+  pixExpiresAt   DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 
   @@index([tenantId, dateTime])
   @@index([barberId, dateTime])
@@ -236,4 +249,16 @@ enum BookingOrigin {
   WALK_IN
   PHONE
   INSTAGRAM
+}
+
+enum PaymentStatus {
+  NONE // sem pagamento (agendamento de balcao/whatsapp)
+  PENDING // PIX gerado, aguardando
+  PAID // pagamento caiu
+  EXPIRED // PIX nao pago dentro da janela
+}
+
+enum PaymentMode {
+  SINAL // 50 por cento, restante no balcao
+  TOTAL // 100 por cento
 }

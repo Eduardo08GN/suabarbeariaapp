@@ -126,6 +126,24 @@ export const BookingOrigin: {
 
 export type BookingOrigin = (typeof BookingOrigin)[keyof typeof BookingOrigin]
 
+
+export const PaymentStatus: {
+  NONE: 'NONE',
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  EXPIRED: 'EXPIRED'
+};
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const PaymentMode: {
+  SINAL: 'SINAL',
+  TOTAL: 'TOTAL'
+};
+
+export type PaymentMode = (typeof PaymentMode)[keyof typeof PaymentMode]
+
 }
 
 export type Role = $Enums.Role
@@ -147,6 +165,14 @@ export const BookingStatus: typeof $Enums.BookingStatus
 export type BookingOrigin = $Enums.BookingOrigin
 
 export const BookingOrigin: typeof $Enums.BookingOrigin
+
+export type PaymentStatus = $Enums.PaymentStatus
+
+export const PaymentStatus: typeof $Enums.PaymentStatus
+
+export type PaymentMode = $Enums.PaymentMode
+
+export const PaymentMode: typeof $Enums.PaymentMode
 
 /**
  * ##  Prisma Client ʲˢ
@@ -3259,6 +3285,10 @@ export namespace Prisma {
     colorAccent: string | null
     timezone: string | null
     leadTimeMin: number | null
+    asaasApiKey: string | null
+    asaasSandbox: boolean | null
+    asaasWebhookToken: string | null
+    googleReviewUrl: string | null
     status: $Enums.TenantStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3275,6 +3305,10 @@ export namespace Prisma {
     colorAccent: string | null
     timezone: string | null
     leadTimeMin: number | null
+    asaasApiKey: string | null
+    asaasSandbox: boolean | null
+    asaasWebhookToken: string | null
+    googleReviewUrl: string | null
     status: $Enums.TenantStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3293,6 +3327,10 @@ export namespace Prisma {
     openingHours: number
     timezone: number
     leadTimeMin: number
+    asaasApiKey: number
+    asaasSandbox: number
+    asaasWebhookToken: number
+    googleReviewUrl: number
     status: number
     createdAt: number
     updatedAt: number
@@ -3319,6 +3357,10 @@ export namespace Prisma {
     colorAccent?: true
     timezone?: true
     leadTimeMin?: true
+    asaasApiKey?: true
+    asaasSandbox?: true
+    asaasWebhookToken?: true
+    googleReviewUrl?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -3335,6 +3377,10 @@ export namespace Prisma {
     colorAccent?: true
     timezone?: true
     leadTimeMin?: true
+    asaasApiKey?: true
+    asaasSandbox?: true
+    asaasWebhookToken?: true
+    googleReviewUrl?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -3353,6 +3399,10 @@ export namespace Prisma {
     openingHours?: true
     timezone?: true
     leadTimeMin?: true
+    asaasApiKey?: true
+    asaasSandbox?: true
+    asaasWebhookToken?: true
+    googleReviewUrl?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -3458,6 +3508,10 @@ export namespace Prisma {
     openingHours: JsonValue | null
     timezone: string
     leadTimeMin: number
+    asaasApiKey: string | null
+    asaasSandbox: boolean
+    asaasWebhookToken: string | null
+    googleReviewUrl: string | null
     status: $Enums.TenantStatus
     createdAt: Date
     updatedAt: Date
@@ -3495,6 +3549,10 @@ export namespace Prisma {
     openingHours?: boolean
     timezone?: boolean
     leadTimeMin?: boolean
+    asaasApiKey?: boolean
+    asaasSandbox?: boolean
+    asaasWebhookToken?: boolean
+    googleReviewUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3520,6 +3578,10 @@ export namespace Prisma {
     openingHours?: boolean
     timezone?: boolean
     leadTimeMin?: boolean
+    asaasApiKey?: boolean
+    asaasSandbox?: boolean
+    asaasWebhookToken?: boolean
+    googleReviewUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3538,6 +3600,10 @@ export namespace Prisma {
     openingHours?: boolean
     timezone?: boolean
     leadTimeMin?: boolean
+    asaasApiKey?: boolean
+    asaasSandbox?: boolean
+    asaasWebhookToken?: boolean
+    googleReviewUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3556,12 +3622,16 @@ export namespace Prisma {
     openingHours?: boolean
     timezone?: boolean
     leadTimeMin?: boolean
+    asaasApiKey?: boolean
+    asaasSandbox?: boolean
+    asaasWebhookToken?: boolean
+    googleReviewUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "phone" | "email" | "address" | "logo" | "colorPrimary" | "colorAccent" | "openingHours" | "timezone" | "leadTimeMin" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "phone" | "email" | "address" | "logo" | "colorPrimary" | "colorAccent" | "openingHours" | "timezone" | "leadTimeMin" | "asaasApiKey" | "asaasSandbox" | "asaasWebhookToken" | "googleReviewUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
   export type TenantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Tenant$usersArgs<ExtArgs>
     services?: boolean | Tenant$servicesArgs<ExtArgs>
@@ -3597,6 +3667,10 @@ export namespace Prisma {
       openingHours: Prisma.JsonValue | null
       timezone: string
       leadTimeMin: number
+      asaasApiKey: string | null
+      asaasSandbox: boolean
+      asaasWebhookToken: string | null
+      googleReviewUrl: string | null
       status: $Enums.TenantStatus
       createdAt: Date
       updatedAt: Date
@@ -4041,6 +4115,10 @@ export namespace Prisma {
     readonly openingHours: FieldRef<"Tenant", 'Json'>
     readonly timezone: FieldRef<"Tenant", 'String'>
     readonly leadTimeMin: FieldRef<"Tenant", 'Int'>
+    readonly asaasApiKey: FieldRef<"Tenant", 'String'>
+    readonly asaasSandbox: FieldRef<"Tenant", 'Boolean'>
+    readonly asaasWebhookToken: FieldRef<"Tenant", 'String'>
+    readonly googleReviewUrl: FieldRef<"Tenant", 'String'>
     readonly status: FieldRef<"Tenant", 'TenantStatus'>
     readonly createdAt: FieldRef<"Tenant", 'DateTime'>
     readonly updatedAt: FieldRef<"Tenant", 'DateTime'>
@@ -13822,11 +13900,13 @@ export namespace Prisma {
   export type BookingAvgAggregateOutputType = {
     durationMin: number | null
     price: number | null
+    paidAmount: number | null
   }
 
   export type BookingSumAggregateOutputType = {
     durationMin: number | null
     price: number | null
+    paidAmount: number | null
   }
 
   export type BookingMinAggregateOutputType = {
@@ -13842,6 +13922,12 @@ export namespace Prisma {
     status: $Enums.BookingStatus | null
     origin: $Enums.BookingOrigin | null
     campaignRef: string | null
+    paymentStatus: $Enums.PaymentStatus | null
+    paymentMode: $Enums.PaymentMode | null
+    asaasPaymentId: string | null
+    pixCopiaECola: string | null
+    paidAmount: number | null
+    pixExpiresAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -13859,6 +13945,12 @@ export namespace Prisma {
     status: $Enums.BookingStatus | null
     origin: $Enums.BookingOrigin | null
     campaignRef: string | null
+    paymentStatus: $Enums.PaymentStatus | null
+    paymentMode: $Enums.PaymentMode | null
+    asaasPaymentId: string | null
+    pixCopiaECola: string | null
+    paidAmount: number | null
+    pixExpiresAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -13876,6 +13968,12 @@ export namespace Prisma {
     status: number
     origin: number
     campaignRef: number
+    paymentStatus: number
+    paymentMode: number
+    asaasPaymentId: number
+    pixCopiaECola: number
+    paidAmount: number
+    pixExpiresAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -13885,11 +13983,13 @@ export namespace Prisma {
   export type BookingAvgAggregateInputType = {
     durationMin?: true
     price?: true
+    paidAmount?: true
   }
 
   export type BookingSumAggregateInputType = {
     durationMin?: true
     price?: true
+    paidAmount?: true
   }
 
   export type BookingMinAggregateInputType = {
@@ -13905,6 +14005,12 @@ export namespace Prisma {
     status?: true
     origin?: true
     campaignRef?: true
+    paymentStatus?: true
+    paymentMode?: true
+    asaasPaymentId?: true
+    pixCopiaECola?: true
+    paidAmount?: true
+    pixExpiresAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -13922,6 +14028,12 @@ export namespace Prisma {
     status?: true
     origin?: true
     campaignRef?: true
+    paymentStatus?: true
+    paymentMode?: true
+    asaasPaymentId?: true
+    pixCopiaECola?: true
+    paidAmount?: true
+    pixExpiresAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -13939,6 +14051,12 @@ export namespace Prisma {
     status?: true
     origin?: true
     campaignRef?: true
+    paymentStatus?: true
+    paymentMode?: true
+    asaasPaymentId?: true
+    pixCopiaECola?: true
+    paidAmount?: true
+    pixExpiresAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -14043,6 +14161,12 @@ export namespace Prisma {
     status: $Enums.BookingStatus
     origin: $Enums.BookingOrigin
     campaignRef: string | null
+    paymentStatus: $Enums.PaymentStatus
+    paymentMode: $Enums.PaymentMode | null
+    asaasPaymentId: string | null
+    pixCopiaECola: string | null
+    paidAmount: number | null
+    pixExpiresAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: BookingCountAggregateOutputType | null
@@ -14079,6 +14203,12 @@ export namespace Prisma {
     status?: boolean
     origin?: boolean
     campaignRef?: boolean
+    paymentStatus?: boolean
+    paymentMode?: boolean
+    asaasPaymentId?: boolean
+    pixCopiaECola?: boolean
+    paidAmount?: boolean
+    pixExpiresAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -14101,6 +14231,12 @@ export namespace Prisma {
     status?: boolean
     origin?: boolean
     campaignRef?: boolean
+    paymentStatus?: boolean
+    paymentMode?: boolean
+    asaasPaymentId?: boolean
+    pixCopiaECola?: boolean
+    paidAmount?: boolean
+    pixExpiresAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -14123,6 +14259,12 @@ export namespace Prisma {
     status?: boolean
     origin?: boolean
     campaignRef?: boolean
+    paymentStatus?: boolean
+    paymentMode?: boolean
+    asaasPaymentId?: boolean
+    pixCopiaECola?: boolean
+    paidAmount?: boolean
+    pixExpiresAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -14145,11 +14287,17 @@ export namespace Prisma {
     status?: boolean
     origin?: boolean
     campaignRef?: boolean
+    paymentStatus?: boolean
+    paymentMode?: boolean
+    asaasPaymentId?: boolean
+    pixCopiaECola?: boolean
+    paidAmount?: boolean
+    pixExpiresAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "unitId" | "barberId" | "clientId" | "serviceId" | "dateTime" | "durationMin" | "price" | "status" | "origin" | "campaignRef" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "unitId" | "barberId" | "clientId" | "serviceId" | "dateTime" | "durationMin" | "price" | "status" | "origin" | "campaignRef" | "paymentStatus" | "paymentMode" | "asaasPaymentId" | "pixCopiaECola" | "paidAmount" | "pixExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     unit?: boolean | Booking$unitArgs<ExtArgs>
@@ -14194,6 +14342,12 @@ export namespace Prisma {
       status: $Enums.BookingStatus
       origin: $Enums.BookingOrigin
       campaignRef: string | null
+      paymentStatus: $Enums.PaymentStatus
+      paymentMode: $Enums.PaymentMode | null
+      asaasPaymentId: string | null
+      pixCopiaECola: string | null
+      paidAmount: number | null
+      pixExpiresAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["booking"]>
@@ -14636,6 +14790,12 @@ export namespace Prisma {
     readonly status: FieldRef<"Booking", 'BookingStatus'>
     readonly origin: FieldRef<"Booking", 'BookingOrigin'>
     readonly campaignRef: FieldRef<"Booking", 'String'>
+    readonly paymentStatus: FieldRef<"Booking", 'PaymentStatus'>
+    readonly paymentMode: FieldRef<"Booking", 'PaymentMode'>
+    readonly asaasPaymentId: FieldRef<"Booking", 'String'>
+    readonly pixCopiaECola: FieldRef<"Booking", 'String'>
+    readonly paidAmount: FieldRef<"Booking", 'Float'>
+    readonly pixExpiresAt: FieldRef<"Booking", 'DateTime'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
     readonly updatedAt: FieldRef<"Booking", 'DateTime'>
   }
@@ -15112,6 +15272,10 @@ export namespace Prisma {
     openingHours: 'openingHours',
     timezone: 'timezone',
     leadTimeMin: 'leadTimeMin',
+    asaasApiKey: 'asaasApiKey',
+    asaasSandbox: 'asaasSandbox',
+    asaasWebhookToken: 'asaasWebhookToken',
+    googleReviewUrl: 'googleReviewUrl',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -15237,6 +15401,12 @@ export namespace Prisma {
     status: 'status',
     origin: 'origin',
     campaignRef: 'campaignRef',
+    paymentStatus: 'paymentStatus',
+    paymentMode: 'paymentMode',
+    asaasPaymentId: 'asaasPaymentId',
+    pixCopiaECola: 'pixCopiaECola',
+    paidAmount: 'paidAmount',
+    pixExpiresAt: 'pixExpiresAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -15368,6 +15538,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'TenantStatus'
    */
   export type EnumTenantStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TenantStatus'>
@@ -15378,13 +15555,6 @@ export namespace Prisma {
    * Reference to a field of type 'TenantStatus[]'
    */
   export type ListEnumTenantStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TenantStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -15441,6 +15611,34 @@ export namespace Prisma {
    * Reference to a field of type 'BookingOrigin[]'
    */
   export type ListEnumBookingOriginFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingOrigin[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentStatus'
+   */
+  export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentStatus[]'
+   */
+  export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentMode'
+   */
+  export type EnumPaymentModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentMode[]'
+   */
+  export type ListEnumPaymentModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMode[]'>
     
   /**
    * Deep Input Types
@@ -15533,6 +15731,10 @@ export namespace Prisma {
     openingHours?: JsonNullableFilter<"Tenant">
     timezone?: StringFilter<"Tenant"> | string
     leadTimeMin?: IntFilter<"Tenant"> | number
+    asaasApiKey?: StringNullableFilter<"Tenant"> | string | null
+    asaasSandbox?: BoolFilter<"Tenant"> | boolean
+    asaasWebhookToken?: StringNullableFilter<"Tenant"> | string | null
+    googleReviewUrl?: StringNullableFilter<"Tenant"> | string | null
     status?: EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -15557,6 +15759,10 @@ export namespace Prisma {
     openingHours?: SortOrderInput | SortOrder
     timezone?: SortOrder
     leadTimeMin?: SortOrder
+    asaasApiKey?: SortOrderInput | SortOrder
+    asaasSandbox?: SortOrder
+    asaasWebhookToken?: SortOrderInput | SortOrder
+    googleReviewUrl?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15584,6 +15790,10 @@ export namespace Prisma {
     openingHours?: JsonNullableFilter<"Tenant">
     timezone?: StringFilter<"Tenant"> | string
     leadTimeMin?: IntFilter<"Tenant"> | number
+    asaasApiKey?: StringNullableFilter<"Tenant"> | string | null
+    asaasSandbox?: BoolFilter<"Tenant"> | boolean
+    asaasWebhookToken?: StringNullableFilter<"Tenant"> | string | null
+    googleReviewUrl?: StringNullableFilter<"Tenant"> | string | null
     status?: EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -15608,6 +15818,10 @@ export namespace Prisma {
     openingHours?: SortOrderInput | SortOrder
     timezone?: SortOrder
     leadTimeMin?: SortOrder
+    asaasApiKey?: SortOrderInput | SortOrder
+    asaasSandbox?: SortOrder
+    asaasWebhookToken?: SortOrderInput | SortOrder
+    googleReviewUrl?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15634,6 +15848,10 @@ export namespace Prisma {
     openingHours?: JsonNullableWithAggregatesFilter<"Tenant">
     timezone?: StringWithAggregatesFilter<"Tenant"> | string
     leadTimeMin?: IntWithAggregatesFilter<"Tenant"> | number
+    asaasApiKey?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
+    asaasSandbox?: BoolWithAggregatesFilter<"Tenant"> | boolean
+    asaasWebhookToken?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
+    googleReviewUrl?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
     status?: EnumTenantStatusWithAggregatesFilter<"Tenant"> | $Enums.TenantStatus
     createdAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
@@ -16230,6 +16448,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     origin?: EnumBookingOriginFilter<"Booking"> | $Enums.BookingOrigin
     campaignRef?: StringNullableFilter<"Booking"> | string | null
+    paymentStatus?: EnumPaymentStatusFilter<"Booking"> | $Enums.PaymentStatus
+    paymentMode?: EnumPaymentModeNullableFilter<"Booking"> | $Enums.PaymentMode | null
+    asaasPaymentId?: StringNullableFilter<"Booking"> | string | null
+    pixCopiaECola?: StringNullableFilter<"Booking"> | string | null
+    paidAmount?: FloatNullableFilter<"Booking"> | number | null
+    pixExpiresAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -16252,6 +16476,12 @@ export namespace Prisma {
     status?: SortOrder
     origin?: SortOrder
     campaignRef?: SortOrderInput | SortOrder
+    paymentStatus?: SortOrder
+    paymentMode?: SortOrderInput | SortOrder
+    asaasPaymentId?: SortOrderInput | SortOrder
+    pixCopiaECola?: SortOrderInput | SortOrder
+    paidAmount?: SortOrderInput | SortOrder
+    pixExpiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
@@ -16263,6 +16493,7 @@ export namespace Prisma {
 
   export type BookingWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    asaasPaymentId?: string
     AND?: BookingWhereInput | BookingWhereInput[]
     OR?: BookingWhereInput[]
     NOT?: BookingWhereInput | BookingWhereInput[]
@@ -16277,6 +16508,11 @@ export namespace Prisma {
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     origin?: EnumBookingOriginFilter<"Booking"> | $Enums.BookingOrigin
     campaignRef?: StringNullableFilter<"Booking"> | string | null
+    paymentStatus?: EnumPaymentStatusFilter<"Booking"> | $Enums.PaymentStatus
+    paymentMode?: EnumPaymentModeNullableFilter<"Booking"> | $Enums.PaymentMode | null
+    pixCopiaECola?: StringNullableFilter<"Booking"> | string | null
+    paidAmount?: FloatNullableFilter<"Booking"> | number | null
+    pixExpiresAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -16284,7 +16520,7 @@ export namespace Prisma {
     barber?: XOR<BarberScalarRelationFilter, BarberWhereInput>
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
-  }, "id">
+  }, "id" | "asaasPaymentId">
 
   export type BookingOrderByWithAggregationInput = {
     id?: SortOrder
@@ -16299,6 +16535,12 @@ export namespace Prisma {
     status?: SortOrder
     origin?: SortOrder
     campaignRef?: SortOrderInput | SortOrder
+    paymentStatus?: SortOrder
+    paymentMode?: SortOrderInput | SortOrder
+    asaasPaymentId?: SortOrderInput | SortOrder
+    pixCopiaECola?: SortOrderInput | SortOrder
+    paidAmount?: SortOrderInput | SortOrder
+    pixExpiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BookingCountOrderByAggregateInput
@@ -16324,6 +16566,12 @@ export namespace Prisma {
     status?: EnumBookingStatusWithAggregatesFilter<"Booking"> | $Enums.BookingStatus
     origin?: EnumBookingOriginWithAggregatesFilter<"Booking"> | $Enums.BookingOrigin
     campaignRef?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    paymentStatus?: EnumPaymentStatusWithAggregatesFilter<"Booking"> | $Enums.PaymentStatus
+    paymentMode?: EnumPaymentModeNullableWithAggregatesFilter<"Booking"> | $Enums.PaymentMode | null
+    asaasPaymentId?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    pixCopiaECola?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    paidAmount?: FloatNullableWithAggregatesFilter<"Booking"> | number | null
+    pixExpiresAt?: DateTimeNullableWithAggregatesFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
   }
@@ -16417,6 +16665,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16441,6 +16693,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16465,6 +16721,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16489,6 +16749,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16513,6 +16777,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16531,6 +16799,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16549,6 +16821,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17155,6 +17431,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutBookingsInput
@@ -17177,6 +17459,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17189,6 +17477,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutBookingsNestedInput
@@ -17211,6 +17505,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17228,6 +17528,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17240,6 +17546,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17257,6 +17569,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17446,6 +17764,11 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type EnumTenantStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TenantStatus | EnumTenantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
@@ -17526,6 +17849,10 @@ export namespace Prisma {
     openingHours?: SortOrder
     timezone?: SortOrder
     leadTimeMin?: SortOrder
+    asaasApiKey?: SortOrder
+    asaasSandbox?: SortOrder
+    asaasWebhookToken?: SortOrder
+    googleReviewUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17546,6 +17873,10 @@ export namespace Prisma {
     colorAccent?: SortOrder
     timezone?: SortOrder
     leadTimeMin?: SortOrder
+    asaasApiKey?: SortOrder
+    asaasSandbox?: SortOrder
+    asaasWebhookToken?: SortOrder
+    googleReviewUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17562,6 +17893,10 @@ export namespace Prisma {
     colorAccent?: SortOrder
     timezone?: SortOrder
     leadTimeMin?: SortOrder
+    asaasApiKey?: SortOrder
+    asaasSandbox?: SortOrder
+    asaasWebhookToken?: SortOrder
+    googleReviewUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17613,6 +17948,14 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type EnumTenantStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.TenantStatus | EnumTenantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
@@ -17621,11 +17964,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTenantStatusFilter<$PrismaModel>
     _max?: NestedEnumTenantStatusFilter<$PrismaModel>
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type TenantScalarRelationFilter = {
@@ -17694,14 +18032,6 @@ export namespace Prisma {
     slug?: SortOrder
     phone?: SortOrder
     active?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type EnumServiceCategoryFilter<$PrismaModel = never> = {
@@ -18156,6 +18486,31 @@ export namespace Prisma {
     not?: NestedEnumBookingOriginFilter<$PrismaModel> | $Enums.BookingOrigin
   }
 
+  export type EnumPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
+  }
+
+  export type EnumPaymentModeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMode | EnumPaymentModeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentMode[] | ListEnumPaymentModeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PaymentMode[] | ListEnumPaymentModeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPaymentModeNullableFilter<$PrismaModel> | $Enums.PaymentMode | null
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ClientScalarRelationFilter = {
     is?: ClientWhereInput
     isNot?: ClientWhereInput
@@ -18179,6 +18534,12 @@ export namespace Prisma {
     status?: SortOrder
     origin?: SortOrder
     campaignRef?: SortOrder
+    paymentStatus?: SortOrder
+    paymentMode?: SortOrder
+    asaasPaymentId?: SortOrder
+    pixCopiaECola?: SortOrder
+    paidAmount?: SortOrder
+    pixExpiresAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18186,6 +18547,7 @@ export namespace Prisma {
   export type BookingAvgOrderByAggregateInput = {
     durationMin?: SortOrder
     price?: SortOrder
+    paidAmount?: SortOrder
   }
 
   export type BookingMaxOrderByAggregateInput = {
@@ -18201,6 +18563,12 @@ export namespace Prisma {
     status?: SortOrder
     origin?: SortOrder
     campaignRef?: SortOrder
+    paymentStatus?: SortOrder
+    paymentMode?: SortOrder
+    asaasPaymentId?: SortOrder
+    pixCopiaECola?: SortOrder
+    paidAmount?: SortOrder
+    pixExpiresAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18218,6 +18586,12 @@ export namespace Prisma {
     status?: SortOrder
     origin?: SortOrder
     campaignRef?: SortOrder
+    paymentStatus?: SortOrder
+    paymentMode?: SortOrder
+    asaasPaymentId?: SortOrder
+    pixCopiaECola?: SortOrder
+    paidAmount?: SortOrder
+    pixExpiresAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18225,6 +18599,7 @@ export namespace Prisma {
   export type BookingSumOrderByAggregateInput = {
     durationMin?: SortOrder
     price?: SortOrder
+    paidAmount?: SortOrder
   }
 
   export type EnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -18245,6 +18620,42 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBookingOriginFilter<$PrismaModel>
     _max?: NestedEnumBookingOriginFilter<$PrismaModel>
+  }
+
+  export type EnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  }
+
+  export type EnumPaymentModeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMode | EnumPaymentModeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentMode[] | ListEnumPaymentModeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PaymentMode[] | ListEnumPaymentModeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPaymentModeNullableWithAggregatesFilter<$PrismaModel> | $Enums.PaymentMode | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumPaymentModeNullableFilter<$PrismaModel>
+    _max?: NestedEnumPaymentModeNullableFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type TenantCreateNestedOneWithoutUsersInput = {
@@ -18369,6 +18780,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type EnumTenantStatusFieldUpdateOperationsInput = {
@@ -18603,10 +19018,6 @@ export namespace Prisma {
     connectOrCreate?: UnavailabilityCreateOrConnectWithoutUnitInput | UnavailabilityCreateOrConnectWithoutUnitInput[]
     createMany?: UnavailabilityCreateManyUnitInputEnvelope
     connect?: UnavailabilityWhereUniqueInput | UnavailabilityWhereUniqueInput[]
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type TenantUpdateOneRequiredWithoutUnitsNestedInput = {
@@ -19227,6 +19638,22 @@ export namespace Prisma {
     set?: $Enums.BookingOrigin
   }
 
+  export type EnumPaymentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PaymentStatus
+  }
+
+  export type NullableEnumPaymentModeFieldUpdateOperationsInput = {
+    set?: $Enums.PaymentMode | null
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type TenantUpdateOneRequiredWithoutBookingsNestedInput = {
     create?: XOR<TenantCreateWithoutBookingsInput, TenantUncheckedCreateWithoutBookingsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutBookingsInput
@@ -19395,6 +19822,11 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedEnumTenantStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TenantStatus | EnumTenantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
@@ -19452,6 +19884,14 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedEnumTenantStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.TenantStatus | EnumTenantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
@@ -19460,19 +19900,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTenantStatusFilter<$PrismaModel>
     _max?: NestedEnumTenantStatusFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumServiceCategoryFilter<$PrismaModel = never> = {
@@ -19597,6 +20024,20 @@ export namespace Prisma {
     not?: NestedEnumBookingOriginFilter<$PrismaModel> | $Enums.BookingOrigin
   }
 
+  export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
+  }
+
+  export type NestedEnumPaymentModeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMode | EnumPaymentModeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentMode[] | ListEnumPaymentModeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PaymentMode[] | ListEnumPaymentModeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPaymentModeNullableFilter<$PrismaModel> | $Enums.PaymentMode | null
+  }
+
   export type NestedEnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
@@ -19617,6 +20058,42 @@ export namespace Prisma {
     _max?: NestedEnumBookingOriginFilter<$PrismaModel>
   }
 
+  export type NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPaymentModeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMode | EnumPaymentModeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentMode[] | ListEnumPaymentModeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PaymentMode[] | ListEnumPaymentModeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPaymentModeNullableWithAggregatesFilter<$PrismaModel> | $Enums.PaymentMode | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumPaymentModeNullableFilter<$PrismaModel>
+    _max?: NestedEnumPaymentModeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type TenantCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -19630,6 +20107,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19653,6 +20134,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19692,6 +20177,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19715,6 +20204,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19835,6 +20328,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     unit?: UnitCreateNestedOneWithoutBookingsInput
@@ -19855,6 +20354,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20059,6 +20564,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     origin?: EnumBookingOriginFilter<"Booking"> | $Enums.BookingOrigin
     campaignRef?: StringNullableFilter<"Booking"> | string | null
+    paymentStatus?: EnumPaymentStatusFilter<"Booking"> | $Enums.PaymentStatus
+    paymentMode?: EnumPaymentModeNullableFilter<"Booking"> | $Enums.PaymentMode | null
+    asaasPaymentId?: StringNullableFilter<"Booking"> | string | null
+    pixCopiaECola?: StringNullableFilter<"Booking"> | string | null
+    paidAmount?: FloatNullableFilter<"Booking"> | number | null
+    pixExpiresAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
   }
@@ -20135,6 +20646,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20158,6 +20673,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20203,6 +20722,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutBookingsInput
@@ -20223,6 +20748,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20321,6 +20852,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20344,6 +20879,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20469,6 +21008,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20492,6 +21035,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20515,6 +21062,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutBookingsInput
@@ -20535,6 +21088,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20573,6 +21132,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20596,6 +21159,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20635,6 +21202,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20658,6 +21229,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20703,6 +21278,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutBookingsInput
@@ -20723,6 +21304,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20845,6 +21432,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20868,6 +21459,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21474,6 +22069,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21497,6 +22096,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21520,6 +22123,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutBookingsInput
@@ -21540,6 +22149,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21578,6 +22193,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21601,6 +22220,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21640,6 +22263,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21663,6 +22290,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: string
     leadTimeMin?: number
+    asaasApiKey?: string | null
+    asaasSandbox?: boolean
+    asaasWebhookToken?: string | null
+    googleReviewUrl?: string | null
     status?: $Enums.TenantStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21822,6 +22453,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21845,6 +22480,10 @@ export namespace Prisma {
     openingHours?: NullableJsonNullValueInput | InputJsonValue
     timezone?: StringFieldUpdateOperationsInput | string
     leadTimeMin?: IntFieldUpdateOperationsInput | number
+    asaasApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    asaasSandbox?: BoolFieldUpdateOperationsInput | boolean
+    asaasWebhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleReviewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22041,6 +22680,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22174,6 +22819,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unit?: UnitUpdateOneWithoutBookingsNestedInput
@@ -22194,6 +22845,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22210,6 +22867,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22299,6 +22962,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22349,6 +23018,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutBookingsNestedInput
@@ -22369,6 +23044,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22385,6 +23066,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22461,6 +23148,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22473,6 +23166,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutBookingsNestedInput
@@ -22493,6 +23192,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22509,6 +23214,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22531,6 +23242,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22588,6 +23305,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutBookingsNestedInput
@@ -22608,6 +23331,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22624,6 +23353,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22721,6 +23456,12 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     origin?: $Enums.BookingOrigin
     campaignRef?: string | null
+    paymentStatus?: $Enums.PaymentStatus
+    paymentMode?: $Enums.PaymentMode | null
+    asaasPaymentId?: string | null
+    pixCopiaECola?: string | null
+    paidAmount?: number | null
+    pixExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22733,6 +23474,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutBookingsNestedInput
@@ -22753,6 +23500,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22769,6 +23522,12 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     origin?: EnumBookingOriginFieldUpdateOperationsInput | $Enums.BookingOrigin
     campaignRef?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
+    asaasPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    pixCopiaECola?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
