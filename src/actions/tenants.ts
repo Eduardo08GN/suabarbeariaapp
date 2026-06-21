@@ -102,3 +102,23 @@ export async function createBarbearia(data: {
 
   return { ok: true, slug }
 }
+
+// Exclui a barbearia e TUDO dela: primeiro os usuarios (dono/barbeiros) e suas
+// inscricoes de push, depois o tenant — que cascateia unidades, servicos,
+// barbeiros, agendamentos e clientes. Acao destrutiva, sem volta, so MASTER.
+export async function deleteBarbearia(tenantId: string) {
+  await requireMaster()
+  if (!tenantId) throw new Error('Barbearia inválida')
+
+  await prisma.$transaction(async (tx) => {
+    const users = await tx.user.findMany({ where: { tenantId }, select: { id: true } })
+    const ids = users.map((u) => u.id)
+    if (ids.length > 0) {
+      await tx.pushSubscription.deleteMany({ where: { userId: { in: ids } } })
+      await tx.user.deleteMany({ where: { tenantId } })
+    }
+    await tx.tenant.delete({ where: { id: tenantId } })
+  })
+
+  return { ok: true }
+}

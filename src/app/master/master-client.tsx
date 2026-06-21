@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Plus, Store, Users, CalendarDays, Scissors, X, Loader2 } from 'lucide-react'
-import { createBarbearia } from '@/actions/tenants'
+import { Plus, Store, Users, CalendarDays, Scissors, X, Loader2, Trash2 } from 'lucide-react'
+import { createBarbearia, deleteBarbearia } from '@/actions/tenants'
 
 type TenantItem = {
   id: string
@@ -54,6 +54,9 @@ export function MasterClient({ tenants }: { tenants: TenantItem[] }) {
   const [password, setPassword] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [toDelete, setToDelete] = useState<TenantItem | null>(null)
+  const [deletingBusy, setDeletingBusy] = useState(false)
+  const [deleteError, setDeleteError] = useState('')
 
   function openModal() {
     setName('')
@@ -81,6 +84,21 @@ export function MasterClient({ tenants }: { tenants: TenantItem[] }) {
       setError(e instanceof Error ? e.message : 'Não foi possível criar a barbearia.')
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function handleDelete() {
+    if (!toDelete) return
+    setDeleteError('')
+    setDeletingBusy(true)
+    try {
+      await deleteBarbearia(toDelete.id)
+      setToDelete(null)
+      router.refresh()
+    } catch (e) {
+      setDeleteError(e instanceof Error ? e.message : 'Não foi possível excluir a barbearia.')
+    } finally {
+      setDeletingBusy(false)
     }
   }
 
@@ -124,9 +142,18 @@ export function MasterClient({ tenants }: { tenants: TenantItem[] }) {
                     <h3 className="text-sm font-semibold text-[#09090B]">{tenant.name}</h3>
                     <p className="text-xs text-[#A1A1AA] mt-0.5">/{tenant.slug}</p>
                   </div>
-                  <span className={`px-2.5 py-1 rounded-md text-xs font-medium ${status.bg} ${status.text}`}>
-                    {status.label}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className={`px-2.5 py-1 rounded-md text-xs font-medium ${status.bg} ${status.text}`}>
+                      {status.label}
+                    </span>
+                    <button
+                      onClick={() => setToDelete(tenant)}
+                      aria-label={`Excluir ${tenant.name}`}
+                      className="p-1 text-[#A1A1AA] hover:text-red-600 transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 pt-3 border-t border-[#E4E4E7]">
@@ -247,6 +274,57 @@ export function MasterClient({ tenants }: { tenants: TenantItem[] }) {
                   className="flex-1 bg-[#18181B] text-[#FAFAFA] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#27272A] transition-colors disabled:opacity-50"
                 >
                   {saving ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : 'Criar barbearia'}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Confirmar exclusao */}
+      <AnimatePresence>
+        {toDelete && (
+          <motion.div
+            key="excluir-barbearia"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4"
+            onClick={() => !deletingBusy && setToDelete(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white rounded-xl border border-[#E4E4E7] shadow-lg w-full max-w-md p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="text-base font-semibold text-[#09090B]">Excluir barbearia</h3>
+              <p className="mt-2 text-sm text-[#71717A]">
+                Isso apaga <span className="font-medium text-[#09090B]">{toDelete.name}</span> e
+                todos os dados dela (agenda, equipe, clientes) — sem volta.
+              </p>
+
+              {deleteError && (
+                <div className="mt-4 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-xs text-red-700">
+                  {deleteError}
+                </div>
+              )}
+
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={() => setToDelete(null)}
+                  className="flex-1 bg-[#F4F4F5] text-[#18181B] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#E4E4E7] transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleDelete}
+                  disabled={deletingBusy}
+                  className="flex-1 bg-red-600 text-white rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
+                >
+                  {deletingBusy ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : 'Excluir'}
                 </button>
               </div>
             </motion.div>
