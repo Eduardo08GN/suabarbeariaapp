@@ -11,7 +11,6 @@ import {
   Loader2,
   User,
   KeyRound,
-  Check,
   Trash2,
 } from 'lucide-react'
 import {
@@ -242,12 +241,13 @@ export default function EquipePage() {
                 </span>
               </div>
 
-              {/* Acesso ao app do profissional */}
-              <div className="mt-3 flex items-center gap-2 text-xs">
+              {/* Login no app do profissional — eixo separado do status "Ativo"
+                  (operacional). Neutro + chave, pra nao competir com o pill verde. */}
+              <div className="mt-3 flex items-center gap-1.5 text-xs">
+                <KeyRound className="w-3.5 h-3.5 shrink-0 text-[#A1A1AA]" />
                 {barber.user ? (
-                  <span className="inline-flex items-center gap-1.5 text-emerald-700">
-                    <Check className="w-3.5 h-3.5" />
-                    <span className="truncate">Acesso ativo &middot; {barber.user.email}</span>
+                  <span className="truncate text-[#71717A]">
+                    Acesso ao app &middot; {barber.user.email}
                   </span>
                 ) : (
                   <span className="text-[#A1A1AA]">Sem acesso ao app</span>
