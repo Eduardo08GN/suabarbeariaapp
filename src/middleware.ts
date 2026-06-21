@@ -10,6 +10,10 @@ const PUBLIC_PATHS = [
   '/api/cron/',
   '/sw.js',
   '/manifest.webmanifest',
+  // manifest do /pro: o fetch de manifest NAO manda cookie, entao nao pode
+  // ficar atras do gate (senao redireciona pro login e vira HTML invalido).
+  // A rota serve uma versao generica quando nao ha sessao.
+  '/pro/manifest.webmanifest',
 ]
 
 function isPublicPath(pathname: string): boolean {

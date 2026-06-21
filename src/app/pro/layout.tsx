@@ -40,18 +40,23 @@ export default async function ProLayout({ children }: { children: React.ReactNod
     redirect('/login')
   }
 
-  const barber = await prisma.barber.findUnique({
-    where: { id: session.barberId },
-    select: { name: true, nickname: true, tenant: { select: { name: true } } },
+  // valida pelo User (nao so pelo Barber): se o dono revogou o acesso, o User
+  // some e o barbeiro cai fora na hora, mesmo com o JWT ainda valido (7 dias).
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: {
+      barberId: true,
+      barber: { select: { name: true, nickname: true, tenant: { select: { name: true } } } },
+    },
   })
-  if (!barber) redirect('/login')
+  if (!user || !user.barber || user.barberId !== session.barberId) redirect('/login')
 
-  const firstName = (barber.nickname || barber.name).split(' ')[0]
+  const firstName = (user.barber.nickname || user.barber.name).split(' ')[0]
 
   return (
     <div className="min-h-dvh bg-[#FAFAFA]">
       <NotificationSound />
-      <ProHeader shopName={barber.tenant.name} barberName={firstName} />
+      <ProHeader shopName={user.barber.tenant.name} barberName={firstName} />
       <main className="mx-auto w-full max-w-lg px-4 py-5 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
         {children}
       </main>

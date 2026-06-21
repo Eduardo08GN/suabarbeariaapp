@@ -9,7 +9,12 @@ import bcrypt from 'bcryptjs'
 // mexer na equipe de outro. Aqui isso fica impossivel.
 async function requireTenantId(): Promise<string> {
   const session = await getSession()
-  if (!session?.tenantId) throw new Error('Não autorizado')
+  // gestao de equipe e SO do dono (MASTER/TENANT). Um BARBER tambem carrega
+  // tenantId no token, mas server action e endpoint POST aberto a qualquer
+  // logado — o gate do middleware so vale pra navegacao de pagina, nao pra cá.
+  if (!session?.tenantId || !['MASTER', 'TENANT'].includes(session.role)) {
+    throw new Error('Não autorizado')
+  }
   return session.tenantId
 }
 

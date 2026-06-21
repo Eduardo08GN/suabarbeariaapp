@@ -10,7 +10,11 @@ import { startOfDay, endOfDay, startOfMonth, endOfMonth } from 'date-fns'
 // vem do token verificado, fechando IDOR cross-tenant.
 async function requireTenantId(): Promise<string> {
   const session = await getSession()
-  if (!session?.tenantId) throw new Error('Não autorizado')
+  // estas leituras/escritas sao do painel do dono (MASTER/TENANT). O barbeiro
+  // tem a propria action escopada (getBookingsForBarberDate); aqui ele nao entra.
+  if (!session?.tenantId || !['MASTER', 'TENANT'].includes(session.role)) {
+    throw new Error('Não autorizado')
+  }
   return session.tenantId
 }
 
@@ -40,6 +44,14 @@ export async function getBookingsForDate(_tenantId: string, date: Date) {
 export async function getBookingsForBarberDate(_tenantId: string, _barberId: string, date: Date) {
   const session = await getSession()
   if (!session?.tenantId || !session.barberId) throw new Error('Não autorizado')
+
+  // revogacao imediata: o JWT vive 7 dias, mas se o dono removeu o acesso
+  // (User apagado/desvinculado) o barbeiro nao le mais a agenda, mesmo com token valido.
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: { barberId: true },
+  })
+  if (!user || user.barberId !== session.barberId) throw new Error('Não autorizado')
 
   const dayStart = startOfDay(date)
   const dayEnd = endOfDay(date)
