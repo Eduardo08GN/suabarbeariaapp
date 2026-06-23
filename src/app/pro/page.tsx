@@ -1,10 +1,11 @@
 export const dynamic = 'force-dynamic'
 
 import { getSession } from '@/lib/auth'
-import { getBookingsForBarberDate } from '@/actions/booking'
+import { getBookingsForBarberDate, getBarberStats } from '@/actions/booking'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { ProAgenda } from '@/components/pro/pro-agenda'
+import { ProStats } from '@/components/pro/pro-stats'
 
 export default async function ProPage({
   searchParams,
@@ -18,7 +19,10 @@ export default async function ProPage({
   const params = await searchParams
   const selectedDate = params.date ? new Date(params.date) : new Date()
 
-  const bookings = await getBookingsForBarberDate(session.tenantId, session.barberId, selectedDate)
+  const [bookings, stats] = await Promise.all([
+    getBookingsForBarberDate(session.tenantId, session.barberId, selectedDate),
+    getBarberStats(),
+  ])
 
   const bookingsData = bookings.map((b) => ({
     id: b.id,
@@ -38,10 +42,17 @@ export default async function ProPage({
   const dateLabel = format(selectedDate, "EEEE, dd 'de' MMMM", { locale: ptBR })
 
   return (
-    <ProAgenda
-      bookings={bookingsData}
-      dateLabel={dateLabel}
-      currentDate={format(selectedDate, 'yyyy-MM-dd')}
-    />
+    <>
+      <ProStats
+        todayCount={stats.todayCount}
+        monthCount={stats.monthCount}
+        monthCommission={stats.monthCommission}
+      />
+      <ProAgenda
+        bookings={bookingsData}
+        dateLabel={dateLabel}
+        currentDate={format(selectedDate, 'yyyy-MM-dd')}
+      />
+    </>
   )
 }

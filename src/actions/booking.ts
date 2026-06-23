@@ -147,3 +147,53 @@ export async function getUpcomingBookings(_tenantId: string, limit = 5) {
     take: limit,
   })
 }
+
+// Metricas do PROFISSIONAL (superficie /pro): tudo escopado no barberId da
+// SESSAO, nunca de argumento — o barbeiro so ve os numeros DELE. A comissao usa
+// o servico (b.price) x commissionPct do barbeiro; produtos sao do salao.
+export async function getBarberStats() {
+  const session = await getSession()
+  if (!session?.tenantId || !session.barberId) throw new Error('Não autorizado')
+  // revogacao imediata (mesmo padrao do getBookingsForBarberDate)
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: { barberId: true },
+  })
+  if (!user || user.barberId !== session.barberId) throw new Error('Não autorizado')
+
+  const barber = await prisma.barber.findUnique({
+    where: { id: session.barberId },
+    select: { commissionPct: true },
+  })
+  const commissionPct = barber?.commissionPct ?? 0
+
+  const now = new Date()
+  const todayStart = startOfDay(now)
+  const todayEnd = endOfDay(now)
+  const monthStart = startOfMonth(now)
+  const monthEnd = endOfMonth(now)
+  const scope = { tenantId: session.tenantId, barberId: session.barberId }
+
+  const [todayCount, monthAgg] = await Promise.all([
+    prisma.booking.count({
+      where: { ...scope, dateTime: { gte: todayStart, lte: todayEnd } },
+    }),
+    prisma.booking.aggregate({
+      where: {
+        ...scope,
+        dateTime: { gte: monthStart, lte: monthEnd },
+        status: { in: ['COMPLETED', 'CONFIRMED', 'IN_PROGRESS'] },
+      },
+      _sum: { price: true },
+      _count: true,
+    }),
+  ])
+
+  const monthServiceRevenue = monthAgg._sum.price ?? 0
+  return {
+    todayCount,
+    monthCount: monthAgg._count,
+    monthCommission: Math.round(monthServiceRevenue * commissionPct) / 100,
+    commissionPct,
+  }
+}
