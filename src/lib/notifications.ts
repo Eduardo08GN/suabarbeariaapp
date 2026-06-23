@@ -6,6 +6,10 @@ import 'server-only'
 
 const BREVO_EMAIL_URL = 'https://api.brevo.com/v3/smtp/email'
 const PRODUCT_NAME = 'SuaBarbearia'
+// Fonte do design system (globals.css --font-sans). Clientes que suportam web
+// font (Apple Mail/iOS) carregam Plus Jakarta Sans via <link>; o resto cai no
+// system-ui. SEM Arial/Inter/Roboto (proibidos no design system).
+const FONT = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
 
 // o nome do cliente vem de input do funil publico — escapar p/ nao injetar HTML
 const esc = (s: string) =>
@@ -35,20 +39,20 @@ function emailShell(o: ShellInput): string {
   const accent = o.accent && /^#[0-9a-fA-F]{6}$/.test(o.accent) ? o.accent : '#18181B'
   const shop = esc(o.shopName)
   const brandMark = o.logoUrl
-    ? `<img src="${esc(o.logoUrl)}" width="48" height="48" alt="" style="display:block;width:48px;height:48px;border-radius:12px;object-fit:cover;border:1px solid #e8e8eb" />`
-    : `<span style="display:inline-block;width:48px;height:48px;line-height:48px;text-align:center;border-radius:12px;background:${accent};color:#ffffff;font-size:20px;font-weight:700;font-family:Arial,Helvetica,sans-serif">${shop.charAt(0).toUpperCase() || 'B'}</span>`
+    ? `<img src="${esc(o.logoUrl)}" width="48" height="48" alt="" style="display:block;width:48px;height:48px;border-radius:12px;object-fit:cover;border:1px solid #E4E4E7" />`
+    : `<span style="display:inline-block;width:48px;height:48px;line-height:48px;text-align:center;border-radius:12px;background:${accent};color:#ffffff;font-size:20px;font-weight:700;font-family:${FONT}">${shop.charAt(0).toUpperCase() || 'B'}</span>`
 
   const highlight = o.highlight
-    ? `<p style="margin:18px 0 4px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#71717a">${esc(o.highlight.label)}</p>
-            <p style="margin:0 0 20px;font-family:Arial,Helvetica,sans-serif;font-size:23px;line-height:1.2;font-weight:700;color:#09090b;letter-spacing:-0.02em">${esc(o.highlight.value)}</p>`
+    ? `<p style="margin:18px 0 4px;font-family:${FONT};font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#71717a">${esc(o.highlight.label)}</p>
+            <p style="margin:0 0 20px;font-family:${FONT};font-size:23px;line-height:1.2;font-weight:700;color:#09090b;letter-spacing:-0.02em">${esc(o.highlight.value)}</p>`
     : ''
 
   const rows = o.rows
     .map(
       ([label, value]) => `
             <tr>
-              <td style="padding:9px 0;color:#71717a;font-size:14px;line-height:1.4;width:128px;vertical-align:top;font-family:Arial,Helvetica,sans-serif">${esc(label)}</td>
-              <td style="padding:9px 0;color:#18181b;font-size:14px;line-height:1.4;font-weight:600;font-family:Arial,Helvetica,sans-serif">${esc(value)}</td>
+              <td style="padding:9px 0;color:#71717a;font-size:14px;line-height:1.4;width:128px;vertical-align:top;font-family:${FONT}">${esc(label)}</td>
+              <td style="padding:9px 0;color:#09090B;font-size:14px;line-height:1.4;font-weight:600;font-family:${FONT}">${esc(value)}</td>
             </tr>`
     )
     .join('')
@@ -62,46 +66,49 @@ function emailShell(o: ShellInput): string {
 <meta name="color-scheme" content="light only" />
 <meta name="supported-color-schemes" content="light only" />
 <title>${esc(o.heading)}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');body,table,td,p,h1,span{font-family:${FONT}}</style>
 </head>
-<body style="margin:0;padding:0;background:#f4f4f5;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%">
-<span style="display:none!important;visibility:hidden;mso-hide:all;opacity:0;height:0;width:0;overflow:hidden;font-size:1px;line-height:1px;color:#f4f4f5">${esc(o.preheader)}</span>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f4f4f5">
+<body style="margin:0;padding:0;background:#FAFAFA;font-family:${FONT};-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%">
+<span style="display:none!important;visibility:hidden;mso-hide:all;opacity:0;height:0;width:0;overflow:hidden;font-size:1px;line-height:1px;color:#FAFAFA">${esc(o.preheader)}</span>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FAFAFA">
   <tr>
-    <td align="center" style="padding:36px 16px">
-      <table role="presentation" width="520" cellpadding="0" cellspacing="0" border="0" style="width:520px;max-width:520px;background:#ffffff;border:1px solid #e8e8eb;border-radius:16px;overflow:hidden">
-        <tr><td style="height:4px;background:${accent};line-height:4px;font-size:0">&nbsp;</td></tr>
+    <td align="center" style="padding:40px 16px">
+      <table role="presentation" width="520" cellpadding="0" cellspacing="0" border="0" style="width:520px;max-width:520px;background:#FFFFFF;border:1px solid #E4E4E7;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,0.04)">
         <tr>
-          <td style="padding:26px 32px 0">
+          <td style="padding:30px 32px 0">
             <table role="presentation" cellpadding="0" cellspacing="0" border="0">
               <tr>
-                <td style="vertical-align:middle;padding-right:12px">${brandMark}</td>
-                <td style="vertical-align:middle;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:700;color:#18181b;letter-spacing:-0.01em">${shop}</td>
+                <td style="vertical-align:middle;padding-right:14px">${brandMark}</td>
+                <td style="vertical-align:middle;font-family:${FONT};font-size:16px;font-weight:700;color:#09090B;letter-spacing:-0.01em">${shop}</td>
               </tr>
             </table>
           </td>
         </tr>
         <tr>
-          <td style="padding:22px 32px 6px">
-            <h1 style="margin:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:21px;line-height:1.3;color:#09090b;font-weight:700;letter-spacing:-0.02em">${esc(o.heading)}</h1>
-            ${o.intro ? `<p style="margin:0 0 18px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.65;color:#3f3f46">${o.intro}</p>` : ''}
+          <td style="padding:24px 32px 8px">
+            <h1 style="margin:0 0 12px;font-family:${FONT};font-size:22px;line-height:1.3;color:#09090B;font-weight:700;letter-spacing:-0.02em">${esc(o.heading)}</h1>
+            ${o.intro ? `<p style="margin:0;font-family:${FONT};font-size:14px;line-height:1.65;color:#3F3F46">${o.intro}</p>` : ''}
             ${highlight}
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #f1f1f3;border-bottom:1px solid #f1f1f3;margin:0 0 18px">${rows}
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #F4F4F5;border-bottom:1px solid #F4F4F5;margin:${o.highlight ? '0' : '18px'} 0 18px">${rows}
             </table>
-            ${o.outro ? `<p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.65;color:#71717a">${o.outro}</p>` : ''}
+            ${o.outro ? `<p style="margin:0 0 6px;font-family:${FONT};font-size:13px;line-height:1.65;color:#71717a">${o.outro}</p>` : ''}
           </td>
         </tr>
         <tr>
-          <td style="padding:22px 32px 28px">
-            <div style="border-top:1px solid #ececef;margin:0 0 16px;line-height:1px;font-size:0">&nbsp;</div>
-            <p style="margin:0 0 4px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#a1a1aa">${o.footerNote}</p>
-            <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#a1a1aa">Mensagem automática. Não é necessário responder.</p>
+          <td style="padding:24px 32px 30px">
+            <div style="border-top:1px solid #F4F4F5;margin:0 0 16px;line-height:1px;font-size:0">&nbsp;</div>
+            <p style="margin:0 0 4px;font-family:${FONT};font-size:12px;line-height:1.6;color:#a1a1aa">${o.footerNote}</p>
+            <p style="margin:0;font-family:${FONT};font-size:12px;line-height:1.6;color:#a1a1aa">Mensagem automática. Não é necessário responder.</p>
           </td>
         </tr>
       </table>
       <table role="presentation" width="520" cellpadding="0" cellspacing="0" border="0" style="width:520px;max-width:520px">
         <tr>
-          <td align="center" style="padding:18px 0 4px;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.5;color:#b4b4bb;letter-spacing:0.02em">
-            Agendamentos por <span style="color:#71717a;font-weight:600">${PRODUCT_NAME}</span>
+          <td align="center" style="padding:18px 0 4px;font-family:${FONT};font-size:11px;line-height:1.5;color:#A1A1AA;letter-spacing:0.02em">
+            Agendamentos por <span style="color:#71717A;font-weight:600">${PRODUCT_NAME}</span>
           </td>
         </tr>
       </table>
