@@ -73,13 +73,10 @@ export function LogoUpload({
 
   return (
     <div className="rounded-xl border border-[#E4E4E7] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-      <div className="mb-1 flex items-center gap-2">
+      <div className="mb-4 flex items-center gap-2">
         <Store className="h-4 w-4 text-[#71717A]" />
         <span className="text-sm font-medium text-[#09090B]">Logo da barbearia</span>
       </div>
-      <p className="mb-4 text-xs text-[#71717A]">
-        Aparece na tela inicial do seu link de agendamento. Imagem quadrada fica melhor.
-      </p>
 
       <div className="flex items-center gap-4">
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onPick} />
@@ -100,10 +97,7 @@ export function LogoUpload({
               </span>
             </>
           ) : (
-            <div className="flex flex-col items-center gap-0.5 text-[#A1A1AA]">
-              <ImageIcon className="h-6 w-6" />
-              <span className="text-[10px] font-medium">Logo</span>
-            </div>
+            <ImageIcon className="h-6 w-6 text-[#A1A1AA]" />
           )}
         </button>
 
@@ -115,7 +109,7 @@ export function LogoUpload({
             className="inline-flex items-center gap-2 rounded-lg bg-[#18181B] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#27272A] disabled:opacity-50 cursor-pointer"
           >
             <Camera className="h-4 w-4" />
-            {logo ? 'Trocar logo' : 'Enviar logo'}
+            Salvar
           </button>
           <div className="mt-2 flex items-center gap-3">
             {logo && !busy && (
