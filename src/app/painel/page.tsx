@@ -1,13 +1,14 @@
 export const dynamic = 'force-dynamic'
 
 import { headers } from 'next/headers'
-import { CalendarDays, Users, DollarSign, Clock } from 'lucide-react'
 import { getBookingStats, getUpcomingBookings } from '@/actions/booking'
+import { prisma } from '@/lib/db'
 import { formatCurrency } from '@/lib/utils'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { DashboardClient } from './dashboard-client'
 import { NotificationToggle } from '@/components/painel/notification-toggle'
+import { LogoUpload } from '@/components/painel/logo-upload'
 
 async function getTenantId() {
   const h = await headers()
@@ -25,9 +26,10 @@ export default async function PainelPage() {
     )
   }
 
-  const [stats, upcoming] = await Promise.all([
+  const [stats, upcoming, tenant] = await Promise.all([
     getBookingStats(tenantId),
     getUpcomingBookings(tenantId),
+    prisma.tenant.findUnique({ where: { id: tenantId }, select: { name: true, logo: true } }),
   ])
 
   const statCards = [
@@ -59,6 +61,7 @@ export default async function PainelPage() {
   return (
     <div className="space-y-6">
       <NotificationToggle />
+      <LogoUpload initialLogo={tenant?.logo ?? null} name={tenant?.name ?? ''} />
       <DashboardClient stats={statCards} upcoming={upcomingData} />
     </div>
   )
