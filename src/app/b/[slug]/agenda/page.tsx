@@ -37,9 +37,17 @@ export default function AgendaPage() {
     const container = scrollRef.current
     const card = dateRefs.current[index]
     if (!container || !card) return
-    const left =
-      card.offsetLeft - container.clientWidth / 2 + card.clientWidth / 2
-    container.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' })
+    // Origem-independente: NAO usar card.offsetLeft — ele e relativo ao
+    // offsetParent (aqui o <body>, porque o container nao e posicionado), o que
+    // deslocava a centralizacao em ~274px e impedia os cards de borda de
+    // "puxar" os vizinhos escondidos. Medimos a distancia entre o centro do
+    // card e o centro do container em coordenadas de viewport e rolamos
+    // exatamente esse delta (o browser faz o clamp nas pontas).
+    const cardRect = card.getBoundingClientRect()
+    const contRect = container.getBoundingClientRect()
+    const delta =
+      cardRect.left + cardRect.width / 2 - (contRect.left + contRect.width / 2)
+    container.scrollTo({ left: container.scrollLeft + delta, behavior: smooth ? 'smooth' : 'auto' })
   }, [])
 
   // Generate next 14 days

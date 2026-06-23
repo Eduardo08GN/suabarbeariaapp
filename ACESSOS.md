@@ -32,15 +32,24 @@ clientes e pagamentos.
 - **Papel:** `TENANT`
 
 ### 3. Profissional — barbeiro
-App do barbeiro (PWA): a própria agenda do dia + notificação de cada novo
-agendamento.
+App do barbeiro (PWA), enxuto e isolado: cada barbeiro vê **só o que é dele**.
 
 - **Entrar em:** https://barbearia.appkash.com.br/login
 - **Cai em:** https://barbearia.appkash.com.br/pro
 - **Login:** não há senha fixa de seed. O **dono cria** o acesso na tela
   **Equipe → botão "Acesso"** (define e-mail + senha do barbeiro). Pra revogar,
-  o mesmo botão → "Remover" (o barbeiro perde o acesso na hora).
+  o mesmo botão → "Remover" (o barbeiro perde o acesso na hora — o token é
+  invalidado mesmo dentro da validade).
 - **Papel:** `BARBER` — um usuário vinculado 1:1 a um barbeiro da equipe.
+- **O que ele vê:**
+  - Dashboard com as métricas **dele**: Hoje, No mês e Sua comissão.
+  - A agenda **dele** — um barbeiro nunca vê os agendamentos de outro.
+  - A própria foto-avatar, que ele sobe no `/pro` (cropper) e que passa a
+    aparecer pros clientes na hora de escolher o profissional.
+  - Aviso na hora de cada novo agendamento **dele**.
+- **O que ele NÃO acessa:** Pagamentos, Clientes, Serviços, Produtos e Equipe são
+  exclusivos do dono. Se o barbeiro tentar abrir qualquer rota de `/painel`, o
+  middleware redireciona de volta pro `/pro`.
 
 ### 4. Cliente — funil público (sem login)
 Onde o cliente final agenda. **Aberto, não tem login.**
