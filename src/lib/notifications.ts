@@ -39,12 +39,8 @@ function emailShell(o: ShellInput): string {
     : `<span style="display:inline-block;width:48px;height:48px;line-height:48px;text-align:center;border-radius:12px;background:${accent};color:#ffffff;font-size:20px;font-weight:700;font-family:Arial,Helvetica,sans-serif">${shop.charAt(0).toUpperCase() || 'B'}</span>`
 
   const highlight = o.highlight
-    ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:2px 0 18px">
-              <tr><td bgcolor="#f6f7f9" style="background:#f6f7f9;border-radius:14px;border-left:3px solid ${accent};padding:15px 20px">
-                <p style="margin:0 0 5px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#71717a">${esc(o.highlight.label)}</p>
-                <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:20px;line-height:1.25;font-weight:700;color:#09090b;letter-spacing:-0.01em">${esc(o.highlight.value)}</p>
-              </td></tr>
-            </table>`
+    ? `<p style="margin:18px 0 4px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#71717a">${esc(o.highlight.label)}</p>
+            <p style="margin:0 0 20px;font-family:Arial,Helvetica,sans-serif;font-size:23px;line-height:1.2;font-weight:700;color:#09090b;letter-spacing:-0.02em">${esc(o.highlight.value)}</p>`
     : ''
 
   const rows = o.rows
@@ -98,7 +94,7 @@ function emailShell(o: ShellInput): string {
           <td style="padding:22px 32px 28px">
             <div style="border-top:1px solid #ececef;margin:0 0 16px;line-height:1px;font-size:0">&nbsp;</div>
             <p style="margin:0 0 4px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#a1a1aa">${o.footerNote}</p>
-            <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#a1a1aa">Mensagem automática &middot; não é necessário responder.</p>
+            <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#a1a1aa">Mensagem automática. Não é necessário responder.</p>
           </td>
         </tr>
       </table>
@@ -167,7 +163,7 @@ export async function sendBookingEmail(
   to: { email: string; name?: string },
   info: BookingInfo
 ): Promise<boolean> {
-  const subject = `Novo agendamento: ${info.clientName} — ${info.quando}`
+  const subject = `Novo agendamento: ${info.clientName}`
   const html = emailShell({
     shopName: info.shopName,
     logoUrl: info.logoUrl,
