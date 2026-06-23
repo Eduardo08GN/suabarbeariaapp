@@ -4,8 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // runtime: via pgbouncer (porta 6432, ?pgbouncer=true)
+  directUrl = env("DIRECT_URL") // migrate/db push: Postgres direto (5434)
 }
 
 model User {
