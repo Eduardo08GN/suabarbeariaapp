@@ -27,6 +27,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
       ]
 
   const manifest = {
+    // id UNICO por barbearia (alem do start_url/scope ja serem por slug)
+    id: `/b/${slug}`,
     name: tenant.name,
     short_name: tenant.name.slice(0, 12),
     description: `Agende seu horário na ${tenant.name}`,

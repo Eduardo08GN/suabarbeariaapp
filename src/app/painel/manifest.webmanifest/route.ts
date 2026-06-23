@@ -3,12 +3,14 @@ import { prisma } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
-// Manifest do app do PROFISSIONAL, branded com a barbearia do barbeiro logado
-// (depende da sessao, por isso force-dynamic e Cache-Control private).
+// Manifest do painel do DONO, branded com a barbearia dele e com um `id` UNICO
+// por tenant. E o id que faz o navegador instalar um app SEPARADO por barbearia
+// (a barbearia de Belem e a do RS viram apps distintos, nao um app compartilhado).
 export async function GET() {
   const session = await getSession()
 
-  let name = 'Equipe · SuaBarbeariaApp'
+  let name = 'SuaBarbeariaApp'
+  let short = 'SuaBarbearia'
   let theme = '#18181B'
   let logo: string | null = null
   let slug: string | null = null
@@ -19,7 +21,8 @@ export async function GET() {
       select: { name: true, colorPrimary: true, logo: true, slug: true },
     })
     if (t) {
-      name = `${t.name} · Equipe`
+      name = t.name
+      short = t.name.slice(0, 12)
       theme = t.colorPrimary || theme
       logo = t.logo
       slug = t.slug
@@ -39,13 +42,13 @@ export async function GET() {
       ]
 
   const manifest = {
-    // id UNICO por barbearia: cada barbeiro instala o app da barbearia DELE
-    id: slug ? `/pro/${slug}` : '/pro',
+    // id UNICO por barbearia: cada dono instala o SEU app, separado dos outros
+    id: slug ? `/painel/${slug}` : '/painel',
     name,
-    short_name: 'Equipe',
-    description: 'Sua agenda do dia e aviso na hora de cada novo agendamento.',
-    start_url: '/pro',
-    scope: '/pro',
+    short_name: short,
+    description: `Gestão da ${name}`,
+    start_url: '/painel',
+    scope: '/painel',
     display: 'standalone',
     background_color: '#FAFAFA',
     theme_color: theme,
