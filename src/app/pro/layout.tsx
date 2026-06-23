@@ -12,16 +12,21 @@ import { ProHeader } from '@/components/pro/pro-header'
 export async function generateMetadata(): Promise<Metadata> {
   const session = await getSession()
   let title = 'Equipe · SuaBarbeariaApp'
+  let manifest = '/pro/manifest.webmanifest'
   if (session?.tenantId) {
     const t = await prisma.tenant.findUnique({
       where: { id: session.tenantId },
-      select: { name: true },
+      select: { name: true, slug: true },
     })
-    if (t) title = `${t.name} · Equipe`
+    if (t) {
+      title = `${t.name} · Equipe`
+      // slug na URL do manifest -> per-tenant sem depender de cookie no fetch
+      manifest = `/pro/manifest.webmanifest?t=${t.slug}`
+    }
   }
   return {
     title,
-    manifest: '/pro/manifest.webmanifest',
+    manifest,
     appleWebApp: { capable: true, statusBarStyle: 'default', title: 'Equipe' },
     other: { 'mobile-web-app-capable': 'yes' },
   }

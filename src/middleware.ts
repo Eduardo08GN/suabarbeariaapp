@@ -14,6 +14,10 @@ const PUBLIC_PATHS = [
   // ficar atras do gate (senao redireciona pro login e vira HTML invalido).
   // A rota serve uma versao generica quando nao ha sessao.
   '/pro/manifest.webmanifest',
+  // mesmo motivo do /pro: o manifest do painel nao pode ficar atras do gate
+  // (senao o fetch sem cookie redireciona pro login e vira HTML invalido). O
+  // tenant vem pelo ?t=slug na URL, entao nao depende de sessao.
+  '/painel/manifest.webmanifest',
 ]
 
 function isPublicPath(pathname: string): boolean {

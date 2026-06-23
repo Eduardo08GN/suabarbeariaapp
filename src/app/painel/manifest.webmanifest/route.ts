@@ -6,8 +6,8 @@ export const dynamic = 'force-dynamic'
 // Manifest do painel do DONO, branded com a barbearia dele e com um `id` UNICO
 // por tenant. E o id que faz o navegador instalar um app SEPARADO por barbearia
 // (a barbearia de Belem e a do RS viram apps distintos, nao um app compartilhado).
-export async function GET() {
-  const session = await getSession()
+export async function GET(req: Request) {
+  const slugParam = new URL(req.url).searchParams.get('t')
 
   let name = 'SuaBarbeariaApp'
   let short = 'SuaBarbearia'
@@ -15,18 +15,28 @@ export async function GET() {
   let logo: string | null = null
   let slug: string | null = null
 
-  if (session?.tenantId) {
-    const t = await prisma.tenant.findUnique({
-      where: { id: session.tenantId },
-      select: { name: true, colorPrimary: true, logo: true, slug: true },
-    })
-    if (t) {
-      name = t.name
-      short = t.name.slice(0, 12)
-      theme = t.colorPrimary || theme
-      logo = t.logo
-      slug = t.slug
+  // 1) slug na URL (?t=) -> per-tenant sem depender de cookie; 2) fallback sessao
+  let t = slugParam
+    ? await prisma.tenant.findUnique({
+        where: { slug: slugParam },
+        select: { name: true, colorPrimary: true, logo: true, slug: true },
+      })
+    : null
+  if (!t) {
+    const session = await getSession()
+    if (session?.tenantId) {
+      t = await prisma.tenant.findUnique({
+        where: { id: session.tenantId },
+        select: { name: true, colorPrimary: true, logo: true, slug: true },
+      })
     }
+  }
+  if (t) {
+    name = t.name
+    short = t.name.slice(0, 12)
+    theme = t.colorPrimary || theme
+    logo = t.logo
+    slug = t.slug
   }
 
   const icons = logo

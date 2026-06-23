@@ -5,25 +5,35 @@ export const dynamic = 'force-dynamic'
 
 // Manifest do app do PROFISSIONAL, branded com a barbearia do barbeiro logado
 // (depende da sessao, por isso force-dynamic e Cache-Control private).
-export async function GET() {
-  const session = await getSession()
+export async function GET(req: Request) {
+  const slugParam = new URL(req.url).searchParams.get('t')
 
   let name = 'Equipe · SuaBarbeariaApp'
   let theme = '#18181B'
   let logo: string | null = null
   let slug: string | null = null
 
-  if (session?.tenantId) {
-    const t = await prisma.tenant.findUnique({
-      where: { id: session.tenantId },
-      select: { name: true, colorPrimary: true, logo: true, slug: true },
-    })
-    if (t) {
-      name = `${t.name} · Equipe`
-      theme = t.colorPrimary || theme
-      logo = t.logo
-      slug = t.slug
+  // 1) slug na URL (?t=) -> per-tenant sem depender de cookie; 2) fallback sessao
+  let t = slugParam
+    ? await prisma.tenant.findUnique({
+        where: { slug: slugParam },
+        select: { name: true, colorPrimary: true, logo: true, slug: true },
+      })
+    : null
+  if (!t) {
+    const session = await getSession()
+    if (session?.tenantId) {
+      t = await prisma.tenant.findUnique({
+        where: { id: session.tenantId },
+        select: { name: true, colorPrimary: true, logo: true, slug: true },
+      })
     }
+  }
+  if (t) {
+    name = `${t.name} · Equipe`
+    theme = t.colorPrimary || theme
+    logo = t.logo
+    slug = t.slug
   }
 
   const icons = logo
