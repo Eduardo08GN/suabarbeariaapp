@@ -22,6 +22,7 @@ interface ShellInput extends Brand {
   preheader: string // texto de previa (some no corpo, aparece na lista da inbox)
   heading: string
   intro?: string // paragrafo de abertura (HTML confiavel; nomes ja escapados)
+  highlight?: { label: string; value: string } // destaque da info principal (ex.: horario)
   rows: Array<[string, string]> // [label, valor] — valor e escapado aqui
   outro?: string // paragrafo de fecho (HTML confiavel)
   footerNote: string // linha do rodape explicando o porque do email
@@ -34,8 +35,17 @@ function emailShell(o: ShellInput): string {
   const accent = o.accent && /^#[0-9a-fA-F]{6}$/.test(o.accent) ? o.accent : '#18181B'
   const shop = esc(o.shopName)
   const brandMark = o.logoUrl
-    ? `<img src="${esc(o.logoUrl)}" width="40" height="40" alt="" style="display:block;width:40px;height:40px;border-radius:10px;object-fit:cover" />`
-    : `<span style="display:inline-block;width:40px;height:40px;line-height:40px;text-align:center;border-radius:10px;background:${accent};color:#ffffff;font-size:18px;font-weight:700;font-family:Arial,Helvetica,sans-serif">${shop.charAt(0).toUpperCase() || 'B'}</span>`
+    ? `<img src="${esc(o.logoUrl)}" width="48" height="48" alt="" style="display:block;width:48px;height:48px;border-radius:12px;object-fit:cover;border:1px solid #e8e8eb" />`
+    : `<span style="display:inline-block;width:48px;height:48px;line-height:48px;text-align:center;border-radius:12px;background:${accent};color:#ffffff;font-size:20px;font-weight:700;font-family:Arial,Helvetica,sans-serif">${shop.charAt(0).toUpperCase() || 'B'}</span>`
+
+  const highlight = o.highlight
+    ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:2px 0 18px">
+              <tr><td bgcolor="#f6f7f9" style="background:#f6f7f9;border-radius:14px;border-left:3px solid ${accent};padding:15px 20px">
+                <p style="margin:0 0 5px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#71717a">${esc(o.highlight.label)}</p>
+                <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:20px;line-height:1.25;font-weight:700;color:#09090b;letter-spacing:-0.01em">${esc(o.highlight.value)}</p>
+              </td></tr>
+            </table>`
+    : ''
 
   const rows = o.rows
     .map(
@@ -78,6 +88,7 @@ function emailShell(o: ShellInput): string {
           <td style="padding:22px 32px 6px">
             <h1 style="margin:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:21px;line-height:1.3;color:#09090b;font-weight:700;letter-spacing:-0.02em">${esc(o.heading)}</h1>
             ${o.intro ? `<p style="margin:0 0 18px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.65;color:#3f3f46">${o.intro}</p>` : ''}
+            ${highlight}
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #f1f1f3;border-bottom:1px solid #f1f1f3;margin:0 0 18px">${rows}
             </table>
             ${o.outro ? `<p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.65;color:#71717a">${o.outro}</p>` : ''}
@@ -164,11 +175,11 @@ export async function sendBookingEmail(
     preheader: `${info.clientName} marcou ${info.serviceName} para ${info.quando}.`,
     heading: 'Novo agendamento',
     intro: `Um novo horário acaba de ser marcado na <strong>${esc(info.shopName)}</strong>.`,
+    highlight: { label: 'Quando', value: info.quando },
     rows: [
       ['Cliente', info.clientName],
       ['Serviço', info.serviceName],
       ['Profissional', info.barberName],
-      ['Quando', info.quando],
     ],
     footerNote: `Notificação enviada aos responsáveis pela agenda da ${esc(info.shopName)}.`,
   })
@@ -189,10 +200,10 @@ export async function sendClientReminderEmail(
     preheader: `${info.serviceName} com ${info.barberName}, ${info.quando}.`,
     heading: 'Seu horário é amanhã',
     intro: `Oi, ${esc(info.clientName)}! Passando pra lembrar do seu horário na <strong>${esc(info.shopName)}</strong>.`,
+    highlight: { label: 'Seu horário', value: info.quando },
     rows: [
       ['Serviço', info.serviceName],
       ['Profissional', info.barberName],
-      ['Quando', info.quando],
     ],
     outro: 'Qualquer imprevisto, é só falar com a gente pra remarcar. Te esperamos!',
     footerNote: `Você recebeu este e-mail porque tem um horário marcado na ${esc(info.shopName)}.`,
