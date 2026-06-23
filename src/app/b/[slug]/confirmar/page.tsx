@@ -17,7 +17,7 @@ import {
   ImageIcon,
 } from 'lucide-react'
 import { PaymentModal, type CheckoutData } from '@/components/booking/PaymentModal'
-import { computeOrder } from '@/lib/pricing'
+import { computeOrder, round2 } from '@/lib/pricing'
 
 const brl = (n: number) =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n)
@@ -145,6 +145,10 @@ export default function ConfirmarPage() {
   const t = order('TOTAL')
   const s = order('SINAL')
   const loaded = !!serviceInfo
+  // resumo do pedido (referencia = "pagar total", a CTA principal): a soma dos
+  // itens cheios menos o total cobrado = o desconto. Sempre consistente.
+  const subtotal = round2(price + productsTotal)
+  const desconto = round2(subtotal - t.pixValue)
   const totalViable = canPay && loaded && !t.belowMin
   const sinalViable = canPay && loaded && !s.belowMin
   // "agendar sem pagar" so quando nao ha produto no carrinho (produto exige PIX)
@@ -326,6 +330,44 @@ export default function ConfirmarPage() {
                 )
               })}
             </div>
+          </div>
+        )}
+
+        {/* Resumo do pedido — itens, subtotal, desconto e total (aritmetica visivel) */}
+        {canPay && loaded && (selectedProducts.length > 0 || desconto > 0) && (
+          <div className="card p-4">
+            <p className="mb-3 text-sm font-semibold text-(--text)">Resumo do pedido</p>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center justify-between gap-3">
+                <span className="truncate text-(--text-secondary)">{serviceInfo?.name}</span>
+                <span className="shrink-0 text-(--text)">{brl(price)}</span>
+              </div>
+              {selectedProducts.map((p) => (
+                <div key={p.id} className="flex items-center justify-between gap-3">
+                  <span className="truncate text-(--text-secondary)">{p.name}</span>
+                  <span className="shrink-0 text-(--text)">{brl(p.price)}</span>
+                </div>
+              ))}
+              <div className="mt-1 flex items-center justify-between gap-3 border-t border-(--border) pt-2">
+                <span className="text-(--text-secondary)">Subtotal</span>
+                <span className="text-(--text)">{brl(subtotal)}</span>
+              </div>
+              {desconto > 0 && (
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-(--text-secondary)">Desconto à vista</span>
+                  <span className="shrink-0 text-emerald-600">&minus;{brl(desconto)}</span>
+                </div>
+              )}
+              <div className="flex items-center justify-between gap-3 border-t border-(--border) pt-2">
+                <span className="font-semibold text-(--text)">Total</span>
+                <span className="text-base font-bold text-(--text)">{brl(t.pixValue)}</span>
+              </div>
+            </div>
+            {sinalViable && s.inPersonValue > 0 && (
+              <p className="mt-3 text-xs leading-relaxed text-(--text-secondary)">
+                Pagando 50% de sinal: {brl(s.pixValue)} agora e {brl(s.inPersonValue)} na barbearia.
+              </p>
+            )}
           </div>
         )}
 
