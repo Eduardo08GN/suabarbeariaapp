@@ -32,23 +32,48 @@ export default function AgendaPage() {
   // aos dias seguintes). Scroll nativo suave, sem mexer no scroll vertical.
   const scrollRef = useRef<HTMLDivElement>(null)
   const dateRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const animRef = useRef<number | null>(null)
 
   const centerDate = useCallback((index: number, smooth = true) => {
     const container = scrollRef.current
     const card = dateRefs.current[index]
     if (!container || !card) return
-    // Origem-independente: NAO usar card.offsetLeft — ele e relativo ao
-    // offsetParent (aqui o <body>, porque o container nao e posicionado), o que
-    // deslocava a centralizacao em ~274px e impedia os cards de borda de
-    // "puxar" os vizinhos escondidos. Medimos a distancia entre o centro do
-    // card e o centro do container em coordenadas de viewport e rolamos
-    // exatamente esse delta (o browser faz o clamp nas pontas).
+    // Centralizacao 100% sob nosso controle. NAO usamos scroll suave nativo:
+    // scrollTo({behavior:'smooth'}) e inconsistente neste container (medido ao
+    // vivo: o scroll suave programatico simplesmente nao move). E offsetLeft
+    // seria relativo ao <body> (container nao posicionado), errando ~274px.
+    // Aqui: medimos o delta centro-do-card vs centro-do-container pelo
+    // getBoundingClientRect (origem-independente) e animamos o scrollLeft via
+    // requestAnimationFrame (easeOutCubic), com clamp nas pontas. Deterministico
+    // e fluido — clicar num card de borda traz os vizinhos escondidos.
     const cardRect = card.getBoundingClientRect()
     const contRect = container.getBoundingClientRect()
     const delta =
       cardRect.left + cardRect.width / 2 - (contRect.left + contRect.width / 2)
-    container.scrollTo({ left: container.scrollLeft + delta, behavior: smooth ? 'smooth' : 'auto' })
+    const max = container.scrollWidth - container.clientWidth
+    const start = container.scrollLeft
+    const target = Math.max(0, Math.min(max, start + delta))
+
+    if (animRef.current !== null) cancelAnimationFrame(animRef.current)
+    if (!smooth || Math.abs(target - start) < 1) {
+      container.scrollLeft = target
+      return
+    }
+    const duration = 320
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3) // easeOutCubic
+    let t0: number | null = null
+    const stepFrame = (now: number) => {
+      if (t0 === null) t0 = now
+      const p = Math.min(1, (now - t0) / duration)
+      container.scrollLeft = start + (target - start) * ease(p)
+      if (p < 1) animRef.current = requestAnimationFrame(stepFrame)
+      else animRef.current = null
+    }
+    animRef.current = requestAnimationFrame(stepFrame)
   }, [])
+
+  // cancela uma animacao de centralizacao em voo ao desmontar
+  useEffect(() => () => { if (animRef.current !== null) cancelAnimationFrame(animRef.current) }, [])
 
   // Generate next 14 days
   const dates = Array.from({ length: 14 }, (_, i) => {
@@ -125,7 +150,7 @@ export default function AgendaPage() {
           </div>
           <div
             ref={scrollRef}
-            className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 snap-x snap-mandatory scroll-px-4"
+            className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4"
           >
             {dates.map((date, i) => (
               <button
@@ -135,7 +160,7 @@ export default function AgendaPage() {
                 }}
                 onClick={() => handleDateSelect(date.value, i)}
                 className={cn(
-                  'flex flex-col items-center gap-0.5 min-w-[56px] min-h-[72px] py-2.5 px-2 rounded-xl border text-center transition-all shrink-0 snap-center',
+                  'flex flex-col items-center gap-0.5 min-w-[56px] min-h-[72px] py-2.5 px-2 rounded-xl border text-center transition-all shrink-0',
                   date.value === selectedDate
                     ? 'bg-(--tenant-primary) text-white border-(--tenant-primary) shadow-sm'
                     : 'bg-(--bg-card) border-(--border) text-(--text) active:bg-(--bg-subtle)'
