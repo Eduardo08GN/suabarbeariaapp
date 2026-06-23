@@ -31,6 +31,8 @@ type Barber = {
   name: string
   nickname: string | null
   photoUrl: string | null
+  whatsapp: string | null
+  notifyEmail: string | null
   commissionPct: number
   active: boolean
   user: { id: string; email: string } | null
@@ -65,6 +67,8 @@ export default function EquipePage() {
   const [formName, setFormName] = useState('')
   const [formNickname, setFormNickname] = useState('')
   const [formCommission, setFormCommission] = useState('50')
+  const [formWhatsapp, setFormWhatsapp] = useState('')
+  const [formNotifyEmail, setFormNotifyEmail] = useState('')
   const [formPhotoUrl, setFormPhotoUrl] = useState<string | null>(null)
   const [cropSrc, setCropSrc] = useState<string | null>(null)
   const [uploadingPhoto, setUploadingPhoto] = useState(false)
@@ -100,6 +104,8 @@ export default function EquipePage() {
     setFormName('')
     setFormNickname('')
     setFormCommission('50')
+    setFormWhatsapp('')
+    setFormNotifyEmail('')
     setFormPhotoUrl(null)
     setPhotoError('')
     setShowModal(true)
@@ -110,6 +116,8 @@ export default function EquipePage() {
     setFormName(barber.name)
     setFormNickname(barber.nickname || '')
     setFormCommission(String(barber.commissionPct))
+    setFormWhatsapp(barber.whatsapp || '')
+    setFormNotifyEmail(barber.notifyEmail || '')
     setFormPhotoUrl(barber.photoUrl)
     setPhotoError('')
     setShowModal(true)
@@ -151,6 +159,8 @@ export default function EquipePage() {
       const data = {
         name: formName,
         nickname: formNickname || undefined,
+        whatsapp: formWhatsapp,
+        notifyEmail: formNotifyEmail,
         commissionPct: parseFloat(formCommission),
         photoUrl: formPhotoUrl || '',
       }
@@ -441,6 +451,35 @@ export default function EquipePage() {
                     onChange={(e) => setFormCommission(e.target.value)}
                     className="w-full bg-white border border-[#E4E4E7] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B]"
                   />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#09090B] mb-1.5">
+                    WhatsApp <span className="font-normal text-[#A1A1AA]">(notificação)</span>
+                  </label>
+                  <input
+                    type="tel"
+                    inputMode="numeric"
+                    value={formWhatsapp}
+                    onChange={(e) => setFormWhatsapp(e.target.value)}
+                    placeholder="(11) 90000-0000"
+                    className="w-full bg-white border border-[#E4E4E7] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#09090B] mb-1.5">
+                    E-mail de notificação <span className="font-normal text-[#A1A1AA]">(opcional)</span>
+                  </label>
+                  <input
+                    type="email"
+                    inputMode="email"
+                    value={formNotifyEmail}
+                    onChange={(e) => setFormNotifyEmail(e.target.value)}
+                    placeholder="barbeiro@email.com"
+                    className="w-full bg-white border border-[#E4E4E7] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B]"
+                  />
+                  <p className="mt-1.5 text-xs text-[#A1A1AA]">
+                    Pra avisar o barbeiro de cada novo agendamento dele.
+                  </p>
                 </div>
               </div>
 

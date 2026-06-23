@@ -209,6 +209,8 @@ exports.Prisma.BarberScalarFieldEnum = {
   name: 'name',
   nickname: 'nickname',
   photoUrl: 'photoUrl',
+  whatsapp: 'whatsapp',
+  notifyEmail: 'notifyEmail',
   commissionPct: 'commissionPct',
   active: 'active'
 };

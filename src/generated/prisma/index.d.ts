@@ -9896,6 +9896,8 @@ export namespace Prisma {
     name: string | null
     nickname: string | null
     photoUrl: string | null
+    whatsapp: string | null
+    notifyEmail: string | null
     commissionPct: number | null
     active: boolean | null
   }
@@ -9906,6 +9908,8 @@ export namespace Prisma {
     name: string | null
     nickname: string | null
     photoUrl: string | null
+    whatsapp: string | null
+    notifyEmail: string | null
     commissionPct: number | null
     active: boolean | null
   }
@@ -9916,6 +9920,8 @@ export namespace Prisma {
     name: number
     nickname: number
     photoUrl: number
+    whatsapp: number
+    notifyEmail: number
     commissionPct: number
     active: number
     _all: number
@@ -9936,6 +9942,8 @@ export namespace Prisma {
     name?: true
     nickname?: true
     photoUrl?: true
+    whatsapp?: true
+    notifyEmail?: true
     commissionPct?: true
     active?: true
   }
@@ -9946,6 +9954,8 @@ export namespace Prisma {
     name?: true
     nickname?: true
     photoUrl?: true
+    whatsapp?: true
+    notifyEmail?: true
     commissionPct?: true
     active?: true
   }
@@ -9956,6 +9966,8 @@ export namespace Prisma {
     name?: true
     nickname?: true
     photoUrl?: true
+    whatsapp?: true
+    notifyEmail?: true
     commissionPct?: true
     active?: true
     _all?: true
@@ -10053,6 +10065,8 @@ export namespace Prisma {
     name: string
     nickname: string | null
     photoUrl: string | null
+    whatsapp: string | null
+    notifyEmail: string | null
     commissionPct: number
     active: boolean
     _count: BarberCountAggregateOutputType | null
@@ -10082,6 +10096,8 @@ export namespace Prisma {
     name?: boolean
     nickname?: boolean
     photoUrl?: boolean
+    whatsapp?: boolean
+    notifyEmail?: boolean
     commissionPct?: boolean
     active?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -10100,6 +10116,8 @@ export namespace Prisma {
     name?: boolean
     nickname?: boolean
     photoUrl?: boolean
+    whatsapp?: boolean
+    notifyEmail?: boolean
     commissionPct?: boolean
     active?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -10111,6 +10129,8 @@ export namespace Prisma {
     name?: boolean
     nickname?: boolean
     photoUrl?: boolean
+    whatsapp?: boolean
+    notifyEmail?: boolean
     commissionPct?: boolean
     active?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -10122,11 +10142,13 @@ export namespace Prisma {
     name?: boolean
     nickname?: boolean
     photoUrl?: boolean
+    whatsapp?: boolean
+    notifyEmail?: boolean
     commissionPct?: boolean
     active?: boolean
   }
 
-  export type BarberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "nickname" | "photoUrl" | "commissionPct" | "active", ExtArgs["result"]["barber"]>
+  export type BarberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "nickname" | "photoUrl" | "whatsapp" | "notifyEmail" | "commissionPct" | "active", ExtArgs["result"]["barber"]>
   export type BarberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     units?: boolean | Barber$unitsArgs<ExtArgs>
@@ -10161,6 +10183,8 @@ export namespace Prisma {
       name: string
       nickname: string | null
       photoUrl: string | null
+      whatsapp: string | null
+      notifyEmail: string | null
       commissionPct: number
       active: boolean
     }, ExtArgs["result"]["barber"]>
@@ -10598,6 +10622,8 @@ export namespace Prisma {
     readonly name: FieldRef<"Barber", 'String'>
     readonly nickname: FieldRef<"Barber", 'String'>
     readonly photoUrl: FieldRef<"Barber", 'String'>
+    readonly whatsapp: FieldRef<"Barber", 'String'>
+    readonly notifyEmail: FieldRef<"Barber", 'String'>
     readonly commissionPct: FieldRef<"Barber", 'Float'>
     readonly active: FieldRef<"Barber", 'Boolean'>
   }
@@ -19452,6 +19478,8 @@ export namespace Prisma {
     name: 'name',
     nickname: 'nickname',
     photoUrl: 'photoUrl',
+    whatsapp: 'whatsapp',
+    notifyEmail: 'notifyEmail',
     commissionPct: 'commissionPct',
     active: 'active'
   };
@@ -20383,6 +20411,8 @@ export namespace Prisma {
     name?: StringFilter<"Barber"> | string
     nickname?: StringNullableFilter<"Barber"> | string | null
     photoUrl?: StringNullableFilter<"Barber"> | string | null
+    whatsapp?: StringNullableFilter<"Barber"> | string | null
+    notifyEmail?: StringNullableFilter<"Barber"> | string | null
     commissionPct?: FloatFilter<"Barber"> | number
     active?: BoolFilter<"Barber"> | boolean
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -20400,6 +20430,8 @@ export namespace Prisma {
     name?: SortOrder
     nickname?: SortOrderInput | SortOrder
     photoUrl?: SortOrderInput | SortOrder
+    whatsapp?: SortOrderInput | SortOrder
+    notifyEmail?: SortOrderInput | SortOrder
     commissionPct?: SortOrder
     active?: SortOrder
     tenant?: TenantOrderByWithRelationInput
@@ -20420,6 +20452,8 @@ export namespace Prisma {
     name?: StringFilter<"Barber"> | string
     nickname?: StringNullableFilter<"Barber"> | string | null
     photoUrl?: StringNullableFilter<"Barber"> | string | null
+    whatsapp?: StringNullableFilter<"Barber"> | string | null
+    notifyEmail?: StringNullableFilter<"Barber"> | string | null
     commissionPct?: FloatFilter<"Barber"> | number
     active?: BoolFilter<"Barber"> | boolean
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -20437,6 +20471,8 @@ export namespace Prisma {
     name?: SortOrder
     nickname?: SortOrderInput | SortOrder
     photoUrl?: SortOrderInput | SortOrder
+    whatsapp?: SortOrderInput | SortOrder
+    notifyEmail?: SortOrderInput | SortOrder
     commissionPct?: SortOrder
     active?: SortOrder
     _count?: BarberCountOrderByAggregateInput
@@ -20455,6 +20491,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Barber"> | string
     nickname?: StringNullableWithAggregatesFilter<"Barber"> | string | null
     photoUrl?: StringNullableWithAggregatesFilter<"Barber"> | string | null
+    whatsapp?: StringNullableWithAggregatesFilter<"Barber"> | string | null
+    notifyEmail?: StringNullableWithAggregatesFilter<"Barber"> | string | null
     commissionPct?: FloatWithAggregatesFilter<"Barber"> | number
     active?: BoolWithAggregatesFilter<"Barber"> | boolean
   }
@@ -21665,6 +21703,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     tenant: TenantCreateNestedOneWithoutBarbersInput
@@ -21682,6 +21722,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
@@ -21697,6 +21739,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
@@ -21714,6 +21758,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
@@ -21730,6 +21776,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
   }
@@ -21739,6 +21787,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -21749,6 +21799,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -23068,6 +23120,8 @@ export namespace Prisma {
     name?: SortOrder
     nickname?: SortOrder
     photoUrl?: SortOrder
+    whatsapp?: SortOrder
+    notifyEmail?: SortOrder
     commissionPct?: SortOrder
     active?: SortOrder
   }
@@ -23082,6 +23136,8 @@ export namespace Prisma {
     name?: SortOrder
     nickname?: SortOrder
     photoUrl?: SortOrder
+    whatsapp?: SortOrder
+    notifyEmail?: SortOrder
     commissionPct?: SortOrder
     active?: SortOrder
   }
@@ -23092,6 +23148,8 @@ export namespace Prisma {
     name?: SortOrder
     nickname?: SortOrder
     photoUrl?: SortOrder
+    whatsapp?: SortOrder
+    notifyEmail?: SortOrder
     commissionPct?: SortOrder
     active?: SortOrder
   }
@@ -25498,6 +25556,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     tenant: TenantCreateNestedOneWithoutBarbersInput
@@ -25514,6 +25574,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
@@ -25645,6 +25707,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
@@ -25661,6 +25725,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
@@ -25835,6 +25901,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     units?: BarberUnitCreateNestedManyWithoutBarberInput
@@ -25850,6 +25918,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
@@ -26123,6 +26193,8 @@ export namespace Prisma {
     name?: StringFilter<"Barber"> | string
     nickname?: StringNullableFilter<"Barber"> | string | null
     photoUrl?: StringNullableFilter<"Barber"> | string | null
+    whatsapp?: StringNullableFilter<"Barber"> | string | null
+    notifyEmail?: StringNullableFilter<"Barber"> | string | null
     commissionPct?: FloatFilter<"Barber"> | number
     active?: BoolFilter<"Barber"> | boolean
   }
@@ -27554,6 +27626,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     tenant: TenantCreateNestedOneWithoutBarbersInput
@@ -27570,6 +27644,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
@@ -27631,6 +27707,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
@@ -27647,6 +27725,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
@@ -27698,6 +27778,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     tenant: TenantCreateNestedOneWithoutBarbersInput
@@ -27714,6 +27796,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
@@ -27744,6 +27828,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
@@ -27760,6 +27846,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
@@ -27774,6 +27862,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     tenant: TenantCreateNestedOneWithoutBarbersInput
@@ -27790,6 +27880,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
@@ -27851,6 +27943,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
@@ -27867,6 +27961,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
@@ -27918,6 +28014,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     tenant: TenantCreateNestedOneWithoutBarbersInput
@@ -27934,6 +28032,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
@@ -27995,6 +28095,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
@@ -28011,6 +28113,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
@@ -28384,6 +28488,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     tenant: TenantCreateNestedOneWithoutBarbersInput
@@ -28400,6 +28506,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
     units?: BarberUnitUncheckedCreateNestedManyWithoutBarberInput
@@ -28630,6 +28738,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutBarbersNestedInput
@@ -28646,6 +28756,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
@@ -28986,6 +29098,8 @@ export namespace Prisma {
     name: string
     nickname?: string | null
     photoUrl?: string | null
+    whatsapp?: string | null
+    notifyEmail?: string | null
     commissionPct?: number
     active?: boolean
   }
@@ -29121,6 +29235,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     units?: BarberUnitUpdateManyWithoutBarberNestedInput
@@ -29136,6 +29252,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     units?: BarberUnitUncheckedUpdateManyWithoutBarberNestedInput
@@ -29151,6 +29269,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     nickname?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    notifyEmail?: NullableStringFieldUpdateOperationsInput | string | null
     commissionPct?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
   }

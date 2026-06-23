@@ -1,6 +1,7 @@
 import 'server-only'
 import webpush from 'web-push'
 import { prisma } from '@/lib/db'
+import { sendBookingEmail } from '@/lib/notifications'
 
 // Web Push. VAPID nas envs (VAPID_PUBLIC_KEY/VAPID_PRIVATE_KEY/VAPID_SUBJECT).
 // Sem chaves, push fica desabilitado (no-op) — nao quebra o fluxo de booking.
@@ -58,10 +59,11 @@ function horaLocal(instant: Date, tz: string): string {
   return `${pad(+p.day)}/${pad(+p.month)} ${p.hour}:${p.minute}`
 }
 
-/** Notifica o(s) dono(s) do tenant de um novo agendamento. Fire-and-forget. */
+/** Notifica de um novo agendamento: web push (dono + barbeiro do agendamento) e
+    email via Brevo (dono da barbearia + barbeiro do agendamento). Best-effort:
+    erro em qualquer canal nao quebra o fluxo de booking/pagamento. */
 export async function notifyNewBooking(bookingId: string): Promise<void> {
   try {
-    if (!ensureConfigured()) return
     const b = await prisma.booking.findUnique({
       where: { id: bookingId },
       select: {
@@ -70,38 +72,68 @@ export async function notifyNewBooking(bookingId: string): Promise<void> {
         dateTime: true,
         client: { select: { name: true } },
         service: { select: { name: true } },
-        barber: { select: { name: true } },
-        tenant: { select: { timezone: true } },
+        barber: { select: { name: true, notifyEmail: true } },
+        tenant: { select: { timezone: true, email: true, name: true } },
       },
     })
     if (!b) return
 
-    // Donos do tenant (MASTER/TENANT) recebem TODOS os agendamentos; o
-    // barbeiro so recebe os DELE — por isso o filtro de role aqui, senao cada
-    // profissional ouviria a caixa registradora do salao inteiro.
-    const owners = await prisma.user.findMany({
-      where: { tenantId: b.tenantId, role: { in: ['MASTER', 'TENANT'] } },
-      select: { id: true },
-    })
-    const barberUser = b.barberId
-      ? await prisma.user.findUnique({ where: { barberId: b.barberId }, select: { id: true } })
-      : null
-    if (owners.length === 0 && !barberUser) return
-
     const quando = horaLocal(b.dateTime, b.tenant.timezone || 'America/Sao_Paulo')
-    const base = {
-      title: 'Novo agendamento',
-      body: `${b.client.name} - ${b.service.name} com ${b.barber.name} (${quando})`,
-      tag: `booking-${bookingId}`,
+
+    // --- Web push (so quando VAPID esta configurado) ---
+    if (ensureConfigured()) {
+      // Donos do tenant (MASTER/TENANT) recebem TODOS os agendamentos; o
+      // barbeiro so recebe os DELE — senao cada profissional ouviria a caixa
+      // registradora do salao inteiro.
+      const owners = await prisma.user.findMany({
+        where: { tenantId: b.tenantId, role: { in: ['MASTER', 'TENANT'] } },
+        select: { id: true },
+      })
+      const barberUser = b.barberId
+        ? await prisma.user.findUnique({ where: { barberId: b.barberId }, select: { id: true } })
+        : null
+      if (owners.length > 0 || barberUser) {
+        const base = {
+          title: 'Novo agendamento',
+          body: `${b.client.name} - ${b.service.name} com ${b.barber.name} (${quando})`,
+          tag: `booking-${bookingId}`,
+        }
+        // dedupe por usuario (dono que tambem e barbeiro nao recebe push dobrado)
+        const targets = new Map<string, string>()
+        for (const o of owners) targets.set(o.id, '/painel/agenda')
+        if (barberUser) targets.set(barberUser.id, '/pro')
+        await Promise.all([...targets].map(([userId, url]) => sendPushToUser(userId, { ...base, url })))
+      }
     }
-    // dedupe por usuario: cada superficie abre na propria agenda ao tocar a
-    // notificacao, e se um dono tambem fosse barbeiro nao recebe push dobrado
-    const targets = new Map<string, string>()
-    for (const o of owners) targets.set(o.id, '/painel/agenda')
-    if (barberUser) targets.set(barberUser.id, '/pro')
-    await Promise.all(
-      [...targets].map(([userId, url]) => sendPushToUser(userId, { ...base, url }))
-    )
+
+    // --- Email (Brevo) — dono da barbearia (role TENANT) recebe todos; o
+    // barbeiro X recebe os DELE. A agencia (MASTER) NAO recebe email por
+    // agendamento, pra nao floodar a inbox dela. ---
+    const tenantOwners = await prisma.user.findMany({
+      where: { tenantId: b.tenantId, role: 'TENANT' },
+      select: { email: true, name: true },
+    })
+    const seen = new Set<string>()
+    const emailTargets: { email: string; name?: string }[] = []
+    const addEmail = (email?: string | null, name?: string | null) => {
+      const e = email?.trim().toLowerCase()
+      if (!e || seen.has(e)) return
+      seen.add(e)
+      emailTargets.push({ email: e, name: name ?? undefined })
+    }
+    if (b.tenant.email) addEmail(b.tenant.email, b.tenant.name)
+    for (const u of tenantOwners) addEmail(u.email, u.name)
+    addEmail(b.barber.notifyEmail, b.barber.name)
+
+    if (emailTargets.length > 0) {
+      const info = {
+        clientName: b.client.name,
+        serviceName: b.service.name,
+        barberName: b.barber.name,
+        quando,
+      }
+      await Promise.all(emailTargets.map((to) => sendBookingEmail(to, info)))
+    }
   } catch (e) {
     console.error('notifyNewBooking error:', e)
   }

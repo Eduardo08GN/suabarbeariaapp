@@ -163,6 +163,8 @@ model Barber {
   name         String
   nickname     String?
   photoUrl     String?
+  whatsapp     String?  // WhatsApp do barbeiro p/ notificacao de agendamento (Fase 2 / Evolution)
+  notifyEmail  String?  // email de notificacao do barbeiro (separado do login)
   commissionPct Float  @default(50)
   active       Boolean @default(true)
 

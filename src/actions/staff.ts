@@ -4,6 +4,16 @@ import { prisma } from '@/lib/db'
 import { getSession } from '@/lib/auth'
 import bcrypt from 'bcryptjs'
 
+// normalizacao do contato do barbeiro (so guarda se parecer valido, senao null)
+const normalizePhone = (s?: string) => {
+  const d = (s || '').replace(/\D/g, '')
+  return d.length >= 10 ? d : null
+}
+const normalizeEmail = (s?: string) => {
+  const e = (s || '').trim().toLowerCase()
+  return e.includes('@') && e.length >= 5 ? e : null
+}
+
 // O tenant SEMPRE vem da sessao, nunca de um id mandado pelo client. Num
 // white-label vendido pra varios donos, confiar no client deixaria um dono
 // mexer na equipe de outro. Aqui isso fica impossivel.
@@ -43,6 +53,8 @@ export async function createBarber(data: {
   name: string
   nickname?: string
   photoUrl?: string
+  whatsapp?: string
+  notifyEmail?: string
   commissionPct?: number
 }) {
   const tenantId = await requireTenantId()
@@ -57,6 +69,8 @@ export async function createBarber(data: {
       name: data.name.trim(),
       nickname: data.nickname?.trim() || null,
       photoUrl: data.photoUrl || null,
+      whatsapp: normalizePhone(data.whatsapp),
+      notifyEmail: normalizeEmail(data.notifyEmail),
       commissionPct,
     },
   })
@@ -68,6 +82,8 @@ export async function updateBarber(
     name?: string
     nickname?: string
     photoUrl?: string
+    whatsapp?: string
+    notifyEmail?: string
     commissionPct?: number
   }
 ) {
@@ -77,6 +93,8 @@ export async function updateBarber(
   if (data.name !== undefined) updateData.name = data.name.trim()
   if (data.nickname !== undefined) updateData.nickname = data.nickname?.trim() || null
   if (data.photoUrl !== undefined) updateData.photoUrl = data.photoUrl || null
+  if (data.whatsapp !== undefined) updateData.whatsapp = normalizePhone(data.whatsapp)
+  if (data.notifyEmail !== undefined) updateData.notifyEmail = normalizeEmail(data.notifyEmail)
   if (data.commissionPct !== undefined) {
     if (data.commissionPct < 0 || data.commissionPct > 100)
       throw new Error('Comissão deve ser entre 0% e 100%')
