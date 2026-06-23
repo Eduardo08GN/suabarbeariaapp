@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { Store, ImageIcon, Camera, Loader2, Check } from 'lucide-react'
+import { Store, ImageIcon, Camera, Loader2, Check, AlertCircle } from 'lucide-react'
 import { ImageCropper } from '@/components/admin/ImageCropper'
 import { salvarLogoBarbearia } from '@/actions/perfil'
 
@@ -25,35 +25,39 @@ export function LogoUpload({
   const [cropSrc, setCropSrc] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [error, setError] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     e.target.value = '' // permite re-selecionar o mesmo arquivo
     if (!file) return
+    setError('')
     try {
       setCropSrc(await readAsDataUrl(file))
     } catch {
-      // ignora arquivo invalido
+      setError('Não foi possível abrir a imagem.')
     }
   }
 
   async function onCropped(blob: Blob) {
+    // fecha o modal NA HORA; o upload roda com o card mostrando spinner. Assim o
+    // modal nunca trava aberto, mesmo se o upload/salvar falhar.
+    setCropSrc(null)
     setBusy(true)
+    setError('')
     try {
       const fd = new FormData()
       fd.append('file', blob, 'logo')
       const res = await fetch('/api/painel/upload', { method: 'POST', body: fd })
-      const data = await res.json()
-      if (res.ok && data.url) {
-        await salvarLogoBarbearia(data.url)
-        setLogo(data.url)
-        setCropSrc(null)
-        setSaved(true)
-        setTimeout(() => setSaved(false), 2500)
-      }
-    } catch {
-      // ignora: o dono tenta de novo
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || !data.url) throw new Error(data.error || 'Falha ao enviar a imagem.')
+      await salvarLogoBarbearia(data.url)
+      setLogo(data.url)
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2500)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Não foi possível salvar a logo. Tente de novo.')
     } finally {
       setBusy(false)
     }
@@ -61,11 +65,12 @@ export function LogoUpload({
 
   async function remove() {
     setBusy(true)
+    setError('')
     try {
       await salvarLogoBarbearia(null)
       setLogo(null)
     } catch {
-      // ignora
+      setError('Não foi possível remover a logo.')
     } finally {
       setBusy(false)
     }
@@ -129,6 +134,13 @@ export function LogoUpload({
           </div>
         </div>
       </div>
+
+      {error && (
+        <p className="mt-3 flex items-center gap-1.5 text-xs text-red-600">
+          <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+          {error}
+        </p>
+      )}
 
       {cropSrc && (
         <ImageCropper

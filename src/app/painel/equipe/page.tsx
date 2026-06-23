@@ -68,6 +68,7 @@ export default function EquipePage() {
   const [formPhotoUrl, setFormPhotoUrl] = useState<string | null>(null)
   const [cropSrc, setCropSrc] = useState<string | null>(null)
   const [uploadingPhoto, setUploadingPhoto] = useState(false)
+  const [photoError, setPhotoError] = useState('')
   const [saving, setSaving] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -100,6 +101,7 @@ export default function EquipePage() {
     setFormNickname('')
     setFormCommission('50')
     setFormPhotoUrl(null)
+    setPhotoError('')
     setShowModal(true)
   }
 
@@ -109,6 +111,7 @@ export default function EquipePage() {
     setFormNickname(barber.nickname || '')
     setFormCommission(String(barber.commissionPct))
     setFormPhotoUrl(barber.photoUrl)
+    setPhotoError('')
     setShowModal(true)
   }
 
@@ -116,6 +119,7 @@ export default function EquipePage() {
     const file = e.target.files?.[0]
     e.target.value = '' // permite re-selecionar o mesmo arquivo
     if (!file) return
+    setPhotoError('')
     try {
       setCropSrc(await readAsDataUrl(file))
     } catch {
@@ -124,18 +128,18 @@ export default function EquipePage() {
   }
 
   async function onPhotoCropped(blob: Blob) {
+    setCropSrc(null) // fecha o cropper na hora; o upload roda com o avatar em spinner
     setUploadingPhoto(true)
+    setPhotoError('')
     try {
       const fd = new FormData()
       fd.append('file', blob, 'barbeiro')
       const res = await fetch('/api/painel/upload', { method: 'POST', body: fd })
-      const data = await res.json()
-      if (res.ok && data.url) {
-        setFormPhotoUrl(data.url)
-        setCropSrc(null)
-      }
-    } catch {
-      // ignora: falha de upload (o dono tenta de novo)
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || !data.url) throw new Error(data.error || 'Falha ao enviar a imagem.')
+      setFormPhotoUrl(data.url)
+    } catch (e) {
+      setPhotoError(e instanceof Error ? e.message : 'Não foi possível enviar a foto.')
     } finally {
       setUploadingPhoto(false)
     }
@@ -406,6 +410,7 @@ export default function EquipePage() {
                       Remover foto
                     </button>
                   )}
+                  {photoError && <p className="text-[11px] text-red-600">{photoError}</p>}
                 </div>
 
                 <div>

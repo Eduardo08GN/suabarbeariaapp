@@ -99,21 +99,39 @@ export async function createPixPayment(
   const dueDate = new Date(Date.now() + PIX_DUE_DATE_DAYS * 86400000).toISOString().slice(0, 10)
   const split = buildSplit(ctx.sandbox)
 
-  const res = await fetch(`${url}/payments`, {
-    method: 'POST',
-    headers: headers(ctx.apiKey),
-    body: JSON.stringify({
-      customer: input.customerId,
-      billingType: 'PIX',
-      value: Number(input.value.toFixed(2)),
-      dueDate,
-      description: input.description,
-      externalReference: input.externalReference.slice(0, 100),
-      ...(split ? { split } : {}),
-    }),
-  })
-  const data = await safeJson(res, 'criar cobrança')
-  if (!res.ok) throw new Error(`Asaas cobrança: ${data.errors?.[0]?.description || JSON.stringify(data)}`)
+  const baseBody = {
+    customer: input.customerId,
+    billingType: 'PIX',
+    value: Number(input.value.toFixed(2)),
+    dueDate,
+    description: input.description,
+    externalReference: input.externalReference.slice(0, 100),
+  }
+
+  async function post(withSplit: boolean) {
+    const res = await fetch(`${url}/payments`, {
+      method: 'POST',
+      headers: headers(ctx.apiKey),
+      body: JSON.stringify(withSplit && split ? { ...baseBody, split } : baseBody),
+    })
+    return { res, data: await safeJson(res, 'criar cobrança') }
+  }
+
+  let { res, data } = await post(true)
+
+  // Tenant usando a PROPRIA conta da agencia (apiKey da mesma conta dona da
+  // walletId do split): a Asaas recusa "split para sua propria carteira". O
+  // repasse nao se aplica (a mesma conta ja recebe tudo) — refaz SEM split pra
+  // nao quebrar o checkout. Barbearia com conta propria nao cai aqui.
+  if (!res.ok && split) {
+    const errText = `${data?.errors?.[0]?.code ?? ''} ${data?.errors?.[0]?.description ?? ''}`.toLowerCase()
+    if (errText.includes('carteira')) {
+      console.warn('[asaas] split pulado: tenant usa a propria conta da agencia (self-split).')
+      ;({ res, data } = await post(false))
+    }
+  }
+
+  if (!res.ok) throw new Error(`Asaas cobrança: ${data?.errors?.[0]?.description || JSON.stringify(data)}`)
   if (split && (!data.split || data.split.length === 0)) {
     console.warn(`[asaas] split enviado mas nao retornado para ${data.id}; a taxa pode nao ter sido aplicada`)
   }

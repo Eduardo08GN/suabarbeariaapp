@@ -12,8 +12,6 @@ import {
   User,
   Loader2,
   AlertCircle,
-  Wallet,
-  CalendarCheck,
   Plus,
   Check,
   ImageIcon,
@@ -226,7 +224,7 @@ export default function ConfirmarPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 24 }}
     >
-      <div className="px-4 py-6 space-y-6 flex-1 pb-44">
+      <div className="px-4 py-6 space-y-6 flex-1 pb-52">
         <div>
           <h2 className="text-xl font-bold text-(--text)">Confirme seu agendamento</h2>
           <p className="text-sm text-(--text-secondary) mt-1">
@@ -388,7 +386,12 @@ export default function ConfirmarPage() {
               </div>
             </>
           )}
+        </div>
+      </div>
 
+      {/* Barra inferior fixa */}
+      <div className="fixed inset-x-0 bottom-0 p-4 bg-white/95 backdrop-blur-sm border-t border-(--border) pb-[max(1rem,env(safe-area-inset-bottom))]">
+        <div className="max-w-lg mx-auto space-y-2.5">
           {error && (
             <motion.div
               className="flex items-center gap-2 text-sm text-(--danger) bg-red-50 p-3 rounded-lg"
@@ -399,33 +402,21 @@ export default function ConfirmarPage() {
               {error}
             </motion.div>
           )}
-        </div>
-      </div>
-
-      {/* Barra inferior fixa */}
-      <div className="fixed inset-x-0 bottom-0 p-4 bg-white/95 backdrop-blur-sm border-t border-(--border) pb-[max(1rem,env(safe-area-inset-bottom))]">
-        <div className="max-w-lg mx-auto space-y-2.5">
           {totalViable && (
             <button
               onClick={() => submit('TOTAL')}
               disabled={busy || !baseValid || !cpfValid}
               className="btn-primary w-full flex items-center justify-center gap-2 min-h-[52px] text-base relative"
             >
-              {loadingMode === 'TOTAL' ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Wallet className="w-4 h-4" />
-              )}
+              {loadingMode === 'TOTAL' && <Loader2 className="w-4 h-4 animate-spin" />}
               <span>Pagar total {brl(t.pixValue)}</span>
+              {t.serviceDiscountPct > 0 && selectedProducts.length === 0 && (
+                <span className="text-xs line-through text-white/55">{brl(t.serviceFull)}</span>
+              )}
               {t.serviceDiscountPct > 0 && (
-                <>
-                  {selectedProducts.length === 0 && (
-                    <span className="text-xs line-through text-white/55">{brl(t.serviceFull)}</span>
-                  )}
-                  <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-bold">
-                    {t.serviceDiscountPct}% OFF
-                  </span>
-                </>
+                <span className="absolute right-2 top-1.5 rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-bold leading-none">
+                  {t.serviceDiscountPct}% OFF
+                </span>
               )}
             </button>
           )}
@@ -434,12 +425,12 @@ export default function ConfirmarPage() {
             <button
               onClick={() => submit('SINAL')}
               disabled={busy || !baseValid || !cpfValid}
-              className="btn-outline w-full flex items-center justify-center gap-2 min-h-[48px]"
+              className="btn-outline w-full flex items-center justify-center gap-2 min-h-[48px] relative"
             >
-              {loadingMode === 'SINAL' ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+              {loadingMode === 'SINAL' && <Loader2 className="w-4 h-4 animate-spin" />}
               <span>Pagar sinal de 50% {brl(s.pixValue)}</span>
               {s.serviceDiscountPct > 0 && (
-                <span className="rounded-full bg-(--tenant-primary)/10 px-2 py-0.5 text-[11px] font-bold text-(--tenant-primary)">
+                <span className="absolute right-2 top-1.5 rounded-full bg-(--tenant-primary)/10 px-2 py-0.5 text-[10px] font-bold leading-none text-(--tenant-primary)">
                   {s.serviceDiscountPct}% OFF
                 </span>
               )}
@@ -454,11 +445,7 @@ export default function ConfirmarPage() {
                 totalViable || sinalViable ? 'btn-outline' : 'btn-primary'
               } w-full flex items-center justify-center gap-2 min-h-[48px]`}
             >
-              {loadingMode === 'NONE' ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <CalendarCheck className="w-4 h-4" />
-              )}
+              {loadingMode === 'NONE' && <Loader2 className="w-4 h-4 animate-spin" />}
               {totalViable || sinalViable ? 'Agendar sem pagar agora' : 'Confirmar Agendamento'}
             </button>
           )}
