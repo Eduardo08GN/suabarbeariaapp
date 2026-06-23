@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/db'
 import { getSession } from '@/lib/auth'
+import { revalidatePath } from 'next/cache'
 import bcrypt from 'bcryptjs'
 
 // normalizacao do contato do barbeiro (so guarda se parecer valido, senao null)
@@ -105,6 +106,30 @@ export async function updateBarber(
     where: { id: barberId },
     data: updateData,
   })
+}
+
+// O PROPRIO barbeiro troca a foto-avatar dele (superficie /pro): escopado no
+// barberId da SESSAO + checagem de revogacao (um barbeiro nao mexe na foto de
+// outro, e o dono nao precisa fazer por ele). A mesma foto reflete em todas as
+// superficies que ja leem Barber.photoUrl — agenda do dono, selecao publica de
+// profissional no /b/[slug], Equipe.
+export async function updateMyPhoto(photoUrl: string | null) {
+  const session = await getSession()
+  if (!session?.barberId || session.role !== 'BARBER') throw new Error('Não autorizado')
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: { barberId: true },
+  })
+  if (!user || user.barberId !== session.barberId) throw new Error('Não autorizado')
+
+  const url = photoUrl?.trim() || null
+  // so aceita URL absoluta do nosso storage (o upload ja sobe no R2); evita
+  // gravar uma URL arbitraria vinda do client
+  if (url && !/^https?:\/\//i.test(url)) throw new Error('URL inválida')
+
+  await prisma.barber.update({ where: { id: session.barberId }, data: { photoUrl: url } })
+  revalidatePath('/pro')
+  return { ok: true }
 }
 
 export async function toggleBarberActive(barberId: string) {

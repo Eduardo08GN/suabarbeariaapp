@@ -283,6 +283,7 @@ exports.Prisma.BookingScalarFieldEnum = {
   chargeAmount: 'chargeAmount',
   paidAmount: 'paidAmount',
   pixExpiresAt: 'pixExpiresAt',
+  reminderSentAt: 'reminderSentAt',
   itemsTotal: 'itemsTotal',
   orderTotal: 'orderTotal',
   createdAt: 'createdAt',

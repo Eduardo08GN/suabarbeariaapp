@@ -16806,6 +16806,7 @@ export namespace Prisma {
     chargeAmount: number | null
     paidAmount: number | null
     pixExpiresAt: Date | null
+    reminderSentAt: Date | null
     itemsTotal: number | null
     orderTotal: number | null
     createdAt: Date | null
@@ -16832,6 +16833,7 @@ export namespace Prisma {
     chargeAmount: number | null
     paidAmount: number | null
     pixExpiresAt: Date | null
+    reminderSentAt: Date | null
     itemsTotal: number | null
     orderTotal: number | null
     createdAt: Date | null
@@ -16858,6 +16860,7 @@ export namespace Prisma {
     chargeAmount: number
     paidAmount: number
     pixExpiresAt: number
+    reminderSentAt: number
     itemsTotal: number
     orderTotal: number
     createdAt: number
@@ -16904,6 +16907,7 @@ export namespace Prisma {
     chargeAmount?: true
     paidAmount?: true
     pixExpiresAt?: true
+    reminderSentAt?: true
     itemsTotal?: true
     orderTotal?: true
     createdAt?: true
@@ -16930,6 +16934,7 @@ export namespace Prisma {
     chargeAmount?: true
     paidAmount?: true
     pixExpiresAt?: true
+    reminderSentAt?: true
     itemsTotal?: true
     orderTotal?: true
     createdAt?: true
@@ -16956,6 +16961,7 @@ export namespace Prisma {
     chargeAmount?: true
     paidAmount?: true
     pixExpiresAt?: true
+    reminderSentAt?: true
     itemsTotal?: true
     orderTotal?: true
     createdAt?: true
@@ -17069,6 +17075,7 @@ export namespace Prisma {
     chargeAmount: number | null
     paidAmount: number | null
     pixExpiresAt: Date | null
+    reminderSentAt: Date | null
     itemsTotal: number
     orderTotal: number | null
     createdAt: Date
@@ -17114,6 +17121,7 @@ export namespace Prisma {
     chargeAmount?: boolean
     paidAmount?: boolean
     pixExpiresAt?: boolean
+    reminderSentAt?: boolean
     itemsTotal?: boolean
     orderTotal?: boolean
     createdAt?: boolean
@@ -17147,6 +17155,7 @@ export namespace Prisma {
     chargeAmount?: boolean
     paidAmount?: boolean
     pixExpiresAt?: boolean
+    reminderSentAt?: boolean
     itemsTotal?: boolean
     orderTotal?: boolean
     createdAt?: boolean
@@ -17178,6 +17187,7 @@ export namespace Prisma {
     chargeAmount?: boolean
     paidAmount?: boolean
     pixExpiresAt?: boolean
+    reminderSentAt?: boolean
     itemsTotal?: boolean
     orderTotal?: boolean
     createdAt?: boolean
@@ -17209,13 +17219,14 @@ export namespace Prisma {
     chargeAmount?: boolean
     paidAmount?: boolean
     pixExpiresAt?: boolean
+    reminderSentAt?: boolean
     itemsTotal?: boolean
     orderTotal?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "unitId" | "barberId" | "clientId" | "serviceId" | "dateTime" | "durationMin" | "price" | "status" | "origin" | "campaignRef" | "paymentStatus" | "paymentMode" | "asaasPaymentId" | "pixCopiaECola" | "chargeAmount" | "paidAmount" | "pixExpiresAt" | "itemsTotal" | "orderTotal" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "unitId" | "barberId" | "clientId" | "serviceId" | "dateTime" | "durationMin" | "price" | "status" | "origin" | "campaignRef" | "paymentStatus" | "paymentMode" | "asaasPaymentId" | "pixCopiaECola" | "chargeAmount" | "paidAmount" | "pixExpiresAt" | "reminderSentAt" | "itemsTotal" | "orderTotal" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     unit?: boolean | Booking$unitArgs<ExtArgs>
@@ -17270,6 +17281,7 @@ export namespace Prisma {
       chargeAmount: number | null
       paidAmount: number | null
       pixExpiresAt: Date | null
+      reminderSentAt: Date | null
       itemsTotal: number
       orderTotal: number | null
       createdAt: Date
@@ -17722,6 +17734,7 @@ export namespace Prisma {
     readonly chargeAmount: FieldRef<"Booking", 'Float'>
     readonly paidAmount: FieldRef<"Booking", 'Float'>
     readonly pixExpiresAt: FieldRef<"Booking", 'DateTime'>
+    readonly reminderSentAt: FieldRef<"Booking", 'DateTime'>
     readonly itemsTotal: FieldRef<"Booking", 'Float'>
     readonly orderTotal: FieldRef<"Booking", 'Float'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
@@ -19570,6 +19583,7 @@ export namespace Prisma {
     chargeAmount: 'chargeAmount',
     paidAmount: 'paidAmount',
     pixExpiresAt: 'pixExpiresAt',
+    reminderSentAt: 'reminderSentAt',
     itemsTotal: 'itemsTotal',
     orderTotal: 'orderTotal',
     createdAt: 'createdAt',
@@ -20855,6 +20869,7 @@ export namespace Prisma {
     chargeAmount?: FloatNullableFilter<"Booking"> | number | null
     paidAmount?: FloatNullableFilter<"Booking"> | number | null
     pixExpiresAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
+    reminderSentAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     itemsTotal?: FloatFilter<"Booking"> | number
     orderTotal?: FloatNullableFilter<"Booking"> | number | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
@@ -20887,6 +20902,7 @@ export namespace Prisma {
     chargeAmount?: SortOrderInput | SortOrder
     paidAmount?: SortOrderInput | SortOrder
     pixExpiresAt?: SortOrderInput | SortOrder
+    reminderSentAt?: SortOrderInput | SortOrder
     itemsTotal?: SortOrder
     orderTotal?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -20922,6 +20938,7 @@ export namespace Prisma {
     chargeAmount?: FloatNullableFilter<"Booking"> | number | null
     paidAmount?: FloatNullableFilter<"Booking"> | number | null
     pixExpiresAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
+    reminderSentAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     itemsTotal?: FloatFilter<"Booking"> | number
     orderTotal?: FloatNullableFilter<"Booking"> | number | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
@@ -20954,6 +20971,7 @@ export namespace Prisma {
     chargeAmount?: SortOrderInput | SortOrder
     paidAmount?: SortOrderInput | SortOrder
     pixExpiresAt?: SortOrderInput | SortOrder
+    reminderSentAt?: SortOrderInput | SortOrder
     itemsTotal?: SortOrder
     orderTotal?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -20988,6 +21006,7 @@ export namespace Prisma {
     chargeAmount?: FloatNullableWithAggregatesFilter<"Booking"> | number | null
     paidAmount?: FloatNullableWithAggregatesFilter<"Booking"> | number | null
     pixExpiresAt?: DateTimeNullableWithAggregatesFilter<"Booking"> | Date | string | null
+    reminderSentAt?: DateTimeNullableWithAggregatesFilter<"Booking"> | Date | string | null
     itemsTotal?: FloatWithAggregatesFilter<"Booking"> | number
     orderTotal?: FloatNullableWithAggregatesFilter<"Booking"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
@@ -22152,6 +22171,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -22184,6 +22204,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -22206,6 +22227,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22238,6 +22260,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22265,6 +22288,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -22286,6 +22310,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22312,6 +22337,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23525,6 +23551,7 @@ export namespace Prisma {
     chargeAmount?: SortOrder
     paidAmount?: SortOrder
     pixExpiresAt?: SortOrder
+    reminderSentAt?: SortOrder
     itemsTotal?: SortOrder
     orderTotal?: SortOrder
     createdAt?: SortOrder
@@ -23560,6 +23587,7 @@ export namespace Prisma {
     chargeAmount?: SortOrder
     paidAmount?: SortOrder
     pixExpiresAt?: SortOrder
+    reminderSentAt?: SortOrder
     itemsTotal?: SortOrder
     orderTotal?: SortOrder
     createdAt?: SortOrder
@@ -23586,6 +23614,7 @@ export namespace Prisma {
     chargeAmount?: SortOrder
     paidAmount?: SortOrder
     pixExpiresAt?: SortOrder
+    reminderSentAt?: SortOrder
     itemsTotal?: SortOrder
     orderTotal?: SortOrder
     createdAt?: SortOrder
@@ -25955,6 +25984,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -25985,6 +26015,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -26238,6 +26269,7 @@ export namespace Prisma {
     chargeAmount?: FloatNullableFilter<"Booking"> | number | null
     paidAmount?: FloatNullableFilter<"Booking"> | number | null
     pixExpiresAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
+    reminderSentAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     itemsTotal?: FloatFilter<"Booking"> | number
     orderTotal?: FloatNullableFilter<"Booking"> | number | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
@@ -26648,6 +26680,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -26678,6 +26711,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -27016,6 +27050,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -27046,6 +27081,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -27260,6 +27296,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -27290,6 +27327,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -28245,6 +28283,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -28275,6 +28314,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -28866,6 +28906,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -28897,6 +28938,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -28965,6 +29007,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28996,6 +29039,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29123,6 +29167,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -29290,6 +29335,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29320,6 +29366,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29346,6 +29393,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29526,6 +29574,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -29585,6 +29634,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29615,6 +29665,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29641,6 +29692,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29726,6 +29778,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -29747,6 +29800,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29777,6 +29831,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29803,6 +29858,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29834,6 +29890,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -29900,6 +29957,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29930,6 +29988,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29956,6 +30015,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30062,6 +30122,7 @@ export namespace Prisma {
     chargeAmount?: number | null
     paidAmount?: number | null
     pixExpiresAt?: Date | string | null
+    reminderSentAt?: Date | string | null
     itemsTotal?: number
     orderTotal?: number | null
     createdAt?: Date | string
@@ -30083,6 +30144,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30113,6 +30175,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30139,6 +30202,7 @@ export namespace Prisma {
     chargeAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     paidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     pixExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itemsTotal?: FloatFieldUpdateOperationsInput | number
     orderTotal?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

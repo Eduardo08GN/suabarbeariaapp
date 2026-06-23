@@ -1,11 +1,13 @@
 export const dynamic = 'force-dynamic'
 
 import { getSession } from '@/lib/auth'
+import { prisma } from '@/lib/db'
 import { getBookingsForBarberDate, getBarberStats } from '@/actions/booking'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { ProAgenda } from '@/components/pro/pro-agenda'
 import { ProStats } from '@/components/pro/pro-stats'
+import { ProProfile } from '@/components/pro/pro-profile'
 
 export default async function ProPage({
   searchParams,
@@ -19,9 +21,13 @@ export default async function ProPage({
   const params = await searchParams
   const selectedDate = params.date ? new Date(params.date) : new Date()
 
-  const [bookings, stats] = await Promise.all([
+  const [bookings, stats, barber] = await Promise.all([
     getBookingsForBarberDate(session.tenantId, session.barberId, selectedDate),
     getBarberStats(),
+    prisma.barber.findUnique({
+      where: { id: session.barberId },
+      select: { name: true, nickname: true, photoUrl: true },
+    }),
   ])
 
   const bookingsData = bookings.map((b) => ({
@@ -48,6 +54,7 @@ export default async function ProPage({
         monthCount={stats.monthCount}
         monthCommission={stats.monthCommission}
       />
+      <ProProfile name={barber?.nickname || barber?.name || ''} photoUrl={barber?.photoUrl ?? null} />
       <ProAgenda
         bookings={bookingsData}
         dateLabel={dateLabel}

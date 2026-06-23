@@ -277,6 +277,9 @@ model Booking {
   chargeAmount   Float? // valor do PIX (ja com desconto); fonte da verdade p/ paidAmount
   paidAmount     Float?
   pixExpiresAt   DateTime?
+  // lembrete de 1 dia antes ja disparado ao cliente (cron /api/cron/reminders).
+  // null = ainda nao enviado; guarda contra disparo duplicado.
+  reminderSentAt DateTime?
   // pedido: servico + produtos (order bumps). itensTotal = soma dos produtos;
   // orderTotal = total do pedido (servico + produtos), o "hall do que foi adquirido".
   itemsTotal     Float         @default(0)

@@ -51,7 +51,7 @@ export default async function ProLayout({ children }: { children: React.ReactNod
     where: { id: session.userId },
     select: {
       barberId: true,
-      barber: { select: { name: true, nickname: true, tenant: { select: { name: true } } } },
+      barber: { select: { name: true, nickname: true, tenant: { select: { name: true, logo: true } } } },
     },
   })
   if (!user || !user.barber || user.barberId !== session.barberId) redirect('/login')
@@ -61,7 +61,7 @@ export default async function ProLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-dvh bg-[#FAFAFA]">
       <NotificationSound />
-      <ProHeader shopName={user.barber.tenant.name} barberName={firstName} />
+      <ProHeader shopName={user.barber.tenant.name} barberName={firstName} logo={user.barber.tenant.logo} />
       <main className="mx-auto w-full max-w-lg px-4 py-5 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
         {children}
       </main>

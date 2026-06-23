@@ -73,7 +73,7 @@ export async function notifyNewBooking(bookingId: string): Promise<void> {
         client: { select: { name: true } },
         service: { select: { name: true } },
         barber: { select: { name: true, notifyEmail: true } },
-        tenant: { select: { timezone: true, email: true, name: true } },
+        tenant: { select: { timezone: true, email: true, name: true, logo: true, colorPrimary: true } },
       },
     })
     if (!b) return
@@ -131,6 +131,9 @@ export async function notifyNewBooking(bookingId: string): Promise<void> {
         serviceName: b.service.name,
         barberName: b.barber.name,
         quando,
+        shopName: b.tenant.name,
+        logoUrl: b.tenant.logo,
+        accent: b.tenant.colorPrimary,
       }
       await Promise.all(emailTargets.map((to) => sendBookingEmail(to, info)))
     }
