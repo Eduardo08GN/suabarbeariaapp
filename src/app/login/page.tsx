@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Scissors, Loader2, AlertCircle } from 'lucide-react'
+import { SecretInput } from '@/components/ui/secret-input'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -96,9 +97,8 @@ export default function LoginPage() {
               <label htmlFor="password" className="block text-sm font-medium text-[#09090B] mb-1.5">
                 Senha
               </label>
-              <input
+              <SecretInput
                 id="password"
-                type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

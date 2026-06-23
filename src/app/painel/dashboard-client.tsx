@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { CalendarDays, Users, DollarSign, Clock } from 'lucide-react'
 
@@ -23,6 +24,13 @@ const iconMap = {
   dollar: DollarSign,
 }
 
+// Cada card leva pra guia onde aquele numero "vive".
+const hrefMap: Record<StatCard['icon'], string> = {
+  calendar: '/painel/agenda',
+  users: '/painel/clientes',
+  dollar: '/painel/pagamentos',
+}
+
 const container = {
   hidden: { opacity: 0 },
   show: {
@@ -43,6 +51,8 @@ export function DashboardClient({
   stats: StatCard[]
   upcoming: UpcomingBooking[]
 }) {
+  const router = useRouter()
+
   return (
     <div>
       <h1 className="text-lg font-semibold text-[#09090B] mb-6">Dashboard</h1>
@@ -56,11 +66,21 @@ export function DashboardClient({
       >
         {stats.map((stat) => {
           const Icon = iconMap[stat.icon]
+          const href = hrefMap[stat.icon]
           return (
             <motion.div
               key={stat.label}
               variants={item}
-              className="bg-white rounded-xl border border-[#E4E4E7] shadow-[0_1px_2px_rgba(0,0,0,0.04)] p-5"
+              onClick={() => router.push(href)}
+              role="link"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  router.push(href)
+                }
+              }}
+              className="bg-white rounded-xl border border-[#E4E4E7] shadow-[0_1px_2px_rgba(0,0,0,0.04)] p-5 cursor-pointer transition-colors hover:border-[#18181B] focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B]"
             >
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-9 h-9 rounded-lg bg-[#F4F4F5] flex items-center justify-center">

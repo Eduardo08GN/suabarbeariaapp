@@ -3,6 +3,7 @@
 import { useState, useTransition, useEffect } from 'react'
 import { CreditCard, Check, Loader2, Copy, Link2, Star } from 'lucide-react'
 import { salvarConfigPagamento, salvarGoogleReview } from '@/actions/pagamentos'
+import { SecretInput } from '@/components/ui/secret-input'
 
 interface InitialConfig {
   hasKey: boolean
@@ -80,14 +81,13 @@ export function PagamentosForm({ initial }: { initial: InitialConfig }) {
         <label htmlFor="asaas-key" className="block text-sm font-medium text-[#3F3F46]">
           Chave de API da Asaas
         </label>
-        <input
+        <SecretInput
           id="asaas-key"
-          type="password"
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
           placeholder={
             initial.hasKey
-              ? 'Chave configurada. Cole uma nova para trocar.'
+              ? '••••••••••••••••••••  cole uma nova para trocar'
               : 'Cole a chave de API da sua conta Asaas'
           }
           className="mt-1.5 w-full rounded-lg border border-[#E4E4E7] bg-white px-3.5 py-2.5 text-sm text-[#09090B] outline-none transition-colors duration-150 placeholder:text-[#A1A1AA] focus:border-[#18181B]"

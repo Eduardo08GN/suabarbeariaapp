@@ -131,30 +131,30 @@ export function AgendamentoForm({ initial }: { initial: Initial }) {
           <div className="mt-4 grid grid-cols-2 gap-3">
             <label className="block">
               <span className="mb-1 block text-xs font-medium text-[#3F3F46]">Pagar total</span>
-              <div className="flex items-center rounded-lg border border-[#E4E4E7] bg-white pr-3">
+              <div className="flex items-center rounded-lg border border-[#E4E4E7] bg-white transition-colors focus-within:border-[#18181B]">
                 <input
                   type="number"
                   min={0}
                   max={90}
                   value={descTotal}
                   onChange={(e) => setDescTotal(e.target.value)}
-                  className="w-full rounded-lg bg-transparent px-3.5 py-2.5 text-sm text-[#09090B] outline-none"
+                  className="min-w-0 flex-1 rounded-lg bg-transparent py-2.5 pl-3.5 pr-1 text-sm text-[#09090B] outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 />
-                <span className="text-sm text-[#A1A1AA]">% off</span>
+                <span className="shrink-0 whitespace-nowrap pr-3 text-sm text-[#A1A1AA]">% off</span>
               </div>
             </label>
             <label className="block">
               <span className="mb-1 block text-xs font-medium text-[#3F3F46]">Pagar sinal</span>
-              <div className="flex items-center rounded-lg border border-[#E4E4E7] bg-white pr-3">
+              <div className="flex items-center rounded-lg border border-[#E4E4E7] bg-white transition-colors focus-within:border-[#18181B]">
                 <input
                   type="number"
                   min={0}
                   max={90}
                   value={descSinal}
                   onChange={(e) => setDescSinal(e.target.value)}
-                  className="w-full rounded-lg bg-transparent px-3.5 py-2.5 text-sm text-[#09090B] outline-none"
+                  className="min-w-0 flex-1 rounded-lg bg-transparent py-2.5 pl-3.5 pr-1 text-sm text-[#09090B] outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 />
-                <span className="text-sm text-[#A1A1AA]">% off</span>
+                <span className="shrink-0 whitespace-nowrap pr-3 text-sm text-[#A1A1AA]">% off</span>
               </div>
             </label>
           </div>

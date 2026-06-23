@@ -103,12 +103,15 @@ export function AgendaClient({
         >
           <ChevronRight className="w-4 h-4" />
         </button>
-        <button
-          onClick={() => router.push('/painel/agenda')}
-          className="ml-2 text-xs font-medium text-[#71717A] hover:text-[#09090B] transition-colors px-3 py-2 rounded-lg bg-[#F4F4F5]"
-        >
-          Hoje
-        </button>
+        {currentDate !==
+          new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date()) && (
+          <button
+            onClick={() => router.push('/painel/agenda')}
+            className="ml-2 cursor-pointer rounded-lg bg-[#F4F4F5] px-3 py-2 text-xs font-medium text-[#71717A] transition-colors hover:text-[#09090B]"
+          >
+            Hoje
+          </button>
+        )}
       </div>
 
       {/* Timeline */}

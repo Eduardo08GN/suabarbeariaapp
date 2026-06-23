@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Plus, Store, Users, CalendarDays, Scissors, X, Loader2, Trash2 } from 'lucide-react'
 import { createBarbearia, deleteBarbearia } from '@/actions/tenants'
+import { SecretInput } from '@/components/ui/secret-input'
 
 type TenantItem = {
   id: string
@@ -251,8 +252,7 @@ export function MasterClient({ tenants }: { tenants: TenantItem[] }) {
 
                 <div>
                   <label className="block text-sm font-medium text-[#09090B]">Senha do dono</label>
-                  <input
-                    type="password"
+                  <SecretInput
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Mínimo de 6 caracteres"

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Plus,
@@ -12,6 +12,8 @@ import {
   User,
   KeyRound,
   Trash2,
+  ImageIcon,
+  Camera,
 } from 'lucide-react'
 import {
   getBarbers,
@@ -21,6 +23,8 @@ import {
   criarAcessoBarbeiro,
   removerAcessoBarbeiro,
 } from '@/actions/staff'
+import { SecretInput } from '@/components/ui/secret-input'
+import { ImageCropper } from '@/components/admin/ImageCropper'
 
 type Barber = {
   id: string
@@ -42,6 +46,15 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.25 } },
 }
 
+function readAsDataUrl(file: File): Promise<string> {
+  return new Promise((res, rej) => {
+    const fr = new FileReader()
+    fr.onload = () => res(fr.result as string)
+    fr.onerror = () => rej(new Error('read'))
+    fr.readAsDataURL(file)
+  })
+}
+
 export default function EquipePage() {
   const [barbers, setBarbers] = useState<Barber[]>([])
   const [loading, setLoading] = useState(true)
@@ -52,7 +65,11 @@ export default function EquipePage() {
   const [formName, setFormName] = useState('')
   const [formNickname, setFormNickname] = useState('')
   const [formCommission, setFormCommission] = useState('50')
+  const [formPhotoUrl, setFormPhotoUrl] = useState<string | null>(null)
+  const [cropSrc, setCropSrc] = useState<string | null>(null)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
   const [saving, setSaving] = useState(false)
+  const fileRef = useRef<HTMLInputElement>(null)
 
   // modal de acesso (login do profissional)
   const [accessBarber, setAccessBarber] = useState<Barber | null>(null)
@@ -82,6 +99,7 @@ export default function EquipePage() {
     setFormName('')
     setFormNickname('')
     setFormCommission('50')
+    setFormPhotoUrl(null)
     setShowModal(true)
   }
 
@@ -90,7 +108,37 @@ export default function EquipePage() {
     setFormName(barber.name)
     setFormNickname(barber.nickname || '')
     setFormCommission(String(barber.commissionPct))
+    setFormPhotoUrl(barber.photoUrl)
     setShowModal(true)
+  }
+
+  async function onPickPhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = '' // permite re-selecionar o mesmo arquivo
+    if (!file) return
+    try {
+      setCropSrc(await readAsDataUrl(file))
+    } catch {
+      // ignora: arquivo invalido
+    }
+  }
+
+  async function onPhotoCropped(blob: Blob) {
+    setUploadingPhoto(true)
+    try {
+      const fd = new FormData()
+      fd.append('file', blob, 'barbeiro')
+      const res = await fetch('/api/painel/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (res.ok && data.url) {
+        setFormPhotoUrl(data.url)
+        setCropSrc(null)
+      }
+    } catch {
+      // ignora: falha de upload (o dono tenta de novo)
+    } finally {
+      setUploadingPhoto(false)
+    }
   }
 
   const handleSave = async () => {
@@ -100,6 +148,7 @@ export default function EquipePage() {
         name: formName,
         nickname: formNickname || undefined,
         commissionPct: parseFloat(formCommission),
+        photoUrl: formPhotoUrl || '',
       }
       if (editing) {
         await updateBarber(editing.id, data)
@@ -179,7 +228,7 @@ export default function EquipePage() {
         <h1 className="text-lg font-semibold text-[#09090B]">Equipe</h1>
         <button
           onClick={openCreate}
-          className="flex items-center gap-2 bg-[#18181B] text-[#FAFAFA] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#27272A] transition-colors"
+          className="flex items-center gap-2 bg-[#18181B] text-[#FAFAFA] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#27272A] transition-colors cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           Novo Barbeiro
@@ -209,20 +258,28 @@ export default function EquipePage() {
               className="bg-white rounded-xl border border-[#E4E4E7] shadow-[0_1px_2px_rgba(0,0,0,0.04)] p-5"
             >
               <div className="flex items-start gap-4">
-                {/* Avatar */}
-                <div className="w-12 h-12 rounded-full bg-[#F4F4F5] flex items-center justify-center shrink-0">
+                {/* Avatar clicavel: abre a edicao pra trocar a foto (upload + cropper) */}
+                <button
+                  type="button"
+                  onClick={() => openEdit(barber)}
+                  aria-label={`Trocar foto de ${barber.name}`}
+                  className="group relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-[#F4F4F5] ring-1 ring-inset ring-[#E4E4E7] transition-all hover:ring-[#18181B] cursor-pointer"
+                >
                   {barber.photoUrl ? (
                     <img
                       src={barber.photoUrl}
                       alt={barber.name}
-                      className="w-12 h-12 rounded-full object-cover"
+                      className="h-12 w-12 rounded-full object-cover"
                     />
                   ) : (
-                    <span className="text-sm font-semibold text-[#71717A]">
+                    <span className="flex h-full w-full items-center justify-center text-sm font-semibold text-[#71717A]">
                       {getInitials(barber.name)}
                     </span>
                   )}
-                </div>
+                  <span className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-all group-hover:bg-black/35 group-hover:opacity-100">
+                    <Camera className="h-4 w-4" />
+                  </span>
+                </button>
 
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-[#09090B] truncate">{barber.name}</p>
@@ -257,21 +314,21 @@ export default function EquipePage() {
               <div className="flex flex-wrap items-center gap-1 mt-4 pt-3 border-t border-[#E4E4E7]">
                 <button
                   onClick={() => openEdit(barber)}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors cursor-pointer"
                 >
                   <Pencil className="w-3.5 h-3.5" />
                   Editar
                 </button>
                 <button
                   onClick={() => openAccess(barber)}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors cursor-pointer"
                 >
                   <KeyRound className="w-3.5 h-3.5" />
                   Acesso
                 </button>
                 <button
                   onClick={() => handleToggle(barber.id)}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#71717A] hover:text-[#09090B] hover:bg-[#F4F4F5] transition-colors cursor-pointer"
                 >
                   {barber.active ? (
                     <><ToggleRight className="w-3.5 h-3.5" /> Desativar</>
@@ -308,12 +365,49 @@ export default function EquipePage() {
                 <h3 className="text-base font-semibold text-[#09090B]">
                   {editing ? 'Editar Barbeiro' : 'Novo Barbeiro'}
                 </h3>
-                <button onClick={() => setShowModal(false)} className="p-1 text-[#71717A] hover:text-[#09090B]">
+                <button onClick={() => setShowModal(false)} className="p-1 text-[#71717A] hover:text-[#09090B] cursor-pointer">
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               <div className="space-y-4">
+                {/* Foto do barbeiro (upload + cropper) */}
+                <div className="flex flex-col items-center gap-2">
+                  <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onPickPhoto} />
+                  <button
+                    type="button"
+                    onClick={() => fileRef.current?.click()}
+                    aria-label="Adicionar foto do barbeiro"
+                    className="group relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-[#F4F4F5] ring-1 ring-inset ring-[#E4E4E7] transition-all hover:ring-[#18181B] cursor-pointer"
+                  >
+                    {uploadingPhoto ? (
+                      <Loader2 className="h-5 w-5 animate-spin text-[#A1A1AA]" />
+                    ) : formPhotoUrl ? (
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={formPhotoUrl} alt="" className="h-full w-full object-cover" />
+                        <span className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-all group-hover:bg-black/35 group-hover:opacity-100">
+                          <Camera className="h-5 w-5" />
+                        </span>
+                      </>
+                    ) : (
+                      <div className="flex flex-col items-center gap-0.5 text-[#A1A1AA]">
+                        <ImageIcon className="h-6 w-6" />
+                        <span className="text-[10px] font-medium">Foto</span>
+                      </div>
+                    )}
+                  </button>
+                  {formPhotoUrl && !uploadingPhoto && (
+                    <button
+                      type="button"
+                      onClick={() => setFormPhotoUrl(null)}
+                      className="text-[11px] text-[#71717A] transition-colors hover:text-red-600 cursor-pointer"
+                    >
+                      Remover foto
+                    </button>
+                  )}
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-[#09090B] mb-1.5">Nome</label>
                   <input
@@ -348,14 +442,14 @@ export default function EquipePage() {
               <div className="flex gap-3 mt-6">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="flex-1 bg-[#F4F4F5] text-[#18181B] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#E4E4E7] transition-colors"
+                  className="flex-1 bg-[#F4F4F5] text-[#18181B] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#E4E4E7] transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={handleSave}
-                  disabled={saving || !formName}
-                  className="flex-1 bg-[#18181B] text-[#FAFAFA] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#27272A] transition-colors disabled:opacity-50"
+                  disabled={saving || !formName || uploadingPhoto}
+                  className="flex-1 bg-[#18181B] text-[#FAFAFA] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#27272A] transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   {saving ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : 'Salvar'}
                 </button>
@@ -386,7 +480,7 @@ export default function EquipePage() {
             >
               <div className="flex items-center justify-between mb-1">
                 <h3 className="text-base font-semibold text-[#09090B]">Acesso de {accessBarber.name}</h3>
-                <button onClick={() => setAccessBarber(null)} className="p-1 text-[#71717A] hover:text-[#09090B]">
+                <button onClick={() => setAccessBarber(null)} className="p-1 text-[#71717A] hover:text-[#09090B] cursor-pointer">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -416,8 +510,7 @@ export default function EquipePage() {
                   <label className="block text-sm font-medium text-[#09090B] mb-1.5">
                     {accessBarber.user ? 'Nova senha' : 'Senha'}
                   </label>
-                  <input
-                    type="password"
+                  <SecretInput
                     value={accessPassword}
                     onChange={(e) => setAccessPassword(e.target.value)}
                     className="w-full bg-white border border-[#E4E4E7] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B]"
@@ -431,7 +524,7 @@ export default function EquipePage() {
                   <button
                     onClick={handleRemoveAccess}
                     disabled={accessRemoving || accessSaving}
-                    className="flex items-center justify-center gap-1.5 bg-white border border-[#E4E4E7] text-red-600 rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-red-50 transition-colors disabled:opacity-50"
+                    className="flex items-center justify-center gap-1.5 bg-white border border-[#E4E4E7] text-red-600 rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
                   >
                     {accessRemoving ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -443,7 +536,7 @@ export default function EquipePage() {
                 ) : (
                   <button
                     onClick={() => setAccessBarber(null)}
-                    className="flex-1 bg-[#F4F4F5] text-[#18181B] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#E4E4E7] transition-colors"
+                    className="flex-1 bg-[#F4F4F5] text-[#18181B] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#E4E4E7] transition-colors cursor-pointer"
                   >
                     Cancelar
                   </button>
@@ -451,7 +544,7 @@ export default function EquipePage() {
                 <button
                   onClick={handleSaveAccess}
                   disabled={accessSaving || accessRemoving || !accessEmail || !accessPassword}
-                  className="flex-1 bg-[#18181B] text-[#FAFAFA] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#27272A] transition-colors disabled:opacity-50"
+                  className="flex-1 bg-[#18181B] text-[#FAFAFA] rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-[#27272A] transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   {accessSaving ? (
                     <Loader2 className="w-4 h-4 animate-spin mx-auto" />
@@ -466,6 +559,15 @@ export default function EquipePage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {cropSrc && (
+        <ImageCropper
+          src={cropSrc}
+          busy={uploadingPhoto}
+          onCancel={() => setCropSrc(null)}
+          onConfirm={onPhotoCropped}
+        />
+      )}
     </div>
   )
 }
