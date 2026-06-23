@@ -39,30 +39,42 @@ Sem o passo acima, tudo continua funcionando — só sem fila.
 
 ---
 
-## 3. pgbouncer (pool de conexões no Postgres)
+## 3. pgbouncer (pool de conexões no Postgres) — NO AR
 
-**O que ganha:** um pool na frente do Postgres, segurando picos de conexão
-quando o app escala (mais réplicas / mais carga). No volume atual, com uma
-instância, o ganho é pequeno — por isso fazemos o corte **com cuidado**, não às
-cegas (trocar `DATABASE_URL` foi o que causou o 500 de hoje).
+**Status:** instalado e funcionando (verificado: `/painel` e funil renderizam
+consultando o banco através do pooler). Transaction mode, na frente do Postgres.
 
-**Cutover (a fazer juntos quando o pooler existir):**
-1. No Coolify, subir um **pgbouncer** apontando pro Postgres
-   `159.195.12.135:5434`, modo **transaction**.
-2. Adicionar ao `prisma/schema.prisma` (eu aplico na hora do corte):
-   ```prisma
-   datasource db {
-     provider  = "postgresql"
-     url       = env("DATABASE_URL") // -> pgbouncer (porta 6432) com ?pgbouncer=true
-     directUrl = env("DIRECT_URL")   // -> Postgres direto (5434), usado só em migrate/db push
-   }
-   ```
-3. Setar as duas envs (app + `.env` local):
-   - `DATABASE_URL=postgresql://...@PGBOUNCER:6432/suabarbeariaapp?pgbouncer=true`
-   - `DIRECT_URL=postgresql://...@159.195.12.135:5434/suabarbeariaapp`
-4. `npm run db:push` (usa a `DIRECT_URL`) e deploy.
-5. Verificar `/painel`, `/pro` e o funil — só então considerar o corte fechado.
+> ### Regra de ouro (custou um outage)
+> app→DB e pgbouncer→DB **sempre** pelo **host INTERNO** do Coolify
+> (`<uuid>:5432`), **nunca** pelo IP público `159.195.12.135:5434`. De dentro do
+> Docker, o IP público depende de *hairpin NAT* — frágil, derrubou o site.
+> O `:5434` público é só pra acesso de fora (ex.: `db push` da tua máquina).
 
-> Importante: com pgbouncer em modo transaction, o `?pgbouncer=true` é
-> obrigatório (desliga prepared statements) e a `DIRECT_URL` é o que mantém o
-> `db push`/migrations funcionando. Por isso não troco `DATABASE_URL` sozinho.
+**A receita que funcionou (e os becos sem saída):**
+- pgbouncer tem que ser um **Coolify Service (compose)**, NÃO uma "dockerimage
+  application" — só o Service tem o **"Connect To Predefined Network"**
+  (`connect_to_docker_network`) que coloca o container na rede `coolify`, onde o
+  app o enxerga. Dockerimage app nasce em rede isolada e o app não alcança.
+- Imagem **`edoburu/pgbouncer`** (sobe lazy, não morre se o DB não responder no
+  boot). `bitnami/pgbouncer` ficava `exited` no boot.
+- Hostname que o app usa = o **`container_name` do service**
+  (`pgbouncer-<service-uuid>`), na porta do `LISTEN_PORT` (6432). NÃO é só
+  `pgbouncer`.
+- Depois do 1º deploy o service pode ficar `exited` — **um restart** sobe pra
+  `running`.
+
+**Config (compose do service):** `scripts/coolify-pgb-service.cjs` (na raiz do
+MazyOS) provisiona tudo. Envs do edoburu: `DB_HOST=<postgres-interno>`,
+`DB_PORT=5432`, `POOL_MODE=transaction`, `AUTH_TYPE=scram-sha-256`,
+`IGNORE_STARTUP_PARAMETERS=extra_float_digits`, `LISTEN_PORT=6432`.
+
+**Envs do app:**
+- `DATABASE_URL=postgresql://barbearia:***@pgbouncer-<service-uuid>:6432/suabarbeariaapp?pgbouncer=true`
+- `DIRECT_URL=postgresql://barbearia:***@<postgres-interno>:5432/suabarbeariaapp`
+- `prisma/schema.prisma` tem `directUrl = env("DIRECT_URL")`.
+
+> `?pgbouncer=true` desliga prepared statements (obrigatório em transaction
+> mode). O checkout usa `$transaction` + `pg_advisory_xact_lock` — **compatível**
+> com transaction mode porque o lock é *transaction-scoped* (não *session*).
+> `DIRECT_URL` mantém `db push`/migrations no Postgres direto.
+> **Rollback** (se algo quebrar): `DATABASE_URL` → host interno direto + deploy.
