@@ -127,7 +127,7 @@ export default function AgendaPage() {
                 }}
                 onClick={() => handleDateSelect(date.value, i)}
                 className={cn(
-                  'flex flex-col items-center gap-0.5 min-w-[56px] min-h-[72px] py-2.5 px-2 rounded-xl border text-center transition-all shrink-0 snap-start',
+                  'flex flex-col items-center gap-0.5 min-w-[56px] min-h-[72px] py-2.5 px-2 rounded-xl border text-center transition-all shrink-0 snap-center',
                   date.value === selectedDate
                     ? 'bg-(--tenant-primary) text-white border-(--tenant-primary) shadow-sm'
                     : 'bg-(--bg-card) border-(--border) text-(--text) active:bg-(--bg-subtle)'
