@@ -3,7 +3,7 @@
 
 import 'server-only'
 import { prisma } from '@/lib/db'
-import { notifyNewBooking } from '@/lib/push'
+import { enqueueBookingNotification } from '@/lib/queue'
 
 // As funcoes PURAS de preco vivem em @/lib/pricing (client-safe). Aqui ficam so
 // os efeitos de banco — server-only pra nao vazar prisma/web-push pro cliente.
@@ -19,8 +19,8 @@ export async function markBookingPaid(
     data: { paymentStatus: 'PAID', status: 'CONFIRMED', paidAmount },
   })
   if (r.count === 1) {
-    // so na transicao real (idempotente): avisa o dono do pagamento confirmado
-    void notifyNewBooking(bookingId)
+    // so na transicao real (idempotente): enfileira o aviso (fallback inline)
+    void enqueueBookingNotification(bookingId)
     return true
   }
   return false
